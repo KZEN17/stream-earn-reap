@@ -30,7 +30,6 @@ const Leaderboards = () => {
       streamTitle: "VALORANT Ranked Grind",
       viewers: 45000,
       totalEarnings: 8750,
-      weeklyEarnings: 2450,
       rank: 1
     },
     {
@@ -40,7 +39,6 @@ const Leaderboards = () => {
       streamTitle: "CS2 Pro Matches",
       viewers: 38000,
       totalEarnings: 7200,
-      weeklyEarnings: 2130,
       rank: 2
     },
     {
@@ -50,7 +48,6 @@ const Leaderboards = () => {
       streamTitle: "Variety Gaming",
       viewers: 52000,
       totalEarnings: 6800,
-      weeklyEarnings: 1890,
       rank: 3
     }
   ];
@@ -203,14 +200,10 @@ const Leaderboards = () => {
                         </div>
                       </div>
                       
-                      <div className="text-right space-y-1">
+                      <div className="text-right">
                         <div className="text-sm">
-                          <span className="text-muted-foreground">Total: </span>
+                          <span className="text-muted-foreground">Total Earnings: </span>
                           <span className="font-medium">${streamer.totalEarnings.toLocaleString()}</span>
-                        </div>
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Weekly: </span>
-                          <span className="font-medium">${streamer.weeklyEarnings.toLocaleString()}</span>
                         </div>
                       </div>
                       
