@@ -135,62 +135,83 @@ const SocialMediaConnections = () => {
     const isVerifying = verifying === platform;
 
     return (
-      <Card>
-        <CardHeader className="flex flex-row items-center space-y-0 pb-2">
-          <div className="flex items-center space-x-2">
-            {icon}
-            <CardTitle className="text-lg">{name}</CardTitle>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            {verified && (
-              <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
-                <Shield className="w-3 h-3 mr-1" />
-                Verified
-              </Badge>
-            )}
-            {connected && !verified ? (
-              <Badge variant="outline" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">
-                <AlertCircle className="w-3 h-3 mr-1" />
-                Needs Verification
-              </Badge>
-            ) : !connected ? (
-              <Badge variant="outline">
-                <XCircle className="w-3 h-3 mr-1" />
-                Not Connected
-              </Badge>
-            ) : null}
+      <Card className="h-full transition-all duration-200 hover:shadow-lg">
+        <CardHeader className="pb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              {icon}
+              <CardTitle className="text-xl">{name}</CardTitle>
+            </div>
+            <div>
+              {verified ? (
+                <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+                  <Shield className="w-3 h-3 mr-1" />
+                  Verified
+                </Badge>
+              ) : connected ? (
+                <Badge variant="outline" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">
+                  <AlertCircle className="w-3 h-3 mr-1" />
+                  Pending
+                </Badge>
+              ) : (
+                <Badge variant="outline">
+                  <XCircle className="w-3 h-3 mr-1" />
+                  Not Connected
+                </Badge>
+              )}
+            </div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           {verified && connected ? (
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Verified account: <span className="font-medium">@{username}</span>
-              </p>
+            <div className="space-y-4">
+              <div className="p-3 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                <p className="text-sm text-green-800 dark:text-green-200 font-medium">
+                  ✓ Verified account: @{username}
+                </p>
+              </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onDisconnect}
                 disabled={loading}
+                className="w-full"
               >
-                Disconnect
+                Disconnect Account
               </Button>
             </div>
           ) : (
-            <div className="space-y-3">
-              <Alert>
-                <Shield className="h-4 w-4" />
-                <AlertDescription>
-                  Connect and verify your {name} account to participate in campaigns that require {name}.
-                </AlertDescription>
-              </Alert>
+            <div className="space-y-4">
+              <div className="p-4 bg-muted/50 rounded-lg border-2 border-dashed border-muted">
+                <div className="flex items-start gap-3">
+                  <Shield className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium mb-1">
+                      Verification Required
+                    </p>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Connect and verify your {name} account to participate in campaigns that require {name}.
+                    </p>
+                  </div>
+                </div>
+              </div>
               <Button
                 onClick={onConnect}
                 disabled={loading || isVerifying}
-                size="sm"
-                className="w-full"
+                size="default"
+                className="w-full h-10"
               >
-                {isVerifying ? 'Verifying...' : `Verify ${name} Account`}
+                {isVerifying ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
+                    Verifying...
+                  </>
+                ) : (
+                  <>
+                    <Shield className="w-4 h-4 mr-2" />
+                    Verify {name} Account
+                  </>
+                )}
               </Button>
             </div>
           )}
@@ -200,18 +221,25 @@ const SocialMediaConnections = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Social Media Connections</h2>
-        <p className="text-muted-foreground">
+        <h2 className="text-3xl font-bold mb-3">Social Media Connections</h2>
+        <p className="text-lg text-muted-foreground">
           Connect your social media accounts to submit clips and track performance.
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <Alert className="border-primary/20 bg-primary/5">
+        <Shield className="h-5 w-5 text-primary" />
+        <AlertDescription className="text-base">
+          <strong>Account Verification Required:</strong> To participate in campaigns, you must verify your social media accounts through OAuth. This ensures authentic account ownership and enables automatic view tracking.
+        </AlertDescription>
+      </Alert>
+
+      <div className="grid gap-6 md:grid-cols-2">
         <SocialPlatformCard
           platform="instagram"
-          icon={<Instagram className="w-5 h-5 text-pink-500" />}
+          icon={<Instagram className="w-6 h-6 text-pink-500" />}
           name="Instagram"
           username={profile?.instagram_username || ''}
           verified={profile?.instagram_verified || false}
@@ -222,7 +250,7 @@ const SocialMediaConnections = () => {
 
         <SocialPlatformCard
           platform="tiktok"
-          icon={<Music className="w-5 h-5 text-black dark:text-white" />}
+          icon={<Music className="w-6 h-6 text-black dark:text-white" />}
           name="TikTok"
           username={profile?.tiktok_username || ''}
           verified={profile?.tiktok_verified || false}
@@ -233,7 +261,7 @@ const SocialMediaConnections = () => {
 
         <SocialPlatformCard
           platform="youtube"
-          icon={<Youtube className="w-5 h-5 text-red-500" />}
+          icon={<Youtube className="w-6 h-6 text-red-500" />}
           name="YouTube"
           username={profile?.youtube_channel_id || ''}
           verified={profile?.youtube_verified || false}
@@ -244,7 +272,7 @@ const SocialMediaConnections = () => {
 
         <SocialPlatformCard
           platform="twitter"
-          icon={<Twitter className="w-5 h-5 text-blue-500" />}
+          icon={<Twitter className="w-6 h-6 text-blue-500" />}
           name="Twitter"
           username={profile?.twitter_username || ''}
           verified={profile?.twitter_verified || false}
@@ -254,22 +282,30 @@ const SocialMediaConnections = () => {
         />
       </div>
 
-      <Alert>
-        <Shield className="h-4 w-4" />
-        <AlertDescription>
-          <strong>Account Verification Required:</strong> To participate in campaigns, you must verify your social media accounts through OAuth. This ensures authentic account ownership and enables automatic view tracking.
-        </AlertDescription>
-      </Alert>
-
-      <Card className="bg-muted/50">
+      <Card className="bg-muted/30 border-muted">
         <CardHeader>
-          <CardTitle className="text-lg">How it works</CardTitle>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-primary" />
+            How it works
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>• Connect your social media accounts to submit clips for campaigns</p>
-          <p>• We'll track view counts automatically using platform APIs</p>
-          <p>• Earnings are calculated at $1.30 per 1,000 views on average</p>
-          <p>• Payouts are processed weekly for verified clips</p>
+        <CardContent className="space-y-3 text-base">
+          <p className="flex items-start gap-2">
+            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-sm font-semibold flex items-center justify-center mt-0.5 flex-shrink-0">1</span>
+            Connect your social media accounts to submit clips for campaigns
+          </p>
+          <p className="flex items-start gap-2">
+            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-sm font-semibold flex items-center justify-center mt-0.5 flex-shrink-0">2</span>
+            We'll track view counts automatically using platform APIs
+          </p>
+          <p className="flex items-start gap-2">
+            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-sm font-semibold flex items-center justify-center mt-0.5 flex-shrink-0">3</span>
+            Earnings are calculated at $1.30 per 1,000 views on average
+          </p>
+          <p className="flex items-start gap-2">
+            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-sm font-semibold flex items-center justify-center mt-0.5 flex-shrink-0">4</span>
+            Payouts are processed weekly for verified clips
+          </p>
         </CardContent>
       </Card>
     </div>
