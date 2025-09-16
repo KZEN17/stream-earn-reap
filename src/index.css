@@ -14,19 +14,19 @@
     --card: 225 15% 12%;
     --card-foreground: 210 20% 98%;
     
-    /* Primary - Neon Purple */
-    --primary: 270 85% 65%;
-    --primary-glow: 285 90% 75%;
+    /* Primary - CLIP Purple (#B44FE6) */
+    --primary: 285 72% 60%;
+    --primary-glow: 285 82% 70%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary - Electric Cyan */
-    --secondary: 180 100% 60%;
-    --secondary-glow: 180 100% 70%;
+    /* Secondary - Electric Cyan (#00E5FF) */
+    --secondary: 189 100% 50%;
+    --secondary-glow: 189 100% 60%;
     --secondary-foreground: 225 15% 8%;
     
-    /* Accent - Neon Yellow/Green */
-    --accent: 80 100% 65%;
-    --accent-glow: 85 100% 75%;
+    /* Accent - Neon Green (#DCFF00) */
+    --accent: 71 100% 50%;
+    --accent-glow: 71 100% 60%;
     --accent-foreground: 225 15% 8%;
     
     /* Neutral System - Dark Greys */
@@ -36,22 +36,22 @@
     /* Interactive States */
     --border: 225 15% 20%;
     --input: 225 15% 15%;
-    --ring: 270 85% 65%;
+    --ring: 285 72% 60%;
     
     /* Status Colors */
     --destructive: 0 85% 60%;
     --destructive-foreground: 0 0% 100%;
-    --success: 140 80% 60%;
-    --success-foreground: 0 0% 100%;
+    --success: 71 100% 50%;
+    --success-foreground: 225 15% 8%;
     --warning: 45 95% 60%;
     --warning-foreground: 225 15% 8%;
     
-    /* Gaming Gradients */
+    /* CLIP Gaming Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
     --gradient-rainbow: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)));
-    --gradient-hero: linear-gradient(135deg, hsl(270 85% 65% / 0.9), hsl(180 100% 60% / 0.9));
+    --gradient-hero: linear-gradient(135deg, hsl(285 72% 60% / 0.9), hsl(189 100% 50% / 0.9));
     
     /* Gaming Shadows & Glows */
     --shadow-glow: 0 0 40px hsl(var(--primary) / 0.4);
@@ -64,15 +64,15 @@
     --radius-lg: 1.5rem;
     --radius-xl: 2rem;
 
-    /* Gaming Sidebar - Force Dark */
+    /* Gaming Sidebar - CLIP Brand */
     --sidebar-background: 225 15% 6%;
-    --sidebar-foreground: 80 100% 65%;
-    --sidebar-primary: 80 100% 65%;
+    --sidebar-foreground: 189 100% 50%;
+    --sidebar-primary: 189 100% 50%;
     --sidebar-primary-foreground: 225 15% 8%;
     --sidebar-accent: 225 15% 12%;
-    --sidebar-accent-foreground: 80 100% 65%;
+    --sidebar-accent-foreground: 189 100% 50%;
     --sidebar-border: 225 15% 15%;
-    --sidebar-ring: 80 100% 65%;
+    --sidebar-ring: 189 100% 50%;
   }
 
   .dark {
@@ -86,16 +86,16 @@
     --popover: 225 15% 8%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 270 85% 65%;
+    --primary: 285 72% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 180 100% 60%;
+    --secondary: 189 100% 50%;
     --secondary-foreground: 225 15% 8%;
 
     --muted: 225 15% 12%;
     --muted-foreground: 220 10% 70%;
 
-    --accent: 80 100% 65%;
+    --accent: 71 100% 50%;
     --accent-foreground: 225 15% 8%;
 
     --destructive: 0 85% 60%;
@@ -103,17 +103,17 @@
 
     --border: 225 15% 18%;
     --input: 225 15% 12%;
-    --ring: 270 85% 65%;
+    --ring: 285 72% 60%;
     
     /* Gaming Sidebar */
     --sidebar-background: 225 15% 6%;
     --sidebar-foreground: 210 20% 98%;
-    --sidebar-primary: 270 85% 65%;
+    --sidebar-primary: 285 72% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 225 15% 12%;
     --sidebar-accent-foreground: 210 20% 98%;
     --sidebar-border: 225 15% 15%;
-    --sidebar-ring: 270 85% 65%;
+    --sidebar-ring: 285 72% 60%;
   }
 }
 
@@ -126,8 +126,8 @@
     @apply bg-background text-foreground font-sans antialiased;
     /* Gaming background pattern */
     background-image: 
-      radial-gradient(circle at 20% 80%, hsl(270 85% 65% / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, hsl(180 100% 60% / 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, hsl(285 72% 60% / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(189 100% 50% / 0.05) 0%, transparent 50%);
   }
 }
 
