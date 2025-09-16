@@ -212,6 +212,19 @@ const RaidChat = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             We raid, we donate, we buy subs, we buy tokens. Trade attention for growth.
           </p>
+          {user && (
+            <div className="pt-4">
+              <Button 
+                onClick={() => setShowCreator(true)}
+                size="lg"
+                className="gap-2 text-lg px-8 py-3"
+                variant="hero"
+              >
+                <Plus className="w-5 h-5" />
+                Create New RAID
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Explainer */}
@@ -250,51 +263,43 @@ const RaidChat = () => {
           </CardContent>
         </Card>
 
-        {/* Create RAID Section */}
+        {/* Live RAID Section */}
         <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-bold flex items-center space-x-2">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold flex items-center justify-center space-x-2 mb-2">
               <PlayCircle className="w-8 h-8 text-primary" />
-              <span>RAID Center</span>
+              <span>Live RAID Session</span>
             </h2>
-            {user && (
-              <Button 
-                onClick={() => setShowCreator(true)}
-                className="gap-2"
-                variant="hero"
-              >
-                <Plus className="w-4 h-4" />
-                Create RAID
-              </Button>
-            )}
+            <p className="text-muted-foreground">Join the active community raid and contribute to the mission</p>
           </div>
 
           {/* Current Live Raid */}
           {currentRaid ? (
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Badge variant="destructive" className="animate-pulse">LIVE</Badge>
-                Current Raid Session
-              </h3>
-              <RaidCard raid={currentRaid} onJoin={handleJoinRaid} />
-            </div>
+            <RaidCard raid={currentRaid} onJoin={handleJoinRaid} />
           ) : (
             <Card className="border-dashed border-2 border-muted-foreground/30">
-              <CardContent className="p-8 text-center space-y-4">
+              <CardContent className="p-12 text-center space-y-6">
                 <div className="text-muted-foreground">
-                  <PlayCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <h3 className="text-lg font-semibold mb-2">No Active RAIDs</h3>
-                  <p>Be the first to create a raid and rally the community!</p>
+                  <PlayCircle className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                  <h3 className="text-xl font-semibold mb-3">No Active RAIDs</h3>
+                  <p className="text-lg">Be the first to create a raid and rally the community!</p>
                 </div>
-                {user && (
+                {user ? (
                   <Button 
                     onClick={() => setShowCreator(true)}
-                    variant="outline"
-                    className="gap-2"
+                    size="lg"
+                    className="gap-2 text-lg px-8"
                   >
-                    <Plus className="w-4 h-4" />
-                    Create First RAID
+                    <Plus className="w-5 h-5" />
+                    Launch First RAID
                   </Button>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="text-sm text-muted-foreground">Sign in to create and join RAIDs</p>
+                    <Button variant="outline" size="lg">
+                      Sign In
+                    </Button>
+                  </div>
                 )}
               </CardContent>
             </Card>
@@ -304,16 +309,33 @@ const RaidChat = () => {
         {/* Upcoming Raids */}
         {scheduledRaids.length > 0 && (
           <section className="space-y-6">
-            <h2 className="text-3xl font-bold flex items-center space-x-2">
-              <Clock className="w-8 h-8 text-secondary" />
-              <span>Upcoming Raids</span>
-            </h2>
+            <div className="text-center">
+              <h2 className="text-3xl font-bold flex items-center justify-center space-x-2 mb-2">
+                <Clock className="w-8 h-8 text-secondary" />
+                <span>Upcoming Raids</span>
+              </h2>
+              <p className="text-muted-foreground">Scheduled community raids - set reminders and be ready</p>
+            </div>
             
             <div className="grid lg:grid-cols-2 gap-6">
               {scheduledRaids.map((raid) => (
                 <RaidCard key={raid.id} raid={raid} onJoin={handleJoinRaid} />
               ))}
             </div>
+
+            {/* Quick Create CTA for upcoming section */}
+            {user && (
+              <div className="text-center pt-4">
+                <Button 
+                  onClick={() => setShowCreator(true)}
+                  variant="outline"
+                  className="gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Schedule Another RAID
+                </Button>
+              </div>
+            )}
           </section>
         )}
 
