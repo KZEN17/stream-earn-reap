@@ -15,6 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useNotifications } from '@/hooks/useNotifications';
 import SocialMediaConnections from '@/components/profile/SocialMediaConnections';
 import { ProfileImageUpload } from '@/components/profile/ProfileImageUpload';
+import { ContentRewardsDashboard } from '@/components/profile/ContentRewardsDashboard';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -127,8 +128,9 @@ const Profile = () => {
         </div>
 
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="general">General</TabsTrigger>
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="social">Social Media</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
           </TabsList>
@@ -268,6 +270,11 @@ const Profile = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Dashboard Tab */}
+          <TabsContent value="dashboard">
+            <ContentRewardsDashboard />
           </TabsContent>
 
           {/* Social Media Tab */}
