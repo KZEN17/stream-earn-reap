@@ -14,7 +14,299 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      campaigns: {
+        Row: {
+          campaign_image_url: string | null
+          created_at: string
+          creator_id: string
+          description: string | null
+          end_date: string | null
+          id: string
+          max_payout_per_clip: number | null
+          min_views_required: number | null
+          payout_per_1000_views: number | null
+          prize_pool: number | null
+          requirements: Json | null
+          start_date: string | null
+          status: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          campaign_image_url?: string | null
+          created_at?: string
+          creator_id: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          max_payout_per_clip?: number | null
+          min_views_required?: number | null
+          payout_per_1000_views?: number | null
+          prize_pool?: number | null
+          requirements?: Json | null
+          start_date?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          campaign_image_url?: string | null
+          created_at?: string
+          creator_id?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          max_payout_per_clip?: number | null
+          min_views_required?: number | null
+          payout_per_1000_views?: number | null
+          prize_pool?: number | null
+          requirements?: Json | null
+          start_date?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      clips: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          description: string | null
+          earned_amount: number | null
+          id: string
+          instagram_url: string | null
+          instagram_views: number | null
+          last_view_update: string | null
+          payout_status: string | null
+          status: string | null
+          tiktok_url: string | null
+          tiktok_views: number | null
+          title: string
+          total_views: number | null
+          updated_at: string
+          user_id: string
+          verification_notes: string | null
+          youtube_url: string | null
+          youtube_views: number | null
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          description?: string | null
+          earned_amount?: number | null
+          id?: string
+          instagram_url?: string | null
+          instagram_views?: number | null
+          last_view_update?: string | null
+          payout_status?: string | null
+          status?: string | null
+          tiktok_url?: string | null
+          tiktok_views?: number | null
+          title: string
+          total_views?: number | null
+          updated_at?: string
+          user_id: string
+          verification_notes?: string | null
+          youtube_url?: string | null
+          youtube_views?: number | null
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          description?: string | null
+          earned_amount?: number | null
+          id?: string
+          instagram_url?: string | null
+          instagram_views?: number | null
+          last_view_update?: string | null
+          payout_status?: string | null
+          status?: string | null
+          tiktok_url?: string | null
+          tiktok_views?: number | null
+          title?: string
+          total_views?: number | null
+          updated_at?: string
+          user_id?: string
+          verification_notes?: string | null
+          youtube_url?: string | null
+          youtube_views?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clips_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payouts: {
+        Row: {
+          amount: number
+          campaign_id: string | null
+          clip_id: string | null
+          created_at: string
+          id: string
+          payment_method: string | null
+          payout_rate: number
+          status: string | null
+          transaction_id: string | null
+          updated_at: string
+          user_id: string
+          views_count: number
+        }
+        Insert: {
+          amount: number
+          campaign_id?: string | null
+          clip_id?: string | null
+          created_at?: string
+          id?: string
+          payment_method?: string | null
+          payout_rate: number
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id: string
+          views_count: number
+        }
+        Update: {
+          amount?: number
+          campaign_id?: string | null
+          clip_id?: string | null
+          created_at?: string
+          id?: string
+          payment_method?: string | null
+          payout_rate?: number
+          status?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id?: string
+          views_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payouts_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payouts_clip_id_fkey"
+            columns: ["clip_id"]
+            isOneToOne: false
+            referencedRelation: "clips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          instagram_connected: boolean | null
+          instagram_username: string | null
+          tiktok_connected: boolean | null
+          tiktok_username: string | null
+          updated_at: string
+          user_id: string
+          user_type: string | null
+          username: string | null
+          youtube_channel_id: string | null
+          youtube_connected: boolean | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          instagram_connected?: boolean | null
+          instagram_username?: string | null
+          tiktok_connected?: boolean | null
+          tiktok_username?: string | null
+          updated_at?: string
+          user_id: string
+          user_type?: string | null
+          username?: string | null
+          youtube_channel_id?: string | null
+          youtube_connected?: boolean | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          instagram_connected?: boolean | null
+          instagram_username?: string | null
+          tiktok_connected?: boolean | null
+          tiktok_username?: string | null
+          updated_at?: string
+          user_id?: string
+          user_type?: string | null
+          username?: string | null
+          youtube_channel_id?: string | null
+          youtube_connected?: boolean | null
+        }
+        Relationships: []
+      }
+      streamers: {
+        Row: {
+          auto_approved: boolean | null
+          created_at: string
+          discord_server: string | null
+          id: string
+          launch_description: string | null
+          launch_game: string | null
+          launch_thumbnail_url: string | null
+          launch_title: string | null
+          scheduled_launch_date: string | null
+          status: string | null
+          twitch_username: string | null
+          updated_at: string
+          user_id: string
+          youtube_channel: string | null
+        }
+        Insert: {
+          auto_approved?: boolean | null
+          created_at?: string
+          discord_server?: string | null
+          id?: string
+          launch_description?: string | null
+          launch_game?: string | null
+          launch_thumbnail_url?: string | null
+          launch_title?: string | null
+          scheduled_launch_date?: string | null
+          status?: string | null
+          twitch_username?: string | null
+          updated_at?: string
+          user_id: string
+          youtube_channel?: string | null
+        }
+        Update: {
+          auto_approved?: boolean | null
+          created_at?: string
+          discord_server?: string | null
+          id?: string
+          launch_description?: string | null
+          launch_game?: string | null
+          launch_thumbnail_url?: string | null
+          launch_title?: string | null
+          scheduled_launch_date?: string | null
+          status?: string | null
+          twitch_username?: string | null
+          updated_at?: string
+          user_id?: string
+          youtube_channel?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
