@@ -114,7 +114,7 @@ const Home = () => {
                 "Earn rewards"
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold shadow-glow">
+                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold shadow-glow flex-shrink-0">
                     {index + 1}
                   </div>
                   <p className="text-foreground/90 pt-2 font-medium">{step}</p>
@@ -133,7 +133,7 @@ const Home = () => {
                 "Watch your content spread and earn fees"
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center text-white font-bold shadow-neon">
+                  <div className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center text-white font-bold shadow-neon flex-shrink-0">
                     {index + 1}
                   </div>
                   <p className="text-foreground/90 pt-2 font-medium">{step}</p>
@@ -152,7 +152,7 @@ const Home = () => {
                 "Every contribution amplifies streams to new audiences."
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-gradient-accent rounded-full flex items-center justify-center text-accent-foreground font-bold shadow-neon">
+                  <div className="w-12 h-12 bg-gradient-accent rounded-full flex items-center justify-center text-accent-foreground font-bold shadow-neon flex-shrink-0">
                     {index + 1}
                   </div>
                   <p className="text-foreground/90 pt-2 font-medium">{step}</p>
