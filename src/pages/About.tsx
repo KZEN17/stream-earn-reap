@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 import { 
   Users, 
   Mail, 
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 const About = () => {
+  const navigate = useNavigate();
   const teamMembers = [
     {
       name: "Coming Soon",
@@ -352,7 +354,11 @@ const About = () => {
               Whether you're a streamer, clipper, or agency, there's a place for you in our ecosystem.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" size="lg">
+              <Button 
+                variant="hero" 
+                size="lg"
+                onClick={() => navigate('/rewards')}
+              >
                 Get Started Today
               </Button>
               <Button variant="outline" size="lg" asChild>

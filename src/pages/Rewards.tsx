@@ -122,11 +122,28 @@ const Rewards = () => {
               <span>Campaigns</span>
             </h2>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  toast({
+                    title: "Filter Feature",
+                    description: "Filter options will be available soon!",
+                  });
+                }}
+              >
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
               </Button>
-              <Button size="sm">
+              <Button 
+                size="sm"
+                onClick={() => {
+                  toast({
+                    title: "Create Campaign",
+                    description: "Campaign creation will be available for creators soon!",
+                  });
+                }}
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Create Campaign
               </Button>

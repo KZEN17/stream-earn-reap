@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const Leaderboards = () => {
   const { type } = useParams();
+  const navigate = useNavigate();
   const [timeFilter, setTimeFilter] = useState<'week' | 'all-time'>('week');
   const { streamers, clippers, loading, error } = useLeaderboards(timeFilter);
 
@@ -123,7 +125,11 @@ const Leaderboards = () => {
                                 ${(timeFilter === 'week' ? streamer.earnings_this_week : streamer.total_earnings).toLocaleString()}
                               </div>
                             </div>
-                            <Button variant="outline" size="sm">
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => navigate('/profile')}
+                            >
                               View Profile
                             </Button>
                           </div>
@@ -192,7 +198,11 @@ const Leaderboards = () => {
                                 ${(timeFilter === 'week' ? clipper.earnings_this_week : clipper.total_earnings).toLocaleString()}
                               </div>
                             </div>
-                            <Button variant="outline" size="sm">
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => navigate('/profile')}
+                            >
                               View Profile
                             </Button>
                           </div>

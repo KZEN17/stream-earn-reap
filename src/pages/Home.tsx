@@ -13,7 +13,10 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="space-y-16">
       {/* Hero Section */}
@@ -36,11 +39,21 @@ const Home = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Button variant="hero" size="lg" className="text-lg px-10 py-8 shadow-glow">
+              <Button 
+                variant="hero" 
+                size="lg" 
+                className="text-lg px-10 py-8 shadow-glow"
+                onClick={() => navigate('/rewards')}
+              >
                 <Play className="w-6 h-6 mr-3" />
                 START CLIPPING
               </Button>
-              <Button variant="secondary" size="lg" className="text-lg px-10 py-8 shadow-neon">
+              <Button 
+                variant="secondary" 
+                size="lg" 
+                className="text-lg px-10 py-8 shadow-neon"
+                onClick={() => navigate('/calendar')}
+              >
                 <Users className="w-6 h-6 mr-3" />
                 START STREAMING
               </Button>
@@ -363,7 +376,12 @@ const Home = () => {
                 <div className="space-y-2">
                   <p className="text-muted-foreground">{launch.time}</p>
                   <p className="text-sm font-medium">{launch.streamer}</p>
-                  <Button size="sm" variant="outline" className="w-full">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => navigate('/calendar')}
+                  >
                     Set Reminder
                   </Button>
                 </div>
@@ -382,11 +400,21 @@ const Home = () => {
               Join the revolution where entertainment becomes finance. Choose your path and start earning today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" size="lg" className="text-lg px-8 py-6">
+              <Button 
+                variant="hero" 
+                size="lg" 
+                className="text-lg px-8 py-6"
+                onClick={() => navigate('/rewards')}
+              >
                 <Play className="w-5 h-5 mr-2" />
                 Start Clipping Now
               </Button>
-              <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
+              <Button 
+                variant="secondary" 
+                size="lg" 
+                className="text-lg px-8 py-6"
+                onClick={() => navigate('/calendar')}
+              >
                 <Users className="w-5 h-5 mr-2" />
                 Start Streaming
               </Button>

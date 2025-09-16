@@ -128,6 +128,9 @@ export const SubmissionModal = ({ isOpen, onClose, campaignTitle, campaignId }: 
               <X className="w-4 h-4" />
             </Button>
           </DialogTitle>
+          <DialogDescription>
+            Submit your content for this campaign to earn rewards based on views
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">

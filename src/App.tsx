@@ -11,6 +11,7 @@ import RaidChat from "./pages/RaidChat";
 import Rewards from "./pages/Rewards";
 import Guide from "./pages/Guide";
 import About from "./pages/About";
+import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="/rewards" element={<Rewards />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

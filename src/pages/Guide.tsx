@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 import { 
   BookOpen, 
   Download, 
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 
 const Guide = () => {
+  const navigate = useNavigate();
   const guideSteps = [
     {
       step: 1,
@@ -265,7 +267,11 @@ const Guide = () => {
               Follow this guide and join the ranks of successful pump.fun streamers earning through CLIP's ecosystem.
             </p>
             <div className="flex justify-center">
-              <Button variant="hero" size="lg">
+              <Button 
+                variant="hero" 
+                size="lg"
+                onClick={() => navigate('/calendar')}
+              >
                 Start Your Launch
               </Button>
             </div>
