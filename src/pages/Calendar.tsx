@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   Calendar as CalendarIcon, 
   Clock, 
@@ -23,13 +24,16 @@ import {
   AlertCircle,
   Lock,
   Unlock,
-  Gift
+  Gift,
+  Plus,
+  Sparkles
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 
 const Calendar = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [notifications, setNotifications] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -249,10 +253,49 @@ END:VCALENDAR`;
     setNotifications(!notifications);
   };
 
+  const handleCreateLaunch = () => {
+    if (user) {
+      navigate('/streamer-application');
+    } else {
+      navigate('/auth');
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {showConfetti && <Confetti />}
       <div className="space-y-8">
+        {/* Sticky Onboarding Header */}
+        <div className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border pb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Mission Statement */}
+            <Card className="flex-1 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Launch your token stream today.</h3>
+                    <p className="text-sm text-muted-foreground">Create, stream, and get featured in the calendar.</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Create Launch CTA */}
+            <Button
+              onClick={handleCreateLaunch}
+              className="bg-gradient-to-r from-primary to-secondary hover:from-primary-glow hover:to-secondary-glow text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-glow transition-all duration-300 flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Create a Launch
+            </Button>
+          </div>
+        </div>
+
         {/* Header */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl lg:text-5xl font-bold text-gradient-rainbow">Launch Calendar</h1>
