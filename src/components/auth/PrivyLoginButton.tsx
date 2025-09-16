@@ -1,4 +1,4 @@
-import { useAuth } from '@/contexts/PrivyAuthContext';
+import { useSimpleWallet } from '@/contexts/SimpleWalletContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,26 +9,25 @@ import { useToast } from '@/hooks/use-toast';
 export const PrivyLoginButton = () => {
   const { 
     user, 
-    walletAddress, 
-    isLoading, 
+    authenticated,
+    ready,
     login, 
     logout, 
-    connectWallet, 
-    linkGoogleAccount 
-  } = useAuth();
+    connectWallet,
+    wallets,
+    hasWallet
+  } = useSimpleWallet();
   const { toast } = useToast();
 
-  const copyWalletAddress = () => {
-    if (walletAddress) {
-      navigator.clipboard.writeText(walletAddress);
-      toast({
-        title: "Copied!",
-        description: "Wallet address copied to clipboard",
-      });
-    }
+  const copyWalletAddress = (address: string) => {
+    navigator.clipboard.writeText(address);
+    toast({
+      title: "Address Copied", 
+      description: "Wallet address copied to clipboard",
+    });
   };
 
-  if (isLoading) {
+  if (!ready) {
     return (
       <div className="flex items-center justify-center p-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -36,7 +35,7 @@ export const PrivyLoginButton = () => {
     );
   }
 
-  if (!user) {
+  if (!authenticated) {
     return (
       <Card className="w-full max-w-md mx-auto">
         <CardHeader className="text-center">
@@ -78,13 +77,13 @@ export const PrivyLoginButton = () => {
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Mail className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm">{user.email?.address || 'No email'}</span>
-            {user.email && (
+            <span className="text-sm">{user?.email?.address || 'No email'}</span>
+            {user?.email && (
               <Badge variant="secondary" className="text-xs">Email</Badge>
             )}
           </div>
 
-          {user.google && (
+          {user?.google && (
             <div className="flex items-center gap-2">
               <Chrome className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm">{user.google.name}</span>
@@ -100,9 +99,9 @@ export const PrivyLoginButton = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Wallet className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium">Wallet</span>
+              <span className="text-sm font-medium">Wallets ({wallets.length})</span>
             </div>
-            {!walletAddress && (
+            {!hasWallet && (
               <Button variant="outline" size="sm" onClick={connectWallet}>
                 <Link className="w-4 h-4 mr-1" />
                 Connect
@@ -110,21 +109,25 @@ export const PrivyLoginButton = () => {
             )}
           </div>
 
-          {walletAddress ? (
-            <div className="bg-muted/50 p-3 rounded-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-mono text-xs text-muted-foreground">
-                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+          {wallets.length > 0 ? (
+            <div className="space-y-2">
+              {wallets.map((wallet, index) => (
+                <div key={wallet.address} className="bg-muted/50 p-3 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-mono text-xs text-muted-foreground">
+                        {wallet.address.slice(0, 6)}...{wallet.address.slice(-4)}
+                      </div>
+                      <Badge variant="secondary" className="text-xs mt-1">
+                        {wallet.chainType}
+                      </Badge>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={() => copyWalletAddress(wallet.address)}>
+                      <Copy className="w-4 h-4" />
+                    </Button>
                   </div>
-                  <Badge variant="secondary" className="text-xs mt-1">
-                    Connected
-                  </Badge>
                 </div>
-                <Button variant="ghost" size="sm" onClick={copyWalletAddress}>
-                  <Copy className="w-4 h-4" />
-                </Button>
-              </div>
+              ))}
             </div>
           ) : (
             <div className="bg-muted/30 p-3 rounded-lg border-2 border-dashed">
@@ -139,24 +142,13 @@ export const PrivyLoginButton = () => {
 
         {/* Additional Actions */}
         <div className="space-y-2">
-          {!user.google && (
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={linkGoogleAccount}
-            >
-              <Chrome className="w-4 h-4 mr-2" />
-              Link Google Account
-            </Button>
-          )}
-          
           <Button 
             variant="outline" 
             className="w-full" 
             onClick={connectWallet}
           >
             <Wallet className="w-4 h-4 mr-2" />
-            {walletAddress ? 'Connect Another Wallet' : 'Connect Wallet'}
+            {hasWallet ? 'Connect Another Wallet' : 'Connect Wallet'}
           </Button>
         </div>
 

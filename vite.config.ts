@@ -72,6 +72,9 @@ export default defineConfig(({ mode }) => ({
     })
   ].filter(Boolean),
   build: {
+    commonjsOptions: {
+      include: [/bs58/, /node_modules/]
+    },
     rollupOptions: {
       onwarn(warning, warn) {
         // Suppress warnings about pure annotations from third-party libraries
@@ -84,7 +87,11 @@ export default defineConfig(({ mode }) => ({
     }
   },
   optimizeDeps: {
-    exclude: ['@privy-io/react-auth']
+    exclude: ['@privy-io/react-auth'],
+    include: ['bs58']
+  },
+  define: {
+    global: 'globalThis',
   },
   resolve: {
     alias: {

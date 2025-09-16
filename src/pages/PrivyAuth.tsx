@@ -1,24 +1,22 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/PrivyAuthContext';
+import { useSimpleWallet } from '@/contexts/SimpleWalletContext';
 import { PrivyLoginButton } from '@/components/auth/PrivyLoginButton';
 import { PrivySetupCard } from '@/components/auth/PrivySetupCard';
 
 export default function PrivyAuth() {
-  const { user, isLoading } = useAuth();
+  const { user, ready } = useSimpleWallet();
   const navigate = useNavigate();
 
   // Check if Privy is properly configured
-  const privyConfigured = typeof window !== 'undefined' && 
-    window.location.href.includes('clym-id=') || // Check if Privy is actually loaded
-    localStorage.getItem('privy:token'); // Or has tokens
+  const privyConfigured = ready;
 
   useEffect(() => {
     // Redirect authenticated users to home
-    if (user && !isLoading) {
+    if (user && ready) {
       navigate('/');
     }
-  }, [user, isLoading, navigate]);
+  }, [user, ready, navigate]);
 
   // Show setup card if Privy is not configured
   if (!privyConfigured && !user) {
