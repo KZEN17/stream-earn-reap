@@ -4,7 +4,7 @@ import {
   Trophy, 
   Calendar as CalendarIcon, 
   Zap, 
-  Gift, 
+  DollarSign, 
   BookOpen, 
   Rocket,
   TrendingUp,
@@ -37,7 +37,7 @@ const menuItems = [
   { 
     title: "Content Rewards", 
     url: "/rewards", 
-    icon: Gift 
+    icon: DollarSign 
   },
   { 
     title: "RAIDCHAT", 
