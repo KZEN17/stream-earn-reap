@@ -143,7 +143,7 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl lg:text-3xl">Creator Fee Loop</CardTitle>
+            <CardTitle className="text-2xl lg:text-3xl">$CLIP Creator Fee Loop</CardTitle>
             <p className="text-muted-foreground">Every fee compounds into more reach, more clips, more value.</p>
           </CardHeader>
           <CardContent>
