@@ -87,8 +87,8 @@ export function AppSidebar() {
 
   const getNavClassName = (isActiveRoute: boolean) =>
     isActiveRoute 
-      ? "bg-accent/20 text-accent font-bold border-r-2 border-accent shadow-neon" 
-      : "hover:bg-accent/10 text-accent/70 hover:text-accent transition-all duration-300";
+      ? "bg-accent/30 text-accent font-black border-r-4 border-accent shadow-neon" 
+      : "text-accent/90 font-bold hover:text-accent hover:bg-accent/20 transition-all duration-300";
 
   const toggleSubmenu = (title: string) => {
     setOpenSubmenu(openSubmenu === title ? null : title);
@@ -96,20 +96,27 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className={`${collapsed ? "w-16" : "w-64"} bg-sidebar border-sidebar-border`} 
+      className={`${collapsed ? "w-16" : "w-64"} !bg-sidebar border-sidebar-border`} 
       collapsible="icon"
       variant="sidebar"
+      style={{ backgroundColor: 'hsl(225 15% 6%)', borderColor: 'hsl(225 15% 15%)' }}
     >
-      <SidebarHeader className="border-b border-sidebar-border bg-sidebar">
+      <SidebarHeader 
+        className="border-b border-sidebar-border !bg-sidebar" 
+        style={{ backgroundColor: 'hsl(225 15% 6%)', borderColor: 'hsl(225 15% 15%)' }}
+      >
         <div className="flex items-center space-x-2 px-4 py-3">
           <div className="w-8 h-8 bg-gradient-accent rounded-lg shadow-neon flex-shrink-0"></div>
           {!collapsed && <span className="text-xl font-black text-accent uppercase tracking-wider">CLIP</span>}
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="bg-sidebar">
+      <SidebarContent 
+        className="!bg-sidebar" 
+        style={{ backgroundColor: 'hsl(225 15% 6%)' }}
+      >
         <SidebarGroup>
-          {!collapsed && <SidebarGroupLabel className="text-accent/80 font-bold uppercase tracking-wide text-xs">Navigation</SidebarGroupLabel>}
+          {!collapsed && <SidebarGroupLabel className="text-accent font-black uppercase tracking-wide text-xs">NAVIGATION</SidebarGroupLabel>}
           
           <SidebarGroupContent>
             <SidebarMenu>
