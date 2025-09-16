@@ -6,6 +6,7 @@ import TargetCursor from "@/components/ui/TargetCursor";
 import GradualBlur from "@/components/ui/GradualBlur";
 import { NotificationCenter } from "./layout/NotificationCenter";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLoginModal } from "@/contexts/LoginModalContext";
 import { useNavigate } from "react-router-dom";
 import { User, LogOut } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -13,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { user, signOut } = useAuth();
+  const { openModal } = useLoginModal();
   const navigate = useNavigate();
 
   const getUserInitials = (email: string) => {
@@ -40,7 +42,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="flex items-center space-x-3">
               <NotificationCenter />
               <ThemeToggle />
-              {user && (
+              
+              {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="flex items-center space-x-2 px-3 py-2 hover:bg-accent">
@@ -69,6 +72,24 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={openModal}
+                    className="text-sm hover:bg-accent"
+                  >
+                    Sign In
+                  </Button>
+                  <Button 
+                    size="sm"
+                    onClick={openModal}
+                    className="bg-gradient-primary hover:opacity-90 text-white font-semibold"
+                  >
+                    Sign Up
+                  </Button>
+                </div>
               )}
             </div>
           </header>
