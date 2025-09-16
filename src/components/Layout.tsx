@@ -4,8 +4,18 @@ import { AppSidebar } from "./AppSidebar";
 import { ThemeToggle } from "./ThemeToggle";
 import TargetCursor from "@/components/ui/TargetCursor";
 import GradualBlur from "@/components/ui/GradualBlur";
+import { useAuth } from "@/contexts/AuthContext";
+import { User, LogOut } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const { user, signOut } = useAuth();
+
+  const getUserInitials = (email: string) => {
+    return email.split('@')[0].slice(0, 2).toUpperCase();
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background relative">
@@ -23,15 +33,32 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <SidebarTrigger />
             </div>
             
-            {/* Theme Toggle & Auth Buttons */}
+            {/* Theme Toggle & User Menu */}
             <div className="flex items-center space-x-3">
               <ThemeToggle />
-              <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                Login
-              </button>
-              <button className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                Sign Up
-              </button>
+              {user && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="flex items-center space-x-2 px-3 py-2">
+                      <Avatar className="h-6 w-6">
+                        <AvatarImage src={user.user_metadata?.avatar_url} />
+                        <AvatarFallback className="text-xs">
+                          {getUserInitials(user.email || '')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm font-medium">
+                        {user.email?.split('@')[0]}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={signOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
           </header>
 
