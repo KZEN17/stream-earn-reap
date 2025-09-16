@@ -17,27 +17,32 @@ const Home = () => {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <div className="absolute inset-0 bg-gradient-rainbow opacity-10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <section className="relative overflow-hidden bg-gradient-hero">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-accent/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold">
-                <span className="text-gradient-rainbow">Stream • Clip • Earn $</span>
+            <div className="space-y-6">
+              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight">
+                <span className="gaming-title">STREAM • CLIP • EARN $</span>
               </h1>
-              <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-xl lg:text-2xl text-foreground/80 max-w-4xl mx-auto font-medium">
                 Create viral clips from live streams and earn rewards based on views and engagement.
+                <span className="text-accent font-bold"> The future of entertainment finance.</span>
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" size="lg" className="text-lg px-8 py-6">
-                <Play className="w-5 h-5 mr-2" />
-                Start Clipping
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button variant="hero" size="lg" className="text-lg px-10 py-8 shadow-glow">
+                <Play className="w-6 h-6 mr-3" />
+                START CLIPPING
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-6">
-                <Users className="w-5 h-5 mr-2" />
-                Start Streaming
+              <Button variant="secondary" size="lg" className="text-lg px-10 py-8 shadow-neon">
+                <Users className="w-6 h-6 mr-3" />
+                START STREAMING
               </Button>
             </div>
           </div>
@@ -47,7 +52,7 @@ const Home = () => {
       {/* Value Props */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="hover-lift shadow-card">
+          <Card className="gaming-card">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                 <Play className="w-6 h-6 text-white" />
@@ -61,29 +66,29 @@ const Home = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover-lift shadow-card">
+          <Card className="gaming-card">
             <CardHeader>
-              <div className="w-12 h-12 bg-gradient-secondary rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-secondary rounded-xl flex items-center justify-center mb-4 shadow-neon">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
-              <CardTitle>Loop Rewards & Grow</CardTitle>
+              <CardTitle className="text-gradient-primary">Loop Rewards & Grow</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/80">
                 Recycle hype, multiply rewards
               </p>
             </CardContent>
           </Card>
 
-          <Card className="hover-lift shadow-card">
+          <Card className="gaming-card">
             <CardHeader>
-              <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center mb-4 shadow-neon">
                 <DollarSign className="w-6 h-6 text-accent-foreground" />
               </div>
-              <CardTitle>Entertainment Finance</CardTitle>
+              <CardTitle className="text-gradient-accent">Entertainment Finance</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/80">
                 Turn entertainment into sustainable income as innovative creator
               </p>
             </CardContent>
@@ -93,64 +98,64 @@ const Home = () => {
 
       {/* How It Works */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">How It Works</h2>
-          <p className="text-xl text-muted-foreground">Two simple paths to success</p>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-black mb-6 gaming-title">HOW IT WORKS</h2>
+          <p className="text-xl text-foreground/80 font-medium">Three paths to dominate the battlefield</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-12">
           {/* For Clippers */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-gradient-primary">For Clippers</h3>
-            <div className="space-y-4">
+          <div className="gaming-card p-8 space-y-6">
+            <h3 className="text-3xl font-black text-gradient-primary uppercase tracking-wide">For Clippers</h3>
+            <div className="space-y-6">
               {[
                 "Find trending streamer and missions",
                 "Create and submit viral clips",
                 "Earn rewards"
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold shadow-glow">
                     {index + 1}
                   </div>
-                  <p className="text-muted-foreground pt-1">{step}</p>
+                  <p className="text-foreground/90 pt-2 font-medium">{step}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* For Streamers */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-gradient-secondary">For Streamers</h3>
-            <div className="space-y-4">
+          <div className="gaming-card p-8 space-y-6">
+            <h3 className="text-3xl font-black text-gradient-primary uppercase tracking-wide">For Streamers</h3>
+            <div className="space-y-6">
               {[
                 "Connect your channels to Pumpfun and create missions",
                 "Stream and engage with your audience", 
                 "Watch your content spread and earn fees"
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-gradient-secondary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center text-white font-bold shadow-neon">
                     {index + 1}
                   </div>
-                  <p className="text-muted-foreground pt-1">{step}</p>
+                  <p className="text-foreground/90 pt-2 font-medium">{step}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Platform */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-gradient-accent">Platform</h3>
-            <div className="space-y-4">
+          <div className="gaming-card p-8 space-y-6">
+            <h3 className="text-3xl font-black text-gradient-accent uppercase tracking-wide">Platform</h3>
+            <div className="space-y-6">
               {[
                 "Token buys fuel reach and visibility.",
                 "Bigger community support = stronger launch outcome.",
                 "Every contribution amplifies streams to new audiences."
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-10 h-10 bg-gradient-accent rounded-full flex items-center justify-center text-accent-foreground font-bold shadow-neon">
                     {index + 1}
                   </div>
-                  <p className="text-muted-foreground pt-1">{step}</p>
+                  <p className="text-foreground/90 pt-2 font-medium">{step}</p>
                 </div>
               ))}
             </div>
