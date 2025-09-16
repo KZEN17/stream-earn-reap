@@ -323,64 +323,62 @@ END:VCALENDAR`;
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {showConfetti && <Confetti />}
       <div className="space-y-8">
-        {/* Top Hero Section */}
-        <div className="space-y-8">
-          {/* Main Header Card */}
-          <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-primary/20 rounded-2xl overflow-hidden">
-            <CardContent className="p-8">
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-                {/* Left Content */}
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center shadow-lg">
-                    <Sparkles className="w-6 h-6 text-white" />
+        {/* Sticky Onboarding Header */}
+        <div className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border pb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Mission Statement */}
+            <Card className="flex-1 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-white" />
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <h2 className="text-2xl font-bold text-foreground">Launch your token stream today.</h2>
-                    <p className="text-muted-foreground">Create, stream, and get featured in the calendar.</p>
+                  <div>
+                    <h3 className="font-semibold text-lg">Launch your token stream today.</h3>
+                    <p className="text-sm text-muted-foreground">Create, stream, and get featured in the calendar.</p>
                   </div>
                 </div>
-                
-                {/* Right CTA */}
-                <Button
-                  onClick={handleCreateLaunch}
-                  className="bg-gradient-to-r from-primary to-secondary hover:from-primary-glow hover:to-secondary-glow text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-glow transition-all duration-300 flex items-center gap-2 text-lg"
-                >
-                  <Plus className="w-5 h-5" />
-                  Create a Launch
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Page Title Section */}
-          <div className="text-center space-y-6">
-            <div className="space-y-4">
-              <h1 className="text-4xl lg:text-6xl font-bold text-gradient-rainbow">Launch Calendar</h1>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Never miss a pump.fun launch event
-              </p>
-            </div>
+              </CardContent>
+            </Card>
             
+            {/* Create Launch CTA */}
+            <Button
+              onClick={handleCreateLaunch}
+              className="bg-gradient-to-r from-primary to-secondary hover:from-primary-glow hover:to-secondary-glow text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-glow transition-all duration-300 flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Create a Launch
+            </Button>
+          </div>
+        </div>
+
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl lg:text-5xl font-bold text-gradient-rainbow">Launch Calendar</h1>
+          <p className="text-xl text-muted-foreground">
+            Never miss a pump.fun launch event
+          </p>
+          
+          <div className="flex justify-center">
             <Button
               variant={notifications ? "default" : "outline"}
               onClick={toggleNotifications}
               className="flex items-center gap-2"
-              size="lg"
             >
               <Bell className={`w-4 h-4 ${notifications ? "text-white" : "text-muted-foreground"}`} />
               {notifications ? "Notifications On" : "Enable Notifications"}
             </Button>
           </div>
 
-          {/* Info Card */}
-          <div className="max-w-4xl mx-auto">
-            <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 rounded-xl">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 justify-center">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                    <AlertCircle className="w-4 h-4 text-primary" />
-                  </div>
-                  <p className="text-muted-foreground text-center">
+          {/* Contribution Info Note */}
+          <div className="max-w-2xl mx-auto">
+            <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 justify-center">
+                  <AlertCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                  <p className="text-sm text-muted-foreground">
                     Contributions unlock launches and fund initial allocation + DEX fees
                   </p>
                 </div>
