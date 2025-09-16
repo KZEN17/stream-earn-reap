@@ -109,6 +109,101 @@ const About = () => {
           </div>
         </section>
 
+        {/* Partners & Achievements */}
+        <section className="space-y-8">
+          <h2 className="text-3xl font-bold text-center">Our Partners & Achievements</h2>
+          
+          <div className="space-y-8">
+            {/* Gaming Partnerships */}
+            <Card className="border-primary/20 bg-primary/5">
+              <CardHeader>
+                <CardTitle className="text-center text-2xl">Gaming Partnerships</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">FACEIT</div>
+                    <p className="text-sm text-muted-foreground">Counter-Strike & Overwatch 2</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">Shrapnel</div>
+                    <p className="text-sm text-muted-foreground">Web3 Gaming</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">Off The Grid</div>
+                    <p className="text-sm text-muted-foreground">Battle Royale</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">Azur Games</div>
+                    <p className="text-sm text-muted-foreground">Mobile Gaming</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Web3 & Tech Partners */}
+            <Card className="border-secondary/20 bg-secondary/5">
+              <CardHeader>
+                <CardTitle className="text-center text-2xl">Web3 & Technology</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">Avalanche</div>
+                    <p className="text-sm text-muted-foreground">Blockchain Platform</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">Immutable X</div>
+                    <p className="text-sm text-muted-foreground">NFT Infrastructure</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">LayerZero</div>
+                    <p className="text-sm text-muted-foreground">Omnichain Protocol</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">AWS</div>
+                    <p className="text-sm text-muted-foreground">Active Partner</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Gaming Platforms */}
+            <Card className="border-accent/20 bg-accent/5">
+              <CardHeader>
+                <CardTitle className="text-center text-2xl">Gaming Ecosystem</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">The Sandbox</div>
+                    <p className="text-sm text-muted-foreground">Web3 Metaverse</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">Gala Games</div>
+                    <p className="text-sm text-muted-foreground">Blockchain Gaming</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">Parallel TCG</div>
+                    <p className="text-sm text-muted-foreground">Trading Card Game</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Achievement */}
+            <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-primary/20">
+              <CardContent className="p-8 text-center">
+                <h3 className="text-2xl font-bold mb-4 text-gradient-rainbow">Major Achievement</h3>
+                <p className="text-xl text-muted-foreground">
+                  Host of <span className="font-semibold text-gradient-primary">Game League</span> - 
+                  the largest Web3 tournament to date
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
         {/* Team Section */}
         <section className="space-y-8">
           <h2 className="text-3xl font-bold text-center">Meet the Team</h2>
