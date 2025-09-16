@@ -17,7 +17,9 @@ import {
   Users, 
   Calendar,
   X,
-  Plus
+  Plus,
+  Upload,
+  Image as ImageIcon
 } from 'lucide-react';
 
 interface RaidCreatorProps {
@@ -58,16 +60,46 @@ export const RaidCreator: React.FC<RaidCreatorProps> = ({ onClose, onSuccess }) 
     targetUrl: '',
     missionType: 'mission',
     description: '',
-    goalAmount: '',
     goalDescription: '',
     scheduledTime: '',
-    maxParticipants: 100
+    logoUrl: ''
   });
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { createRaid } = useRaidEvents();
   const { user } = useAuth();
   const { toast } = useToast();
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast({
+          title: "File too large",
+          description: "Please choose an image under 5MB",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      setLogoFile(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        setLogoPreview(result);
+        setFormData({...formData, logoUrl: result});
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeLogo = () => {
+    setLogoFile(null);
+    setLogoPreview('');
+    setFormData({...formData, logoUrl: ''});
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,11 +120,11 @@ export const RaidCreator: React.FC<RaidCreatorProps> = ({ onClose, onSuccess }) 
         twitch_stream_url: formData.targetUrl,
         target_url: formData.targetUrl,
         mission_type: formData.missionType as 'mission' | 'takeover' | 'support',
-        goal_amount: formData.goalAmount ? parseFloat(formData.goalAmount) : 0,
+        goal_amount: 0,
         goal_description: formData.goalDescription,
         scheduled_time: formData.scheduledTime || new Date().toISOString(),
         status: 'scheduled',
-        max_participants: formData.maxParticipants,
+        max_participants: 100,
         current_participants: 0,
         total_raised: 0,
         leader_id: user.id
@@ -190,6 +222,60 @@ export const RaidCreator: React.FC<RaidCreatorProps> = ({ onClose, onSuccess }) 
               />
             </div>
 
+            {/* Logo Upload Section */}
+            <div className="space-y-4">
+              <Label>RAID Logo</Label>
+              <div className="border-2 border-dashed border-border rounded-lg p-6">
+                {logoPreview ? (
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="relative">
+                      <img 
+                        src={logoPreview} 
+                        alt="RAID Logo Preview" 
+                        className="w-24 h-24 object-cover rounded-lg border-2 border-primary/20"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={removeLogo}
+                        className="absolute -top-2 -right-2 w-6 h-6 rounded-full p-0"
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Click below to change logo</p>
+                  </div>
+                ) : (
+                  <div className="text-center space-y-2">
+                    <div className="w-12 h-12 mx-auto bg-muted rounded-lg flex items-center justify-center">
+                      <ImageIcon className="w-6 h-6 text-muted-foreground" />
+                    </div>
+                    <p className="text-sm text-muted-foreground">Upload a logo for your RAID</p>
+                    <p className="text-xs text-muted-foreground">PNG, JPG up to 5MB</p>
+                  </div>
+                )}
+                <div className="mt-4">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleLogoUpload}
+                    className="hidden"
+                    id="logo-upload"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => document.getElementById('logo-upload')?.click()}
+                    className="w-full"
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    {logoPreview ? 'Change Logo' : 'Upload Logo'}
+                  </Button>
+                </div>
+              </div>
+            </div>
+
             {/* Description (Optional) */}
             <div className="space-y-2">
               <Label htmlFor="description">Description (Optional)</Label>
@@ -202,45 +288,16 @@ export const RaidCreator: React.FC<RaidCreatorProps> = ({ onClose, onSuccess }) 
               />
             </div>
 
-            {/* Goal Settings */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="goalAmount">Goal Amount ($)</Label>
-                <Input
-                  id="goalAmount"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="1000"
-                  value={formData.goalAmount}
-                  onChange={(e) => setFormData({...formData, goalAmount: e.target.value})}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="maxParticipants">Max Participants</Label>
-                <Input
-                  id="maxParticipants"
-                  type="number"
-                  min="1"
-                  max="1000"
-                  value={formData.maxParticipants}
-                  onChange={(e) => setFormData({...formData, maxParticipants: parseInt(e.target.value) || 100})}
-                />
-              </div>
-            </div>
-
             {/* Goal Description */}
-            {formData.goalAmount && (
-              <div className="space-y-2">
-                <Label htmlFor="goalDescription">Goal Description</Label>
-                <Input
-                  id="goalDescription"
-                  placeholder="e.g., Token launch support, Subscriber milestone"
-                  value={formData.goalDescription}
-                  onChange={(e) => setFormData({...formData, goalDescription: e.target.value})}
-                />
-              </div>
-            )}
+            <div className="space-y-2">
+              <Label htmlFor="goalDescription">Goal Description (Optional)</Label>
+              <Input
+                id="goalDescription"
+                placeholder="e.g., Token launch support, Subscriber milestone"
+                value={formData.goalDescription}
+                onChange={(e) => setFormData({...formData, goalDescription: e.target.value})}
+              />
+            </div>
 
             {/* Scheduled Time */}
             <div className="space-y-2">
@@ -267,8 +324,14 @@ export const RaidCreator: React.FC<RaidCreatorProps> = ({ onClose, onSuccess }) 
                   <div><strong>Mission:</strong> {selectedMission.label}</div>
                   <div><strong>Target:</strong> {formData.targetUrl || 'Not set'}</div>
                   <div><strong>Title:</strong> {formData.title || 'Untitled RAID'}</div>
-                  {formData.goalAmount && (
-                    <div><strong>Goal:</strong> ${formData.goalAmount}</div>
+                  {formData.goalDescription && (
+                    <div><strong>Goal:</strong> {formData.goalDescription}</div>
+                  )}
+                  {logoPreview && (
+                    <div className="flex items-center gap-2">
+                      <strong>Logo:</strong> 
+                      <img src={logoPreview} alt="Logo" className="w-6 h-6 rounded object-cover" />
+                    </div>
                   )}
                 </div>
               </div>
