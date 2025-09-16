@@ -61,7 +61,7 @@ const Leaderboards = () => {
       handle: "@clipmaster",
       avatar: "/placeholder.svg",
       weeklyPoints: 2450,
-      allTimePoints: 15600,
+      totalViews: 156000,
       rank: 1
     },
     {
@@ -69,7 +69,7 @@ const Leaderboards = () => {
       handle: "@viralking", 
       avatar: "/placeholder.svg",
       weeklyPoints: 2130,
-      allTimePoints: 12400,
+      totalViews: 124000,
       rank: 2
     },
     {
@@ -77,7 +77,7 @@ const Leaderboards = () => {
       handle: "@contentcreator",
       avatar: "/placeholder.svg",
       weeklyPoints: 1890,
-      allTimePoints: 11200,
+      totalViews: 112000,
       rank: 3
     }
   ];
@@ -247,22 +247,18 @@ const Leaderboards = () => {
                       
                       <div className="flex-1 space-y-2">
                         <h3 className="font-semibold">{clipper.handle}</h3>
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-sm">
+                        <div className="grid grid-cols-3 gap-2 text-sm">
                           <div>
                             <span className="text-muted-foreground">Weekly Points: </span>
                             <span className="font-medium">{clipper.weeklyPoints.toLocaleString()}</span>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Total Points: </span>
-                            <span className="font-medium">{clipper.allTimePoints.toLocaleString()}</span>
+                            <span className="text-muted-foreground">Total Views: </span>
+                            <span className="font-medium">{(clipper.totalViews / 1000).toFixed(0)}K</span>
                           </div>
                           <div>
                             <span className="text-muted-foreground">Rewards: </span>
                             <span className="font-medium">${(clipper.weeklyPoints * 0.5).toFixed(0)}</span>
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground">Rank Bonus: </span>
-                            <span className="font-medium">${clipper.rank <= 3 ? (500 - clipper.rank * 150) : 0}</span>
                           </div>
                         </div>
                       </div>
