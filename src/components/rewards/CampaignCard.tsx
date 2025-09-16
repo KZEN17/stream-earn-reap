@@ -121,21 +121,22 @@ export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) =>
           </div>
         </div>
 
-        {/* Action Buttons - Only visible on hover for active campaigns */}
+        {/* Action Buttons - Always visible for active campaigns */}
         {campaign.status === 'active' && (
-          <div className="flex gap-2 pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="flex gap-2 pt-2">
             <Button 
               variant="outline" 
               size="sm" 
-              className="flex-1 text-xs"
+              className="flex-1 text-xs bg-card border-border hover:bg-muted"
               onClick={handleCardClick}
             >
               <Eye className="w-3 h-3 mr-1" />
               View
             </Button>
             <Button 
+              variant="hero"
               size="sm" 
-              className="flex-1 bg-gradient-primary hover:opacity-90 text-xs"
+              className="flex-1 text-xs"
               onClick={handleJoinClick}
             >
               <Target className="w-3 h-3 mr-1" />
