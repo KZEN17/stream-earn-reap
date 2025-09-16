@@ -348,9 +348,18 @@ const PixelBlast = ({
 
   const threeRef = useRef<any>(null);
   const prevConfigRef = useRef<any>(null);
+  
+  useEffect(() => {
+    console.log('PixelBlast: Component mounted', { containerRef: containerRef.current });
+  }, []);
+  
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      console.log('PixelBlast: No container found');
+      return;
+    }
+    console.log('PixelBlast: Container found, initializing...', container);
     speedRef.current = speed;
     const needsReinitKeys = ['antialias', 'liquid', 'noiseAmount'];
     const cfg = { antialias, liquid, noiseAmount };
@@ -377,7 +386,11 @@ const PixelBlast = ({
       }
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl2', { antialias, alpha: true });
-      if (!gl) return;
+      if (!gl) {
+        console.error('PixelBlast: WebGL2 not supported');
+        return;
+      }
+      console.log('PixelBlast: WebGL2 context created successfully');
       const renderer = new THREE.WebGLRenderer({
         canvas,
         context: gl,
