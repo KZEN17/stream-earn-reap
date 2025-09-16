@@ -11,6 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <TargetCursor 
           spinDuration={2}
           hideDefaultCursor={true}
+          targetSelector="button, a, [role='button'], [role='link'], .cursor-target, input[type='button'], input[type='submit']"
         />
         <AppSidebar />
         
@@ -23,10 +24,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3">
-              <button className="cursor-target bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+              <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors">
                 Login
               </button>
-              <button className="cursor-target bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+              <button className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium transition-colors">
                 Sign Up
               </button>
             </div>
