@@ -44,7 +44,12 @@ export default function Auth() {
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success('Check your email for the confirmation link!');
+        toast.success('Account created! You can now sign in.');
+        // Switch to sign in tab after successful signup
+        setTimeout(() => {
+          const signInTab = document.querySelector('[value="signin"]') as HTMLButtonElement;
+          signInTab?.click();
+        }, 1000);
       }
     } catch (error) {
       toast.error('An error occurred during sign up');
