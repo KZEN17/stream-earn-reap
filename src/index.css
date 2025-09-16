@@ -235,9 +235,12 @@
     background-clip: text;
   }
   
-  /* Transparent Glass Sidebar - Match Home Background */
+  /* Transparent Glass Sidebar - Match Main Page Background */
   [data-sidebar="sidebar"] {
-    background: hsl(var(--background) / 0.8) !important;
+    background: hsl(var(--background) / 0.85) !important;
+    background-image: 
+      radial-gradient(circle at 20% 80%, hsl(285 72% 60% / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(189 100% 50% / 0.03) 0%, transparent 50%);
     backdrop-filter: blur(20px);
     border-right: 1px solid hsl(var(--border) / 0.3);
   }
