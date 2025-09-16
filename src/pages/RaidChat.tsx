@@ -25,8 +25,68 @@ const RaidChat = () => {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  const liveRaids = raids.filter(raid => raid.status === 'live');
-  const scheduledRaids = raids.filter(raid => raid.status === 'scheduled');
+  // Fake placeholder data until real raids are published
+  const placeholderRaids = [
+    {
+      id: 'fake-1',
+      title: 'MEGA PUMP RAID',
+      description: 'Coordinated support for the biggest token launch of the year',
+      target_url: 'https://twitch.tv/cryptoking',
+      mission_type: 'takeover' as const,
+      status: 'live',
+      current_participants: 234,
+      max_participants: 500,
+      goal_amount: 5000,
+      total_raised: 2450,
+      goal_description: 'Token launch support',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      leader_id: 'fake-leader-1',
+      scheduled_time: new Date().toISOString(),
+      twitch_stream_url: 'https://twitch.tv/cryptoking'
+    },
+    {
+      id: 'fake-2', 
+      title: 'Holiday Support Mission',
+      description: 'Supporting our community streamer during the holiday celebration stream',
+      target_url: 'https://youtube.com/watch?v=holidaystream',
+      mission_type: 'support' as const,
+      status: 'scheduled',
+      current_participants: 0,
+      max_participants: 200,
+      goal_amount: 1500,
+      total_raised: 0,
+      goal_description: 'Holiday gift fund',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      leader_id: 'fake-leader-2',
+      scheduled_time: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // 2 hours from now
+      twitch_stream_url: 'https://youtube.com/watch?v=holidaystream'
+    },
+    {
+      id: 'fake-3',
+      title: 'New Year Launch Mission', 
+      description: 'Coordinated launch support to kick off the new year with massive momentum',
+      target_url: 'https://twitch.tv/newyeartoken',
+      mission_type: 'mission' as const,
+      status: 'scheduled',
+      current_participants: 12,
+      max_participants: 300,
+      goal_amount: 3000,
+      total_raised: 150,
+      goal_description: 'Launch milestone fund',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      leader_id: 'fake-leader-3',
+      scheduled_time: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
+      twitch_stream_url: 'https://twitch.tv/newyeartoken'
+    }
+  ];
+
+  // Use real raids if available, otherwise use placeholder data
+  const displayRaids = raids.length > 0 ? raids : placeholderRaids;
+  const liveRaids = displayRaids.filter(raid => raid.status === 'live');
+  const scheduledRaids = displayRaids.filter(raid => raid.status === 'scheduled');
   const currentRaid = liveRaids[0]; // Show first live raid as current
 
   const handleJoinRaid = async (raidId: string) => {
