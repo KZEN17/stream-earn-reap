@@ -29,6 +29,7 @@ import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 
 const Calendar = () => {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [notifications, setNotifications] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
