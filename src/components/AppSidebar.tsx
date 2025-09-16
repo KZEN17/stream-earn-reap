@@ -52,28 +52,24 @@ const menuItems = [
     icon: Home 
   },
   { 
-    title: "Content Rewards", 
-    url: "/rewards", 
-    icon: DollarSign 
-  },
-  { 
-    title: "RAIDCHAT", 
-    url: "/raidchat", 
-    icon: Zap 
-  },
-  { 
-    title: "Launch", 
+    title: "Launch Stream", 
     url: "/calendar", 
     icon: Rocket 
   },
   { 
-    title: "Leaderboards", 
+    title: "Creator Rewards", 
+    url: "/rewards", 
+    icon: DollarSign 
+  },
+  { 
+    title: "RAID Chat", 
+    url: "/raidchat", 
+    icon: Zap 
+  },
+  { 
+    title: "Tournament", 
     url: "/leaderboards", 
-    icon: Trophy,
-    submenu: [
-      { title: "Clippers", url: "/leaderboards/clippers" },
-      { title: "Streams", url: "/leaderboards/streams" },
-    ]
+    icon: Trophy
   },
   { 
     title: "Guide", 
@@ -151,52 +147,16 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  {item.submenu ? (
-                    <Collapsible
-                      open={openSubmenu === item.title}
-                      onOpenChange={() => toggleSubmenu(item.title)}
+                  <SidebarMenuButton asChild tooltip={collapsed ? item.title : undefined}>
+                    <NavLink 
+                      to={item.url}
+                      end={item.url === "/"}
+                      className={({ isActive }) => getItemClassName(item.title, isActive)}
                     >
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton 
-                          className={`w-full justify-between ${getItemClassName(item.title, isActive(item.url))}`}
-                          tooltip={collapsed ? item.title : undefined}
-                        >
-                          <div className="flex items-center space-x-3">
-                            <item.icon className="h-5 w-5 flex-shrink-0" />
-                            {!collapsed && <span className="font-bold">{item.title}</span>}
-                          </div>
-                          {!collapsed && <ChevronDown className="h-5 w-5" />}
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
-                          {item.submenu.map((subItem) => (
-                            <SidebarMenuSubItem key={subItem.title}>
-                              <SidebarMenuSubButton asChild>
-                                <NavLink 
-                                  to={subItem.url}
-                                  className={({ isActive }) => getNavClassName(isActive)}
-                                >
-                                  <span>{subItem.title}</span>
-                                </NavLink>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  ) : (
-                    <SidebarMenuButton asChild tooltip={collapsed ? item.title : undefined}>
-                      <NavLink 
-                        to={item.url}
-                        end={item.url === "/"}
-                        className={({ isActive }) => getItemClassName(item.title, isActive)}
-                      >
-                        <item.icon className="h-5 w-5 flex-shrink-0" />
-                        {!collapsed && <span className="font-bold">{item.title}</span>}
-                      </NavLink>
-                    </SidebarMenuButton>
-                  )}
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
+                      {!collapsed && <span className="font-bold">{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
