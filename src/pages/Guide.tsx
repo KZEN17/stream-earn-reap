@@ -20,98 +20,91 @@ const Guide = () => {
   const guideSteps = [
     {
       step: 1,
-      title: "Wallet Setup",
+      title: "Sign Up & Wallet",
       icon: Wallet,
-      description: "Create a crypto wallet (Phantom recommended) and secure your seed phrase.",
+      description: "Visit pump.fun and create a wallet with secure setup.",
       details: [
-        "Download Phantom wallet extension",
-        "Create new wallet or import existing",
-        "Securely store your seed phrase",
-        "Add Solana network if needed"
+        "Visit pump.fun (app or browser)",
+        "Create a wallet (Phantom, Gmail, Twitter login)",
+        "Never share your seed phrase"
       ]
     },
     {
       step: 2,
-      title: "Create Token",
-      icon: Coins,
-      description: "Use pump.fun to create your token with compelling branding and story.",
+      title: "Token Prep",
+      icon: FileText,
+      description: "Prepare all materials and content for your token launch.",
       details: [
-        "Visit pump.fun and connect wallet",
-        "Design token logo and metadata", 
-        "Write compelling token description",
-        "Set initial parameters and launch"
+        "Have your logo & banner ready",
+        "Prepare socials (Twitter is critical)",
+        "Draft a pinned launch post with token contract",
+        "Inform your audience about the drop"
       ]
     },
     {
       step: 3,
-      title: "Stream Setup",
-      icon: Video,
-      description: "Configure your streaming platform and prepare for your launch event.",
+      title: "Launch Timing",
+      icon: CheckCircle,
+      description: "Strategic timing and transparency for successful launch.",
       details: [
-        "Set up Twitch/YouTube channel",
-        "Create eye-catching stream title",
-        "Plan launch event timing",
-        "Prepare interactive content"
+        "Best drop window: 3–9 PM UTC",
+        "Announce goals & fee usage (important for trust)",
+        "Check examples like $KIND or $FTP"
       ]
     },
     {
       step: 4,
-      title: "OBS Configuration",
-      icon: Settings,
-      description: "Set up OBS with proper scenes, alerts, and overlays for professional streaming.",
+      title: "Stream Setup",
+      icon: Video,
+      description: "Configure streaming equipment and get ready to go live.",
       details: [
-        "Download and install OBS Studio",
-        "Configure video/audio settings",
-        "Create scenes with overlays",
-        "Test stream quality and alerts"
+        "Mobile: just your phone (battery + powerbank)",
+        "PC: OBS recommended (overlay ready)",
+        "After token creation you'll get RTMP URL + Stream Key"
       ]
     },
     {
       step: 5,
-      title: "Content Posting",
+      title: "Test & Go Live",
       icon: Upload,
-      description: "Start posting engaging content across social platforms to build hype.",
+      description: "Final preparations and launch execution for maximum impact.",
       details: [
-        "Create Twitter announcement thread",
-        "Post token details and roadmap",
-        "Share behind-the-scenes content",
-        "Engage with crypto communities"
+        "Run a test token if needed",
+        "First 1, 5, 10, 15, 30 minutes are crucial—interact actively",
+        "Drop your CA + pinned post fast"
       ]
     },
     {
       step: 6,
-      title: "Link to CLIP",
-      icon: Link,
-      description: "Connect your stream to CLIP platform for maximum clip distribution.",
+      title: "Build Trust",
+      icon: Settings,
+      description: "Engage with your community and build credibility.",
       details: [
-        "Sign up as streamer on CLIP",
-        "Connect your streaming channels",
-        "Create missions for clippers",
-        "Set up reward parameters"
+        "Engage first supporters (they take the risk)",
+        "Moderate chat (friends/community help)",
+        "Focus on instant action & entertainment"
       ]
     },
     {
       step: 7,
-      title: "Submit Clips",
-      icon: FileText,
-      description: "Work with our clipper network to create and distribute viral content.",
+      title: "Growth & Collab",
+      icon: Link,
+      description: "Scale your reach through collaboration and content distribution.",
       details: [
-        "Brief clippers on key moments",
-        "Provide clip-worthy content during stream",
-        "Review and approve submitted clips",
-        "Share clips across social platforms"
+        "Recycle content across socials",
+        "Collaborate with other streamers & clippers",
+        "Build community energy = stronger trust"
       ]
     },
     {
       step: 8,
-      title: "Get Featured", 
+      title: "Scale Up",
       icon: Star,
-      description: "Qualify for featuring in CLIP's launch calendar and success stories.",
+      description: "Build sustainable growth and get featured on CLIP platform.",
       details: [
-        "Maintain consistent streaming schedule",
-        "Generate engaging clip content",
-        "Hit performance milestones",
-        "Apply for calendar featuring"
+        "Create clipping campaigns with creator fees",
+        "Push for $CLIP featuring (success stories)",
+        "Stay consistent → attract repeat buyers"
       ]
     }
   ];
