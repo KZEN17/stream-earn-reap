@@ -6,12 +6,14 @@ import TargetCursor from "@/components/ui/TargetCursor";
 import GradualBlur from "@/components/ui/GradualBlur";
 import { NotificationCenter } from "./layout/NotificationCenter";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { User, LogOut } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const getUserInitials = (email: string) => {
     return email.split('@')[0].slice(0, 2).toUpperCase();
@@ -54,6 +56,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48 bg-card border border-border shadow-lg z-50">
+                    <DropdownMenuItem 
+                      onClick={() => navigate('/profile')} 
+                      className="cursor-pointer hover:bg-accent"
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      Profile
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={signOut} className="cursor-pointer hover:bg-accent">
                       <LogOut className="mr-2 h-4 w-4" />
                       Sign Out
