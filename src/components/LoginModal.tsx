@@ -9,7 +9,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
-import GradualBlur from '@/components/ui/GradualBlur';
 
 export const LoginModal = () => {
   const { isOpen, closeModal } = useLoginModal();
@@ -139,11 +138,7 @@ export const LoginModal = () => {
   return (
     <>
       {isOpen && (
-        <GradualBlur
-          strength={20}
-          position="top"
-          className="gradual-blur-fixed"
-        />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
       )}
       
       <Dialog open={isOpen} onOpenChange={closeModal}>
