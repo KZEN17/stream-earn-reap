@@ -39,9 +39,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (!mounted) return;
+        
+        console.log('Auth state changed:', event, session ? 'user logged in' : 'no user');
+        
         setSession(session);
         setUser(session?.user ?? null);
         
@@ -54,6 +60,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
               .eq('user_id', session.user.id)
               .maybeSingle();
             
+            console.log('Profile check result:', profile);
+            
             if (!profile || !profile.onboarding_completed) {
               setNeedsOnboarding(true);
             } else {
@@ -61,9 +69,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             }
             
             // Create profile if it doesn't exist
-            setTimeout(() => {
-              createUserProfile(session.user);
-            }, 0);
+            if (!profile) {
+              setTimeout(() => {
+                createUserProfile(session.user);
+              }, 0);
+            }
           } catch (error) {
             console.error('Error checking onboarding status:', error);
             setNeedsOnboarding(true); // Default to onboarding if error
@@ -72,12 +82,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setNeedsOnboarding(false);
         }
         
+        // Always set loading to false after processing
         setLoading(false);
+        console.log('Auth processing complete, loading set to false');
       }
     );
 
     // THEN check for existing session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!mounted) return;
+      
+      console.log('Initial session check:', session ? 'user logged in' : 'no user');
+      
       setSession(session);
       setUser(session?.user ?? null);
       
@@ -89,6 +105,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             .eq('user_id', session.user.id)
             .maybeSingle();
           
+          console.log('Initial profile check result:', profile);
+          
           if (!profile || !profile.onboarding_completed) {
             setNeedsOnboarding(true);
           } else {
@@ -98,12 +116,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           console.error('Error checking onboarding status:', error);
           setNeedsOnboarding(true); // Default to onboarding if error
         }
+      } else {
+        setNeedsOnboarding(false);
       }
       
+      // Always set loading to false after processing
       setLoading(false);
+      console.log('Initial auth processing complete, loading set to false');
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const createUserProfile = async (user: User) => {
