@@ -46,23 +46,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(session?.user ?? null);
         
         if (event === 'SIGNED_IN' && session?.user) {
-          // Check if user needs onboarding
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('onboarding_completed')
-            .eq('user_id', session.user.id)
-            .single();
-          
-          if (!profile || !profile.onboarding_completed) {
-            setNeedsOnboarding(true);
-          } else {
-            setNeedsOnboarding(false);
+          try {
+            // Check if user needs onboarding
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('onboarding_completed')
+              .eq('user_id', session.user.id)
+              .maybeSingle();
+            
+            if (!profile || !profile.onboarding_completed) {
+              setNeedsOnboarding(true);
+            } else {
+              setNeedsOnboarding(false);
+            }
+            
+            // Create profile if it doesn't exist
+            setTimeout(() => {
+              createUserProfile(session.user);
+            }, 0);
+          } catch (error) {
+            console.error('Error checking onboarding status:', error);
+            setNeedsOnboarding(true); // Default to onboarding if error
           }
-          
-          // Create profile if it doesn't exist
-          setTimeout(() => {
-            createUserProfile(session.user);
-          }, 0);
         } else if (event === 'SIGNED_OUT') {
           setNeedsOnboarding(false);
         }
@@ -77,16 +82,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('onboarding_completed')
-          .eq('user_id', session.user.id)
-          .single();
-        
-        if (!profile || !profile.onboarding_completed) {
-          setNeedsOnboarding(true);
-        } else {
-          setNeedsOnboarding(false);
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('onboarding_completed')
+            .eq('user_id', session.user.id)
+            .maybeSingle();
+          
+          if (!profile || !profile.onboarding_completed) {
+            setNeedsOnboarding(true);
+          } else {
+            setNeedsOnboarding(false);
+          }
+        } catch (error) {
+          console.error('Error checking onboarding status:', error);
+          setNeedsOnboarding(true); // Default to onboarding if error
         }
       }
       
