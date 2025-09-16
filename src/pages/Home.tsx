@@ -142,9 +142,9 @@ const Home = () => {
             <h3 className="text-2xl font-bold text-gradient-accent">Platform</h3>
             <div className="space-y-4">
               {[
-                "Help and fund your Launch",
-                "Bring eyeballs and Amplify",
-                "Buy, Donate support Token Stream mission"
+                "Token buys fuel reach and visibility.",
+                "Bigger community support = stronger launch outcome.",
+                "Every contribution amplifies streams to new audiences."
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center text-white font-bold text-sm">
