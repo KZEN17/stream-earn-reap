@@ -1,57 +1,38 @@
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
-import PixelBlast from "@/components/ui/PixelBlast";
+import TargetCursor from "@/components/ui/TargetCursor";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background relative">
-        <div className="absolute inset-0 z-0">
-          <div style={{ width: '100%', height: '100%', background: 'rgba(220, 255, 0, 0.1)' }}>
-            <PixelBlast
-              variant="circle"
-              pixelSize={6}
-              color="#DCFF00"
-              patternScale={3}
-              patternDensity={1.2}
-              pixelSizeJitter={0.5}
-              enableRipples
-              rippleSpeed={0.4}
-              rippleThickness={0.12}
-              rippleIntensityScale={1.5}
-              liquid
-              liquidStrength={0.12}
-              liquidRadius={1.2}
-              liquidWobbleSpeed={5}
-              speed={0.6}
-              edgeFade={0.25}
-              transparent
-            />
-          </div>
-        </div>
+        <TargetCursor 
+          spinDuration={2}
+          hideDefaultCursor={true}
+        />
         <AppSidebar />
         
         <div className="flex-1 flex flex-col relative z-10">
           {/* Top Header */}
-          <header className="h-16 flex items-center justify-between px-6 border-b border-border bg-card/80 backdrop-blur-sm">
+          <header className="h-16 flex items-center justify-between px-6 border-b border-border bg-card/50 backdrop-blur-sm">
             <div className="flex items-center space-x-4">
               <SidebarTrigger />
             </div>
             
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm">
+              <button className="cursor-target bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors">
                 Login
-              </Button>
-              <Button variant="hero" size="sm" className="shadow-glow">
+              </button>
+              <button className="cursor-target bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium transition-colors">
                 Sign Up
-              </Button>
+              </button>
             </div>
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 bg-background/80 backdrop-blur-sm">
+          <main className="flex-1">
             {children}
           </main>
 
