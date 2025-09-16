@@ -180,7 +180,87 @@
     --sidebar-accent-foreground: 220 20% 15%;
     --sidebar-border: 220 13% 88%;
     --sidebar-ring: 45 100% 47%;
-  }
+}
+
+/* Custom Scrollbar Styling - CLIP Theme */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  border-radius: 10px;
+  border: 2px solid hsl(var(--muted));
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, hsl(var(--primary-glow)), hsl(var(--secondary-glow)));
+  border-color: hsl(var(--primary) / 0.3);
+  box-shadow: 0 0 8px hsl(var(--primary) / 0.4);
+}
+
+::-webkit-scrollbar-corner {
+  background: hsl(var(--muted));
+}
+
+/* Dark theme scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: hsl(225 15% 15%);
+  border: 1px solid hsl(225 15% 20%);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, hsl(285 72% 60%), hsl(189 100% 50%));
+  border: 2px solid hsl(225 15% 20%);
+  box-shadow: inset 0 1px 0 hsl(var(--primary) / 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, hsl(285 82% 70%), hsl(189 100% 60%));
+  box-shadow: 
+    inset 0 1px 0 hsl(var(--primary) / 0.3),
+    0 0 12px hsl(var(--primary) / 0.4);
+}
+
+/* Light theme scrollbar */
+.light ::-webkit-scrollbar-track {
+  background: hsl(220 14% 96%);
+  border: 1px solid hsl(220 13% 88%);
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, hsl(45 100% 47%), hsl(210 100% 50%));
+  border: 2px solid hsl(220 13% 88%);
+  box-shadow: inset 0 1px 0 hsl(45 100% 47% / 0.2);
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, hsl(45 100% 55%), hsl(210 100% 60%));
+  box-shadow: 
+    inset 0 1px 0 hsl(45 100% 47% / 0.3),
+    0 0 8px hsl(45 100% 47% / 0.3);
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary)) hsl(var(--muted));
+}
+
+.dark * {
+  scrollbar-color: hsl(285 72% 60%) hsl(225 15% 15%);
+}
+
+.light * {
+  scrollbar-color: hsl(45 100% 47%) hsl(220 14% 96%);
+}
 }
 
 @layer base {
