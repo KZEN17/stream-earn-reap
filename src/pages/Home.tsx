@@ -98,7 +98,7 @@ const Home = () => {
           <p className="text-xl text-muted-foreground">Two simple paths to success</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-3 gap-12">
           {/* For Clippers */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-gradient-primary">For Clippers</h3>
@@ -129,6 +129,25 @@ const Home = () => {
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-gradient-secondary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <p className="text-muted-foreground pt-1">{step}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Platform */}
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-gradient-accent">Platform</h3>
+            <div className="space-y-4">
+              {[
+                "Help and fund your Launch",
+                "Bring eyeballs and Amplify",
+                "Buy, Donate support Token Stream mission"
+              ].map((step, index) => (
+                <div key={index} className="flex items-start space-x-4">
+                  <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
                   <p className="text-muted-foreground pt-1">{step}</p>
