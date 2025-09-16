@@ -125,7 +125,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   <div className="flex space-x-4 text-sm text-muted-foreground">
                     <a href="#" className="hover:text-foreground transition-colors">Discord</a>
                     <a href="#" className="hover:text-foreground transition-colors">Twitter</a>
-                    <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+                    <a href="/terms" className="hover:text-foreground transition-colors">Terms</a>
                     <a href="#" className="hover:text-foreground transition-colors">DMCA</a>
                     <a href="#" className="hover:text-foreground transition-colors">Contact</a>
                   </div>

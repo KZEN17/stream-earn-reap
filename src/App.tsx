@@ -18,6 +18,9 @@ import NotFound from "./pages/NotFound";
 import StreamerApplication from "./pages/StreamerApplication";
 import CreateCampaign from "./pages/CreateCampaign";
 import CampaignAnalytics from "./pages/CampaignAnalytics";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import AdminPanel from "./components/admin/AdminPanel";
 import SuccessStories from "./pages/SuccessStories";
 import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
@@ -74,6 +77,9 @@ const App = () => {
               <Route path="/streamer-application" element={<StreamerApplication />} />
               <Route path="/create-campaign" element={<CreateCampaign />} />
               <Route path="/campaign-analytics/:campaignId" element={<CampaignAnalytics />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/admin" element={<AdminPanel />} />
               <Route path="/success-stories" element={<SuccessStories />} />
               <Route path="/qa-audit" element={<CTAAuditDashboard />} />
               <Route path="*" element={<NotFound />} />

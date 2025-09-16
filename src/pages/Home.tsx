@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { SocialProofCounter, FollowCreatorButton } from "@/components/features/ViralFeatures";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -60,6 +61,15 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Social Proof Stats */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Platform Growth</h2>
+          <p className="text-xl text-muted-foreground">Real numbers from our thriving creator economy</p>
+        </div>
+        <SocialProofCounter />
       </section>
 
       {/* Value Props */}
@@ -376,14 +386,19 @@ const Home = () => {
                 <div className="space-y-2">
                   <p className="text-muted-foreground">{launch.time}</p>
                   <p className="text-sm font-medium">{launch.streamer}</p>
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => navigate('/calendar')}
-                  >
-                    Set Reminder
-                  </Button>
+                  <div className="flex space-x-2">
+                    <FollowCreatorButton 
+                      creatorId={launch.streamer} 
+                      creatorName={launch.streamer} 
+                    />
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      onClick={() => navigate('/calendar')}
+                    >
+                      Set Reminder
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
