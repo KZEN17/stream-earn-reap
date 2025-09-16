@@ -486,9 +486,9 @@ END:VCALENDAR`;
                       const priority = launch.priority === "high" ? "destructive" : "secondary";
                       
                       return (
-                        <Card key={launch.id} className={`hover-lift ${!launch.isUnlocked ? 'relative overflow-hidden' : ''}`}>
-                          {!launch.isUnlocked && (
-                            <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-10 rounded-lg flex items-center justify-center">
+                         <Card key={launch.id} className={`hover-lift ${!launch.isUnlocked ? 'relative' : ''}`}>
+                           {!launch.isUnlocked && (
+                             <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-50 rounded-lg flex items-center justify-center">
                               <div className="text-center space-y-4 p-6">
                                 <Lock className="w-12 h-12 mx-auto text-primary" />
                                 <div className="space-y-2">
@@ -660,9 +660,9 @@ END:VCALENDAR`;
                 const priority = launch.priority === "high" ? "destructive" : "secondary";
                 
                 return (
-                  <Card key={launch.id} className={`hover-lift shadow-card ${!launch.isUnlocked ? 'relative overflow-hidden' : ''}`}>
-                    {!launch.isUnlocked && (
-                      <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-10 rounded-lg flex items-center justify-center">
+                  <Card key={launch.id} className={`hover-lift shadow-card ${!launch.isUnlocked ? 'relative' : ''}`}>
+                     {!launch.isUnlocked && (
+                       <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-50 rounded-lg flex items-center justify-center">
                         <div className="text-center space-y-4 p-6">
                           <Lock className="w-12 h-12 mx-auto text-primary" />
                           <div className="space-y-2">
