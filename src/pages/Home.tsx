@@ -181,31 +181,7 @@ const Home = () => {
           </Link>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Top Clips */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Trophy className="w-5 h-5 mr-2 text-primary" />
-                Top Clips
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {[
-                { title: "Epic 1v5 Clutch", views: "125K", streamer: "@ninja" },
-                { title: "Insane No-Scope", views: "98K", streamer: "@shroud" },
-                { title: "200 IQ Play", views: "87K", streamer: "@xqc" },
-              ].map((clip, index) => (
-                <div key={index} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50">
-                  <div>
-                    <p className="font-medium text-sm">{clip.title}</p>
-                    <p className="text-xs text-muted-foreground">{clip.streamer}</p>
-                  </div>
-                  <div className="text-sm text-muted-foreground">{clip.views}</div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+        <div className="grid lg:grid-cols-2 gap-8">
 
           {/* Top Clippers */}
           <Card>
@@ -232,12 +208,12 @@ const Home = () => {
             </CardContent>
           </Card>
 
-          {/* Top Fee Earners */}
+          {/* Top Streamers */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <DollarSign className="w-5 h-5 mr-2 text-accent" />
-                Top Fee Earners
+                Top Streamers
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
