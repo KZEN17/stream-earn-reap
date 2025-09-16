@@ -70,6 +70,21 @@ export default defineConfig(({ mode }) => ({
       }
     })
   ].filter(Boolean),
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress warnings about pure annotations from third-party libraries
+        if (warning.code === 'PURE_ANNOTATION_WARNING' || 
+            (warning.message && warning.message.includes('contains an annotation that Rollup cannot interpret'))) {
+          return;
+        }
+        warn(warning);
+      }
+    }
+  },
+  optimizeDeps: {
+    exclude: ['@privy-io/react-auth']
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
