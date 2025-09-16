@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Rewards = () => {
+  const navigate = useNavigate();
   const [selectedCampaign, setSelectedCampaign] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('active');
   const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
@@ -137,12 +139,7 @@ const Rewards = () => {
               </Button>
               <Button 
                 size="sm"
-                onClick={() => {
-                  toast({
-                    title: "Create Campaign",
-                    description: "Campaign creation will be available for creators soon!",
-                  });
-                }}
+                onClick={() => navigate('/create-campaign')}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Create Campaign
@@ -419,11 +416,11 @@ const Rewards = () => {
               Join active campaigns and turn your clipping skills into real rewards. The more viral your clips, the more you earn.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" size="lg">
+              <Button variant="hero" size="lg" onClick={() => setActiveTab('active')}>
                 <Trophy className="w-5 h-5 mr-2" />
                 Start Clipping
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={() => navigate('/guide')}>
                 Learn How to Clip
               </Button>
             </div>

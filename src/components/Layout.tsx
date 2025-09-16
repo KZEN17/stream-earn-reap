@@ -4,6 +4,7 @@ import { AppSidebar } from "./AppSidebar";
 import { ThemeToggle } from "./ThemeToggle";
 import TargetCursor from "@/components/ui/TargetCursor";
 import GradualBlur from "@/components/ui/GradualBlur";
+import { NotificationCenter } from "./layout/NotificationCenter";
 import { useAuth } from "@/contexts/AuthContext";
 import { User, LogOut } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -35,6 +36,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             
             {/* Theme Toggle & User Menu */}
             <div className="flex items-center space-x-3">
+              <NotificationCenter />
               <ThemeToggle />
               {user && (
                 <DropdownMenu>
