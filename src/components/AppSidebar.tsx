@@ -87,8 +87,8 @@ export function AppSidebar() {
 
   const getNavClassName = (isActiveRoute: boolean) =>
     isActiveRoute 
-      ? "bg-primary/10 text-primary font-medium border-r-2 border-primary" 
-      : "hover:bg-muted/50 text-muted-foreground hover:text-foreground";
+      ? "bg-accent/20 text-accent font-bold border-r-2 border-accent shadow-neon" 
+      : "hover:bg-accent/10 text-accent/70 hover:text-accent transition-all duration-300";
 
   const toggleSubmenu = (title: string) => {
     setOpenSubmenu(openSubmenu === title ? null : title);
@@ -96,20 +96,20 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className={collapsed ? "w-16" : "w-64"} 
+      className={`${collapsed ? "w-16" : "w-64"} bg-sidebar border-sidebar-border`} 
       collapsible="icon"
       variant="sidebar"
     >
-      <SidebarHeader className="border-b border-border">
+      <SidebarHeader className="border-b border-sidebar-border bg-sidebar">
         <div className="flex items-center space-x-2 px-4 py-3">
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg shadow-glow flex-shrink-0"></div>
-          {!collapsed && <span className="text-xl font-bold text-gradient-primary">CLIP</span>}
+          <div className="w-8 h-8 bg-gradient-accent rounded-lg shadow-neon flex-shrink-0"></div>
+          {!collapsed && <span className="text-xl font-black text-accent uppercase tracking-wider">CLIP</span>}
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="bg-sidebar">
         <SidebarGroup>
-          {!collapsed && <SidebarGroupLabel>Navigation</SidebarGroupLabel>}
+          {!collapsed && <SidebarGroupLabel className="text-accent/80 font-bold uppercase tracking-wide text-xs">Navigation</SidebarGroupLabel>}
           
           <SidebarGroupContent>
             <SidebarMenu>
