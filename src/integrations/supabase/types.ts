@@ -16,7 +16,11 @@ export type Database = {
     Tables: {
       campaigns: {
         Row: {
+          admin_notes: string | null
+          approval_status: string | null
+          asset_requirements: Json | null
           campaign_image_url: string | null
+          campaign_rules: string | null
           category: string | null
           created_at: string
           creator_id: string
@@ -32,12 +36,17 @@ export type Database = {
           start_date: string | null
           status: string | null
           tags: string[] | null
+          target_countries: string[] | null
           title: string
           total_submissions: number | null
           updated_at: string
         }
         Insert: {
+          admin_notes?: string | null
+          approval_status?: string | null
+          asset_requirements?: Json | null
           campaign_image_url?: string | null
+          campaign_rules?: string | null
           category?: string | null
           created_at?: string
           creator_id: string
@@ -53,12 +62,17 @@ export type Database = {
           start_date?: string | null
           status?: string | null
           tags?: string[] | null
+          target_countries?: string[] | null
           title: string
           total_submissions?: number | null
           updated_at?: string
         }
         Update: {
+          admin_notes?: string | null
+          approval_status?: string | null
+          asset_requirements?: Json | null
           campaign_image_url?: string | null
+          campaign_rules?: string | null
           category?: string | null
           created_at?: string
           creator_id?: string
@@ -74,6 +88,7 @@ export type Database = {
           start_date?: string | null
           status?: string | null
           tags?: string[] | null
+          target_countries?: string[] | null
           title?: string
           total_submissions?: number | null
           updated_at?: string
@@ -220,6 +235,42 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_preferences: {
+        Row: {
+          campaign_updates: boolean | null
+          created_at: string
+          email_notifications: boolean | null
+          id: string
+          payout_notifications: boolean | null
+          push_notifications: boolean | null
+          raid_alerts: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_updates?: boolean | null
+          created_at?: string
+          email_notifications?: boolean | null
+          id?: string
+          payout_notifications?: boolean | null
+          push_notifications?: boolean | null
+          raid_alerts?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_updates?: boolean | null
+          created_at?: string
+          email_notifications?: boolean | null
+          id?: string
+          payout_notifications?: boolean | null
+          push_notifications?: boolean | null
+          raid_alerts?: boolean | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           action_url: string | null
@@ -322,6 +373,7 @@ export type Database = {
           id: string
           instagram_connected: boolean | null
           instagram_username: string | null
+          is_admin: boolean | null
           tiktok_connected: boolean | null
           tiktok_username: string | null
           updated_at: string
@@ -339,6 +391,7 @@ export type Database = {
           id?: string
           instagram_connected?: boolean | null
           instagram_username?: string | null
+          is_admin?: boolean | null
           tiktok_connected?: boolean | null
           tiktok_username?: string | null
           updated_at?: string
@@ -356,6 +409,7 @@ export type Database = {
           id?: string
           instagram_connected?: boolean | null
           instagram_username?: string | null
+          is_admin?: boolean | null
           tiktok_connected?: boolean | null
           tiktok_username?: string | null
           updated_at?: string
@@ -364,6 +418,99 @@ export type Database = {
           username?: string | null
           youtube_channel_id?: string | null
           youtube_connected?: boolean | null
+        }
+        Relationships: []
+      }
+      raid_events: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          current_participants: number | null
+          description: string | null
+          id: string
+          max_participants: number | null
+          scheduled_time: string | null
+          status: string | null
+          title: string
+          twitch_stream_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          current_participants?: number | null
+          description?: string | null
+          id?: string
+          max_participants?: number | null
+          scheduled_time?: string | null
+          status?: string | null
+          title: string
+          twitch_stream_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          current_participants?: number | null
+          description?: string | null
+          id?: string
+          max_participants?: number | null
+          scheduled_time?: string | null
+          status?: string | null
+          title?: string
+          twitch_stream_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      streamer_applications: {
+        Row: {
+          admin_notes: string | null
+          application_status: string | null
+          created_at: string
+          discord_server: string | null
+          id: string
+          launch_description: string | null
+          launch_game: string | null
+          launch_thumbnail_url: string | null
+          launch_title: string | null
+          scheduled_launch_date: string | null
+          twitch_username: string | null
+          updated_at: string
+          user_id: string
+          youtube_channel: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          application_status?: string | null
+          created_at?: string
+          discord_server?: string | null
+          id?: string
+          launch_description?: string | null
+          launch_game?: string | null
+          launch_thumbnail_url?: string | null
+          launch_title?: string | null
+          scheduled_launch_date?: string | null
+          twitch_username?: string | null
+          updated_at?: string
+          user_id: string
+          youtube_channel?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          application_status?: string | null
+          created_at?: string
+          discord_server?: string | null
+          id?: string
+          launch_description?: string | null
+          launch_game?: string | null
+          launch_thumbnail_url?: string | null
+          launch_title?: string | null
+          scheduled_launch_date?: string | null
+          twitch_username?: string | null
+          updated_at?: string
+          user_id?: string
+          youtube_channel?: string | null
         }
         Relationships: []
       }

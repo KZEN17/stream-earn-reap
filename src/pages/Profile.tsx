@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,15 +8,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { User, Settings, Camera, Save, Upload } from "lucide-react";
+import { User, Settings, Camera, Save, Upload, Bell } from "lucide-react";
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { useNotifications } from '@/hooks/useNotifications';
 import SocialMediaConnections from '@/components/profile/SocialMediaConnections';
+import { ProfileImageUpload } from '@/components/profile/ProfileImageUpload';
 
 const Profile = () => {
   const { user } = useAuth();
   const { profile, loading, updateProfile } = useUserProfile();
+  const { createNotification } = useNotifications();
   const { toast } = useToast();
   
   const [isEditing, setIsEditing] = useState(false);
@@ -27,10 +30,29 @@ const Profile = () => {
     avatar_url: profile?.avatar_url || ''
   });
 
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        username: profile.username || '',
+        display_name: profile.display_name || '',
+        bio: profile.bio || '',
+        avatar_url: profile.avatar_url || ''
+      });
+    }
+  }, [profile]);
+
   const handleSave = async () => {
     try {
       await updateProfile(formData);
       setIsEditing(false);
+      
+      // Create notification for profile update
+      await createNotification({
+        title: "Profile Updated",
+        message: "Your profile information has been successfully updated.",
+        type: "success"
+      });
+      
       toast({
         title: "Profile Updated",
         description: "Your profile has been successfully updated.",
@@ -42,6 +64,17 @@ const Profile = () => {
         variant: "destructive"
       });
     }
+  };
+
+  const handleImageUpdate = async (newImageUrl: string) => {
+    setFormData(prev => ({ ...prev, avatar_url: newImageUrl }));
+    
+    // Create notification for image update
+    await createNotification({
+      title: "Profile Image Updated",
+      message: "Your profile picture has been changed successfully.",
+      type: "success"
+    });
   };
 
   const getUserInitials = (email: string) => {
@@ -94,9 +127,10 @@ const Profile = () => {
         </div>
 
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="social">Social Media</TabsTrigger>
+            <TabsTrigger value="notifications">Notifications</TabsTrigger>
           </TabsList>
 
           {/* General Settings Tab */}
@@ -114,20 +148,15 @@ const Profile = () => {
               <CardContent className="space-y-6">
                 {/* Avatar Section */}
                 <div className="flex items-center space-x-4">
-                  <Avatar className="h-20 w-20">
-                    <AvatarImage src={formData.avatar_url || profile?.avatar_url} />
-                    <AvatarFallback className="text-lg">
-                      {user?.email ? getUserInitials(user.email) : 'U'}
-                    </AvatarFallback>
-                  </Avatar>
-                  {isEditing && (
+                  <ProfileImageUpload 
+                    currentImageUrl={formData.avatar_url || profile?.avatar_url || ''}
+                    onImageUpdate={handleImageUpdate}
+                  />
+                  {!isEditing && (
                     <div className="space-y-2">
-                      <Button variant="outline" size="sm">
-                        <Camera className="w-4 h-4 mr-2" />
-                        Change Avatar
-                      </Button>
-                      <p className="text-xs text-muted-foreground">
-                        JPG, PNG or GIF. Max size 2MB.
+                      <h3 className="font-medium">{profile?.display_name || profile?.username}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {user?.email}
                       </p>
                     </div>
                   )}
@@ -244,6 +273,45 @@ const Profile = () => {
           {/* Social Media Tab */}
           <TabsContent value="social">
             <SocialMediaConnections />
+          </TabsContent>
+
+          {/* Notifications Tab */}
+          <TabsContent value="notifications">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Bell className="w-5 h-5" />
+                  <span>Notification Preferences</span>
+                </CardTitle>
+                <CardDescription>
+                  Manage how you receive notifications from CLIP
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Notification preferences will be available in future updates. 
+                    For now, you'll receive important updates about your campaigns and earnings.
+                  </p>
+                  <Button 
+                    onClick={async () => {
+                      await createNotification({
+                        title: "Test Notification",
+                        message: "This is a test notification to show the system works!",
+                        type: "info"
+                      });
+                      toast({
+                        title: "Test notification sent!",
+                        description: "Check your notifications to see it.",
+                      });
+                    }}
+                  >
+                    <Bell className="w-4 h-4 mr-2" />
+                    Send Test Notification
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

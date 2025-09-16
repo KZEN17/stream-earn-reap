@@ -14,6 +14,8 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import StreamerApplication from "./pages/StreamerApplication";
+import CreateCampaign from "./pages/CreateCampaign";
 import { Loader2 } from "lucide-react";
 
 const App = () => {
@@ -47,11 +49,14 @@ const App = () => {
             <Route path="/leaderboards" element={<Leaderboards />} />
             <Route path="/leaderboards/:type" element={<Leaderboards />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/raid-chat" element={<RaidChat />} />
             <Route path="/raidchat" element={<RaidChat />} />
             <Route path="/rewards" element={<Rewards />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/apply-streamer" element={<StreamerApplication />} />
+            <Route path="/create-campaign" element={<CreateCampaign />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
