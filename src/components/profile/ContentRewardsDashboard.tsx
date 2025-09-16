@@ -19,6 +19,8 @@ interface Campaign {
   total_submissions: number;
   created_at: string;
   end_date: string | null;
+  clips?: { count: number }[];
+  submission_count?: number;
 }
 
 interface Clip {
@@ -64,6 +66,21 @@ export const ContentRewardsDashboard = () => {
         .eq('creator_id', user.id)
         .order('created_at', { ascending: false });
 
+      // For each campaign, count the submissions
+      const campaignsWithCounts = await Promise.all(
+        (campaignsData || []).map(async (campaign) => {
+          const { count: submissionCount } = await supabase
+            .from('clips')
+            .select('*', { count: 'exact', head: true })
+            .eq('campaign_id', campaign.id);
+          
+          return {
+            ...campaign,
+            submission_count: submissionCount || 0
+          };
+        })
+      );
+
       // Fetch clips submitted by user
       const { data: clipsData } = await supabase
         .from('clips')
@@ -74,7 +91,7 @@ export const ContentRewardsDashboard = () => {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      setCampaigns(campaignsData || []);
+      setCampaigns(campaignsWithCounts);
       setClips(clipsData || []);
 
       // Calculate totals
@@ -200,7 +217,7 @@ export const ContentRewardsDashboard = () => {
                         <TableCell>{getStatusBadge(campaign.status)}</TableCell>
                         <TableCell>${campaign.prize_pool}</TableCell>
                         <TableCell>{campaign.participants_count || 0}</TableCell>
-                        <TableCell>{campaign.total_submissions || 0}</TableCell>
+                        <TableCell>{campaign.submission_count || campaign.total_submissions || 0}</TableCell>
                         <TableCell>{new Date(campaign.created_at).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))}
