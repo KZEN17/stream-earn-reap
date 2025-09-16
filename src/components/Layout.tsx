@@ -1,16 +1,38 @@
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
+import PixelBlast from "@/components/ui/PixelBlast";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-background relative">
+        <div className="absolute inset-0 z-0">
+          <PixelBlast
+            variant="circle"
+            pixelSize={6}
+            color="#DCFF00"
+            patternScale={3}
+            patternDensity={1.2}
+            pixelSizeJitter={0.5}
+            enableRipples
+            rippleSpeed={0.4}
+            rippleThickness={0.12}
+            rippleIntensityScale={1.5}
+            liquid
+            liquidStrength={0.12}
+            liquidRadius={1.2}
+            liquidWobbleSpeed={5}
+            speed={0.6}
+            edgeFade={0.25}
+            transparent
+          />
+        </div>
         <AppSidebar />
         
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col relative z-10">
           {/* Top Header */}
-          <header className="h-16 flex items-center justify-between px-6 border-b border-border bg-card/50 backdrop-blur-sm">
+          <header className="h-16 flex items-center justify-between px-6 border-b border-border bg-card/80 backdrop-blur-sm">
             <div className="flex items-center space-x-4">
               <SidebarTrigger />
             </div>
@@ -27,7 +49,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1">
+          <main className="flex-1 bg-background/80 backdrop-blur-sm">
             {children}
           </main>
 
