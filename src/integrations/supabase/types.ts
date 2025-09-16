@@ -874,6 +874,87 @@ export type Database = {
         }
         Relationships: []
       }
+      user_wallets: {
+        Row: {
+          address: string
+          chain_id: number | null
+          chain_type: string
+          created_at: string
+          id: string
+          is_default: boolean
+          is_public: boolean
+          is_verified: boolean
+          label: string | null
+          updated_at: string
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          address: string
+          chain_id?: number | null
+          chain_type: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          is_public?: boolean
+          is_verified?: boolean
+          label?: string | null
+          updated_at?: string
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          address?: string
+          chain_id?: number | null
+          chain_type?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          is_public?: boolean
+          is_verified?: boolean
+          label?: string | null
+          updated_at?: string
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
+      wallet_audit_log: {
+        Row: {
+          action: string
+          chain_type: string
+          created_at: string
+          id: string
+          ip_address: unknown | null
+          session_id: string | null
+          user_agent: string | null
+          user_id: string
+          wallet_address: string
+        }
+        Insert: {
+          action: string
+          chain_type: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id: string
+          wallet_address: string
+        }
+        Update: {
+          action?: string
+          chain_type?: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
