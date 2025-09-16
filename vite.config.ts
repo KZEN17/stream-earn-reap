@@ -73,7 +73,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   build: {
     commonjsOptions: {
-      include: [/bs58/, /bn\.js/, /js-sha3/, /hash\.js/, /bech32/, /fetch-retry/, /node_modules/]
+      include: [/bs58/, /bn\.js/, /js-sha3/, /hash\.js/, /bech32/, /fetch-retry/, /eventemitter3/, /node_modules/]
     },
     rollupOptions: {
       onwarn(warning, warn) {
@@ -88,7 +88,7 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     exclude: ['@privy-io/react-auth'],
-    include: ['bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry']
+    include: ['bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 'eventemitter3']
   },
   define: {
     global: 'globalThis',
