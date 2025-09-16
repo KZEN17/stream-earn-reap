@@ -485,21 +485,59 @@ END:VCALENDAR`;
                 const priority = launch.priority === "high" ? "destructive" : "secondary";
                 
                 return (
-                  <Card key={launch.id} className="hover-lift shadow-card">
+                  <Card key={launch.id} className={`hover-lift shadow-card ${!launch.isUnlocked ? 'relative overflow-hidden' : ''}`}>
+                    {!launch.isUnlocked && (
+                      <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-10 rounded-lg flex items-center justify-center">
+                        <div className="text-center space-y-4 p-6">
+                          <Lock className="w-12 h-12 mx-auto text-primary" />
+                          <div className="space-y-2">
+                            <h3 className="text-lg font-semibold text-white">Launch Locked</h3>
+                            <p className="text-sm text-white/80">Contribute to unlock this exclusive launch!</p>
+                            <div className="space-y-2">
+                              <Progress 
+                                value={(launch.donationAmount / launch.donationTarget) * 100} 
+                                className="w-full h-2"
+                              />
+                              <p className="text-xs text-white/70">
+                                ${launch.donationAmount} / ${launch.donationTarget}
+                              </p>
+                            </div>
+                            <div className="flex gap-2 justify-center mt-4">
+                              <Button size="sm" onClick={() => handleDonate(launch.id, 25)}>
+                                <DollarSign className="w-3 h-3 mr-1" />
+                                $25
+                              </Button>
+                              <Button size="sm" onClick={() => handleDonate(launch.id, 50)}>
+                                <DollarSign className="w-3 h-3 mr-1" />
+                                $50
+                              </Button>
+                              <Button size="sm" onClick={() => handleDonate(launch.id, 100)}>
+                                <DollarSign className="w-3 h-3 mr-1" />
+                                $100
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
                             <Badge variant={priority}>{launch.priority}</Badge>
-                            <Badge variant="outline">{launch.tokenSymbol}</Badge>
+                            <Badge variant="outline">{launch.isUnlocked ? launch.tokenSymbol : '$???'}</Badge>
+                            {!launch.isUnlocked && <Lock className="w-4 h-4 text-muted-foreground" />}
+                            {launch.isUnlocked && launch.donationAmount >= launch.donationTarget && (
+                              <Unlock className="w-4 h-4 text-green-500" />
+                            )}
                           </div>
                           <CardTitle className="text-xl">{launch.title}</CardTitle>
                           <div className="flex items-center gap-2">
                             <Avatar className="w-6 h-6">
                               <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
-                              <AvatarFallback>{launch.streamerName.slice(0, 2)}</AvatarFallback>
+                              <AvatarFallback>{launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}</AvatarFallback>
                             </Avatar>
-                            <p className="text-sm text-muted-foreground">{launch.streamerName}</p>
+                            <p className="text-sm text-muted-foreground">{launch.isUnlocked ? launch.streamerName : '???'}</p>
                           </div>
                         </div>
                         <div className="text-right text-sm">
@@ -523,41 +561,59 @@ END:VCALENDAR`;
                           <AlertCircle className="w-3 h-3" />
                           {launch.priority} priority
                         </div>
+                        {launch.donationAmount >= launch.donationTarget && (
+                          <Badge variant="outline" className="text-green-600 border-green-600">
+                            <Gift className="w-3 h-3 mr-1" />
+                            Unlocked!
+                          </Badge>
+                        )}
                       </div>
                       
-                      <div className="flex flex-wrap gap-2">
-                        <Button 
-                          variant="default" 
-                          size="sm"
-                          onClick={() => generateICS(launch)}
-                          className="flex items-center space-x-1"
-                        >
-                          <Download className="w-4 h-4" />
-                          <span>Set Reminder</span>
-                        </Button>
-                        
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          asChild
-                        >
-                          <a href={launch.streamLink} target="_blank" rel="noopener noreferrer">
-                            <Play className="w-4 h-4 mr-1" />
-                            View Stream
-                          </a>
-                        </Button>
-                        
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          asChild
-                        >
-                          <a href={launch.tokenLink} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-4 h-4 mr-1" />
-                            Token Page
-                          </a>
-                        </Button>
-                      </div>
+                      {!launch.isUnlocked && (
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-muted-foreground">Unlock Progress:</span>
+                            <span className="font-medium">${launch.donationAmount} / ${launch.donationTarget}</span>
+                          </div>
+                          <Progress value={(launch.donationAmount / launch.donationTarget) * 100} className="h-2" />
+                        </div>
+                      )}
+                      
+                      {launch.isUnlocked && (
+                        <div className="flex flex-wrap gap-2">
+                          <Button 
+                            variant="default" 
+                            size="sm"
+                            onClick={() => generateICS(launch)}
+                            className="flex items-center space-x-1"
+                          >
+                            <Download className="w-4 h-4" />
+                            <span>Set Reminder</span>
+                          </Button>
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            asChild
+                          >
+                            <a href={launch.streamLink} target="_blank" rel="noopener noreferrer">
+                              <Play className="w-4 h-4 mr-1" />
+                              View Stream
+                            </a>
+                          </Button>
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            asChild
+                          >
+                            <a href={launch.tokenLink} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="w-4 h-4 mr-1" />
+                              Token Page
+                            </a>
+                          </Button>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 );
