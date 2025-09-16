@@ -292,7 +292,7 @@ END:VCALENDAR`;
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
-                    className="rounded-md border-0"
+                    className="rounded-md border-0 pointer-events-auto"
                   />
                 </CardContent>
               </Card>
