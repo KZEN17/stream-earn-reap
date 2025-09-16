@@ -52,11 +52,11 @@ const Home = () => {
               <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                 <Play className="w-6 h-6 text-white" />
               </div>
-              <CardTitle>Loop Rewards & Grow</CardTitle>
+              <CardTitle>Stream • Clip • Earn $</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Recycle hype, multiply rewards
+                Create viral clips from live streams and earn rewards based on views and engagement.
               </p>
             </CardContent>
           </Card>
