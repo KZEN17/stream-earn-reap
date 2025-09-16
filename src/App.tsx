@@ -22,6 +22,7 @@ import SuccessStories from "./pages/SuccessStories";
 import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { OfflineIndicator } from "./components/OfflineIndicator";
+import { CTAAuditDashboard } from "./components/qa/CTAAuditDashboard";
 import { Loader2 } from "lucide-react";
 
 const App = () => {
@@ -72,6 +73,7 @@ const App = () => {
             <Route path="/create-campaign" element={<CreateCampaign />} />
             <Route path="/campaign-analytics/:campaignId" element={<CampaignAnalytics />} />
             <Route path="/success-stories" element={<SuccessStories />} />
+            <Route path="/qa-audit" element={<CTAAuditDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
