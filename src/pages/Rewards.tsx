@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Trophy, Target, Clock, Users, Zap, Play, Gift, Star, Calendar, BookOpen } from "lucide-react";
+import { Trophy, Target, Clock, Users, Zap, Play, Gift, Star, Calendar, BookOpen, Filter, Plus, Award, RefreshCw, TrendingUp } from "lucide-react";
 import { CampaignCard } from "@/components/rewards/CampaignCard";
 import { CampaignDetail } from "@/components/rewards/CampaignDetail";
 import { SubmissionModal } from "@/components/rewards/SubmissionModal";
@@ -137,15 +137,15 @@ const Rewards = () => {
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="active" className="flex items-center space-x-2">
                 <Zap className="w-4 h-4" />
-                <span>Active ({campaigns.active.length})</span>
+                <span>Active ({categorizedCampaigns.active.length})</span>
               </TabsTrigger>
               <TabsTrigger value="upcoming" className="flex items-center space-x-2">
                 <Clock className="w-4 h-4" />
-                <span>Upcoming ({campaigns.upcoming.length})</span>
+                <span>Upcoming ({categorizedCampaigns.upcoming.length})</span>
               </TabsTrigger>
               <TabsTrigger value="ended" className="flex items-center space-x-2">
                 <Award className="w-4 h-4" />
-                <span>Ended ({campaigns.ended.length})</span>
+                <span>Ended ({categorizedCampaigns.ended.length})</span>
               </TabsTrigger>
             </TabsList>
 
@@ -185,12 +185,14 @@ const Rewards = () => {
                             description: campaign.description || '',
                             rewardPool: campaign.prize_pool || 0,
                             participants: campaign.participants_count || 0,
+                            maxParticipants: 500,
                             deadline: campaign.end_date || '',
                             status: campaign.status as 'active',
                             tags: campaign.tags || [],
                             progress: Math.min(((campaign.total_submissions || 0) / 100) * 100, 100),
                             pointsPerClip: campaign.payout_per_1000_views || 0,
-                            maxEarnings: campaign.max_payout_per_clip || 0
+                            maxPayout: campaign.max_payout_per_clip || 0,
+                            requirements: []
                           }}
                           onJoin={handleJoinCampaign}
                           onView={handleViewCampaign}
@@ -236,12 +238,14 @@ const Rewards = () => {
                             description: campaign.description || '',
                             rewardPool: campaign.prize_pool || 0,
                             participants: campaign.participants_count || 0,
+                            maxParticipants: 500,
                             deadline: campaign.end_date || '',
                             status: campaign.status as 'upcoming',
                             tags: campaign.tags || [],
                             progress: 0,
                             pointsPerClip: campaign.payout_per_1000_views || 0,
-                            maxEarnings: campaign.max_payout_per_clip || 0
+                            maxPayout: campaign.max_payout_per_clip || 0,
+                            requirements: []
                           }}
                           onJoin={handleJoinCampaign}
                           onView={handleViewCampaign}
@@ -287,12 +291,14 @@ const Rewards = () => {
                             description: campaign.description || '',
                             rewardPool: campaign.prize_pool || 0,
                             participants: campaign.participants_count || 0,
+                            maxParticipants: 500,
                             deadline: campaign.end_date || '',
                             status: campaign.status as 'ended',
                             tags: campaign.tags || [],
                             progress: 100,
                             pointsPerClip: campaign.payout_per_1000_views || 0,
-                            maxEarnings: campaign.max_payout_per_clip || 0
+                            maxPayout: campaign.max_payout_per_clip || 0,
+                            requirements: []
                           }}
                           onJoin={handleJoinCampaign}
                           onView={handleViewCampaign}

@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { 
   AlertTriangle, 
   Upload, 
@@ -15,7 +16,9 @@ import {
   Link, 
   Play,
   ArrowLeft,
-  ArrowRight
+  ArrowRight,
+  X,
+  AlertCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useClips } from "@/hooks/useClips";

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Crown, Medal, Award, Users, TrendingUp, DollarSign, Eye, Play } from "lucide-react";
+import { Crown, Medal, Award, Users, TrendingUp, DollarSign, Eye, Play, Trophy } from "lucide-react";
 import { useLeaderboards } from "@/hooks/useLeaderboards";
 import { Skeleton } from "@/components/ui/skeleton";
 
