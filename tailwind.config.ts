@@ -74,7 +74,9 @@ export default {
         xl: "var(--radius-xl)",
       },
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Space Grotesk", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["Orbitron", "Space Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
+        gaming: ["Orbitron", "monospace"],
       },
       keyframes: {
         "accordion-down": {

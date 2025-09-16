@@ -270,6 +270,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Space Grotesk', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   }
 
   /* Dark theme background pattern */
@@ -382,7 +383,23 @@
   }
   
   /* Gaming Typography */
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Orbitron', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .text-gradient-gaming {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+  }
+
   .gaming-title {
+    font-family: 'Orbitron', monospace;
     font-weight: 800;
     letter-spacing: -0.02em;
     text-transform: uppercase;
