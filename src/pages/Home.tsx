@@ -158,11 +158,11 @@ const Home = () => {
               </div>
               <div className="space-y-2">
                 <div className="text-3xl font-bold text-gradient-accent">$3,750</div>
-                <div className="text-sm text-muted-foreground">To Talent</div>
+                <div className="text-sm text-muted-foreground">To Clipper</div>
               </div>
               <div className="space-y-2">
                 <div className="text-3xl font-bold text-gradient-rainbow">$2,500</div>
-                <div className="text-sm text-muted-foreground">To Audience</div>
+                <div className="text-sm text-muted-foreground">To Mission</div>
               </div>
             </div>
           </CardContent>
