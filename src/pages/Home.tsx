@@ -247,21 +247,18 @@ const Home = () => {
             { 
               name: "TokenKing", 
               fees: "$2,500",
-              views: "500K", 
               period: "Last 30 days",
               story: "Launched on pump.fun and immediately connected with CLIP. Now earning consistent fees from viral clips."
             },
             { 
               name: "CryptoQueen", 
               fees: "$1,800",
-              views: "380K", 
               period: "Last 30 days",
               story: "Grew from 100 to 10K followers through strategic clip distribution and community building."
             },
             { 
               name: "PumpMaster", 
               fees: "$3,200",
-              views: "720K", 
               period: "Last 30 days",
               story: "Multiple viral clips led to massive token launches and sustainable creator economy."
             }
@@ -280,14 +277,9 @@ const Home = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="text-2xl font-bold text-gradient-primary">{story.fees}</div>
-                      <div className="text-sm text-muted-foreground">Fees Earned</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-gradient-secondary">{story.views}</div>
-                    </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gradient-primary">{story.fees}</div>
+                    <div className="text-sm text-muted-foreground">Fees Earned</div>
                   </div>
                   <p className="text-sm text-muted-foreground">{story.story}</p>
                 </div>
