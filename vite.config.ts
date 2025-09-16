@@ -73,7 +73,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   build: {
     commonjsOptions: {
-      include: [/bs58/, /bn\.js/, /js-sha3/, /node_modules/]
+      include: [/bs58/, /bn\.js/, /js-sha3/, /hash\.js/, /node_modules/]
     },
     rollupOptions: {
       onwarn(warning, warn) {
@@ -88,7 +88,7 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     exclude: ['@privy-io/react-auth'],
-    include: ['bs58', 'bn.js', 'js-sha3']
+    include: ['bs58', 'bn.js', 'js-sha3', 'hash.js']
   },
   define: {
     global: 'globalThis',
