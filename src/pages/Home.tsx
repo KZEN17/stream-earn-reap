@@ -66,11 +66,11 @@ const Home = () => {
               <div className="w-12 h-12 bg-gradient-secondary rounded-xl flex items-center justify-center mb-4">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
-              <CardTitle>Stream & Scale</CardTitle>
+              <CardTitle>Loop Rewards & Grow</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Amplify your content reach through our clipper network and grow your audience exponentially.
+                Recycle hype, multiply rewards
               </p>
             </CardContent>
           </Card>
