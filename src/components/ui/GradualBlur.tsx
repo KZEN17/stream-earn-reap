@@ -132,6 +132,11 @@ function GradualBlur(props: GradualBlurProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    console.log('GradualBlur mounted with props:', props);
+    console.log('Container ref:', containerRef.current);
+  }, [props]);
+
   const config = useMemo(() => {
     const presetConfig = props.preset && PRESETS[props.preset] ? PRESETS[props.preset] : {};
     return mergeConfigs(DEFAULT_CONFIG, presetConfig, props);
@@ -143,10 +148,13 @@ function GradualBlur(props: GradualBlurProps) {
   const isVisible = useIntersectionObserver(containerRef, config.animated === 'scroll');
 
   const blurDivs = useMemo(() => {
+    console.log('Creating blur divs with config:', config);
     const divs = [];
     const increment = 100 / config.divCount;
     const currentStrength =
       isHovered && config.hoverIntensity ? config.strength * config.hoverIntensity : config.strength;
+
+    console.log('Current strength:', currentStrength, 'Div count:', config.divCount);
 
     const curveFunc = CURVE_FUNCTIONS[config.curve] || CURVE_FUNCTIONS.linear;
 
@@ -179,6 +187,7 @@ function GradualBlur(props: GradualBlurProps) {
         WebkitMaskImage: `linear-gradient(${direction}, ${gradient})`,
         backdropFilter: `blur(${blurValue.toFixed(3)}rem)`,
         WebkitBackdropFilter: `blur(${blurValue.toFixed(3)}rem)`,
+        background: `rgba(220, 255, 0, ${0.1 * progress})`, // Add visible background for debugging
         opacity: config.opacity,
         transition:
           config.animated && config.animated !== 'scroll'
@@ -186,6 +195,7 @@ function GradualBlur(props: GradualBlurProps) {
             : undefined
       };
 
+      console.log(`Div ${i}: blur=${blurValue.toFixed(3)}rem, gradient=${gradient}`);
       divs.push(<div key={i} style={divStyle} />);
     }
 

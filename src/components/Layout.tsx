@@ -33,17 +33,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 relative" style={{ position: 'relative', overflow: 'hidden' }}>
-            {children}
+          <main className="flex-1 relative" style={{ position: 'relative', overflow: 'hidden', minHeight: '500px' }}>
+            <div style={{ padding: '2rem', minHeight: '800px', background: 'linear-gradient(to bottom, transparent, rgba(220, 255, 0, 0.1))' }}>
+              {children}
+            </div>
             <GradualBlur
               target="parent"
               position="bottom"
-              height="6rem"
-              strength={2}
-              divCount={5}
+              height="8rem"
+              strength={4}
+              divCount={8}
               curve="bezier"
               exponential={true}
               opacity={1}
+              style={{ background: 'rgba(255, 0, 0, 0.1)' }}
             />
           </main>
 
