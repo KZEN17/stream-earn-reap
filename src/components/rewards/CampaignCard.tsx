@@ -1,16 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { 
-  Clock, 
-  TrendingUp, 
-  Award, 
-  Users,
   Target,
   Eye,
-  DollarSign,
-  Calendar
+  Instagram,
+  Youtube,
+  User as TikTokIcon
 } from "lucide-react";
 
 interface Campaign {
@@ -39,134 +36,113 @@ interface CampaignCardProps {
 }
 
 export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) => {
-  const getStatusVariant = () => {
-    switch (campaign.status) {
-      case 'active': return 'default';
-      case 'upcoming': return 'secondary';
-      case 'ended': return 'outline';
-      default: return 'default';
-    }
+  // Calculate earnings and progress
+  const totalEarned = (campaign.rewardPool * campaign.progress) / 100;
+  const totalViews = Math.floor(Math.random() * 50000000) + 1000000; // Mock data for views
+  const progressPercentage = Math.min(campaign.progress, 100);
+
+  const handleCardClick = () => {
+    onView?.(campaign.id);
   };
 
-  const getStatusColor = () => {
-    switch (campaign.status) {
-      case 'active': return 'text-green-500';
-      case 'upcoming': return 'text-yellow-500';
-      case 'ended': return 'text-muted-foreground';
-      default: return 'text-muted-foreground';
-    }
+  const handleJoinClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onJoin?.(campaign.id);
   };
 
   return (
-    <Card className="hover-lift shadow-card overflow-hidden group">
-      {/* Campaign Image Header */}
-      {campaign.image && (
-        <div className="h-32 bg-gradient-to-r from-pink-500 to-purple-600 relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/20" />
-          <div className="absolute bottom-2 left-4 text-white">
-            <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-              {campaign.status === 'active' ? 'Live Campaign' : campaign.status}
-            </Badge>
-          </div>
-        </div>
-      )}
-      
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between mb-2">
-          <Badge variant={getStatusVariant()} className="capitalize">
-            {campaign.status}
-          </Badge>
-          <div className="text-right">
-            <div className="text-xl font-bold text-gradient-primary">
-              ${campaign.rewardPool.toLocaleString()}
+    <Card className="bg-card border border-border rounded-xl p-4 hover:shadow-lg transition-all duration-200 cursor-pointer group overflow-hidden">
+      <CardContent className="p-0 space-y-3" onClick={handleCardClick}>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+              <Target className="w-4 h-4 text-white" />
             </div>
-            <div className="text-xs text-muted-foreground">Total Pool</div>
+            <h3 className="font-semibold text-foreground text-sm truncate max-w-[200px]">
+              {campaign.title}
+            </h3>
+          </div>
+          <Badge className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 text-xs font-medium">
+            ${campaign.pointsPerClip.toFixed(2)} / 1000
+          </Badge>
+        </div>
+
+        {/* Subtitle */}
+        <div>
+          <p className="text-sm text-muted-foreground">
+            {campaign.title} (Earn ${campaign.pointsPerClip} per 1,000 Views)
+          </p>
+        </div>
+
+        {/* Progress Section */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-foreground">
+              ${totalEarned.toLocaleString()} of ${campaign.rewardPool.toLocaleString()} paid out
+            </span>
+            <span className="text-sm font-bold text-foreground">
+              {progressPercentage}%
+            </span>
+          </div>
+          
+          {/* Progress Bar */}
+          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-300"
+              style={{ width: `${progressPercentage}%` }}
+            />
           </div>
         </div>
-        <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">
-          {campaign.title}
-        </CardTitle>
-        <p className="text-muted-foreground text-sm line-clamp-2">{campaign.description}</p>
-      </CardHeader>
-      
-      <CardContent className="space-y-4">
-        {/* Payout Range */}
-        {campaign.minPayout && campaign.maxPayout && (
-          <div className="bg-muted/50 rounded-lg p-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Payout Range</span>
-              <div className="text-sm font-bold">
-                ${campaign.minPayout} - ${campaign.maxPayout}
+
+        {/* Bottom Section */}
+        <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center gap-4">
+            <div className="text-xs text-muted-foreground">
+              <span className="font-medium">Type:</span> Clipping
+            </div>
+            
+            {/* Platform Icons */}
+            <div className="flex items-center gap-1">
+              <div className="w-5 h-5 bg-pink-600 rounded flex items-center justify-center">
+                <Instagram className="w-3 h-3 text-white" />
+              </div>
+              <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
+                <TikTokIcon className="w-3 h-3 text-white" />
+              </div>
+              <div className="w-5 h-5 bg-red-600 rounded flex items-center justify-center">
+                <Youtube className="w-3 h-3 text-white" />
               </div>
             </div>
           </div>
-        )}
-
-        {/* Progress and Participation */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Participation</span>
-            <span className="font-medium">
-              {campaign.participants}/{campaign.maxParticipants}
-            </span>
-          </div>
-          <Progress value={(campaign.participants / campaign.maxParticipants) * 100} className="h-2" />
-        </div>
-
-        {/* Key Stats Grid */}
-        <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="flex items-center space-x-2 bg-muted/30 rounded-lg p-2">
-            <DollarSign className="w-4 h-4 text-green-500" />
-            <div>
-              <div className="font-medium">${campaign.pointsPerClip}</div>
-              <div className="text-xs text-muted-foreground">per submission</div>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2 bg-muted/30 rounded-lg p-2">
-            <Calendar className="w-4 h-4 text-blue-500" />
-            <div>
-              <div className="font-medium">{campaign.deadline}</div>
-              <div className="text-xs text-muted-foreground">deadline</div>
-            </div>
+          
+          <div className="text-xs text-muted-foreground">
+            <span className="font-medium">Views:</span> {totalViews.toLocaleString()}
           </div>
         </div>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1">
-          {campaign.tags.slice(0, 3).map((tag) => (
-            <Badge key={tag} variant="outline" className="text-xs px-2 py-0.5">
-              {tag}
-            </Badge>
-          ))}
-          {campaign.tags.length > 3 && (
-            <Badge variant="outline" className="text-xs px-2 py-0.5">
-              +{campaign.tags.length - 3}
-            </Badge>
-          )}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex gap-2 pt-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="flex-1"
-            onClick={() => onView?.(campaign.id)}
-          >
-            <Eye className="w-4 h-4 mr-1" />
-            View Details
-          </Button>
-          {campaign.status === 'active' && (
+        {/* Action Buttons - Only visible on hover for active campaigns */}
+        {campaign.status === 'active' && (
+          <div className="flex gap-2 pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex-1 text-xs"
+              onClick={handleCardClick}
+            >
+              <Eye className="w-3 h-3 mr-1" />
+              View
+            </Button>
             <Button 
               size="sm" 
-              className="flex-1 bg-gradient-primary hover:opacity-90"
-              onClick={() => onJoin?.(campaign.id)}
+              className="flex-1 bg-gradient-primary hover:opacity-90 text-xs"
+              onClick={handleJoinClick}
             >
-              <Target className="w-4 h-4 mr-1" />
-              Join Campaign
+              <Target className="w-3 h-3 mr-1" />
+              Join
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
