@@ -20,6 +20,8 @@ import CreateCampaign from "./pages/CreateCampaign";
 import CampaignAnalytics from "./pages/CampaignAnalytics";
 import SuccessStories from "./pages/SuccessStories";
 import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
+import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
+import { OfflineIndicator } from "./components/OfflineIndicator";
 import { Loader2 } from "lucide-react";
 
 const App = () => {
@@ -49,6 +51,8 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <PWAInstallPrompt />
+        <OfflineIndicator />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />

@@ -1,0 +1,72 @@
+{
+  "name": "CLIP - From Twitch to Rich",
+  "short_name": "CLIP",
+  "description": "Turn entertainment into finance. Connect streamers, clippers, and agencies. Earn from viral clips, grow through RAIDCHAT, and scale with pump.fun launches.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "categories": ["entertainment", "finance", "social"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Raid Chat",
+      "short_name": "Raid",
+      "description": "Join raid events and chat",
+      "url": "/raid-chat",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Rewards",
+      "short_name": "Rewards",
+      "description": "View campaigns and rewards",
+      "url": "/rewards",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

@@ -524,3 +524,98 @@
     transform: translateY(0) scale(1); 
   }
 }
+
+/* Mobile-specific animations and transitions */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* PWA Install animation */
+@keyframes bounce-in {
+  0% {
+    transform: translateY(100%) scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-10px) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Enhanced mobile touch targets */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better tap highlighting */
+  * {
+    -webkit-tap-highlight-color: hsl(var(--primary) / 0.1);
+  }
+  
+  /* Improved scrolling */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+  }
+  
+  /* Mobile-optimized cards */
+  .mobile-card {
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 0.75rem;
+  }
+  
+  /* Mobile navigation improvements */
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid hsl(var(--border));
+    z-index: 50;
+  }
+}
+
+/* PWA-specific styles */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .pwa-header {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* iOS Safari specific adjustments */
+@supports (-webkit-touch-callout: none) {
+  .ios-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
