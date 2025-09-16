@@ -47,15 +47,15 @@
     --warning-foreground: 225 15% 8%;
     
     /* CLIP Gaming Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
-    --gradient-rainbow: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)));
+    --gradient-primary: linear-gradient(135deg, hsl(285 72% 60%), hsl(285 82% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(189 100% 50%), hsl(189 100% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(71 100% 50%), hsl(71 100% 60%));
+    --gradient-rainbow: linear-gradient(135deg, hsl(285 72% 60%), hsl(189 100% 50%), hsl(71 100% 50%));
     --gradient-hero: linear-gradient(135deg, hsl(285 72% 60% / 0.9), hsl(189 100% 50% / 0.9));
     
     /* Gaming Shadows & Glows */
-    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.4);
-    --shadow-neon: 0 0 20px hsl(var(--accent) / 0.6);
+    --shadow-glow: 0 0 40px hsl(285 72% 60% / 0.4);
+    --shadow-neon: 0 0 20px hsl(71 100% 50% / 0.6);
     --shadow-card: 0 10px 30px -10px hsl(225 15% 8% / 0.5);
     --shadow-float: 0 20px 40px -10px hsl(225 15% 8% / 0.8);
     
@@ -271,6 +271,11 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    /* iOS fallback colors */
+    background-color: #1a1a2e !important;
+    color: #ffffff !important;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
   }
 
   /* Dark theme background pattern */
