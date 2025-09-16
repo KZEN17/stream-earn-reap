@@ -397,6 +397,53 @@ export const CampaignAnalytics = ({ campaignId, onBack }: CampaignAnalyticsProps
                             {clip.description && (
                               <div className="text-xs text-muted-foreground truncate">{clip.description}</div>
                             )}
+                            {/* Video Links */}
+                            <div className="flex gap-2 mt-1">
+                              {clip.instagram_url && (
+                                <a 
+                                  href={clip.instagram_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-pink-100 text-pink-700 rounded hover:bg-pink-200 transition-colors"
+                                >
+                                  <Instagram className="w-3 h-3" />
+                                  Instagram
+                                </a>
+                              )}
+                              {clip.youtube_url && (
+                                <a 
+                                  href={clip.youtube_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
+                                >
+                                  <Youtube className="w-3 h-3" />
+                                  YouTube
+                                </a>
+                              )}
+                              {clip.tiktok_url && (
+                                <a 
+                                  href={clip.tiktok_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+                                >
+                                  <UserIcon className="w-3 h-3" />
+                                  TikTok
+                                </a>
+                              )}
+                              {clip.video_url && (
+                                <a 
+                                  href={clip.video_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors"
+                                >
+                                  <FileText className="w-3 h-3" />
+                                  Video
+                                </a>
+                              )}
+                            </div>
                           </div>
                         </TableCell>
                         <TableCell>{getPlatformIcon(clip)}</TableCell>
