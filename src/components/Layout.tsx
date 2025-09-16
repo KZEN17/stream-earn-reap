@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import TargetCursor from "@/components/ui/TargetCursor";
+import GradualBlur from "@/components/ui/GradualBlur";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -32,8 +33,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1">
+          <main className="flex-1 relative" style={{ position: 'relative', overflow: 'hidden' }}>
             {children}
+            <GradualBlur
+              target="parent"
+              position="bottom"
+              height="6rem"
+              strength={2}
+              divCount={5}
+              curve="bezier"
+              exponential={true}
+              opacity={1}
+            />
           </main>
 
           {/* Footer */}

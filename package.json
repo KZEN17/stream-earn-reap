@@ -48,6 +48,7 @@
     "gsap": "^3.13.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
+    "mathjs": "^12.4.3",
     "next-themes": "^0.3.0",
     "postprocessing": "^6.37.8",
     "react": "^18.3.1",
