@@ -88,7 +88,13 @@ export function AppSidebar() {
   const getNavClassName = (isActiveRoute: boolean) =>
     isActiveRoute 
       ? "bg-accent/30 text-accent font-black border-r-4 border-accent shadow-neon" 
-      : "text-accent/90 font-bold hover:text-accent hover:bg-accent/20 transition-all duration-300";
+      : "text-accent/90 hover:text-accent hover:bg-accent/20 transition-all duration-300";
+
+  const getItemClassName = (itemTitle: string, isActiveRoute: boolean) => {
+    const baseClass = getNavClassName(isActiveRoute);
+    const isBold = itemTitle === "Leaderboards";
+    return `${baseClass} ${isBold ? 'font-bold' : 'font-normal'}`;
+  };
 
   const toggleSubmenu = (title: string) => {
     setOpenSubmenu(openSubmenu === title ? null : title);
@@ -129,7 +135,7 @@ export function AppSidebar() {
                     >
                       <CollapsibleTrigger asChild>
                         <SidebarMenuButton 
-                          className={`w-full justify-between ${getNavClassName(isActive(item.url))}`}
+                          className={`w-full justify-between ${getItemClassName(item.title, isActive(item.url))}`}
                           tooltip={collapsed ? item.title : undefined}
                         >
                           <div className="flex items-center space-x-2">
@@ -161,7 +167,7 @@ export function AppSidebar() {
                       <NavLink 
                         to={item.url}
                         end={item.url === "/"}
-                        className={({ isActive }) => getNavClassName(isActive)}
+                        className={({ isActive }) => getItemClassName(item.title, isActive)}
                       >
                         <item.icon className="h-4 w-4 flex-shrink-0" />
                         {!collapsed && <span>{item.title}</span>}
