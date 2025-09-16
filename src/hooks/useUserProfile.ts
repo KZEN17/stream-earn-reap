@@ -10,11 +10,25 @@ export interface UserProfile {
   avatar_url?: string;
   bio?: string;
   instagram_username?: string;
-  tiktok_username?: string;
-  youtube_channel_id?: string;
+  instagram_verified?: boolean;
   instagram_connected?: boolean;
+  instagram_access_token?: string;
+  instagram_user_id?: string;
+  tiktok_username?: string;
+  tiktok_verified?: boolean;
   tiktok_connected?: boolean;
+  tiktok_access_token?: string;
+  tiktok_user_id?: string;
+  youtube_channel_id?: string;
+  youtube_verified?: boolean;
   youtube_connected?: boolean;
+  youtube_access_token?: string;
+  youtube_refresh_token?: string;
+  twitter_username?: string;
+  twitter_verified?: boolean;
+  twitter_connected?: boolean;
+  twitter_access_token?: string;
+  twitter_user_id?: string;
   user_type?: string;
 }
 

@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaign_requirements: {
+        Row: {
+          campaign_id: string
+          created_at: string | null
+          id: string
+          platform: string
+          required: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string | null
+          id?: string
+          platform: string
+          required?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string | null
+          id?: string
+          platform?: string
+          required?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_requirements_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
           admin_notes: string | null
@@ -373,25 +408,37 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          instagram_access_token: string | null
           instagram_connected: boolean | null
+          instagram_user_id: string | null
           instagram_username: string | null
+          instagram_verified: boolean | null
           is_admin: boolean | null
           managed_streamers: string[] | null
           onboarding_completed: boolean | null
           profile_visibility: string | null
           streaming_platform: string | null
           team_contact_info: Json | null
+          tiktok_access_token: string | null
           tiktok_connected: boolean | null
+          tiktok_user_id: string | null
           tiktok_username: string | null
+          tiktok_verified: boolean | null
           twitch_username: string | null
+          twitter_access_token: string | null
+          twitter_user_id: string | null
           twitter_username: string | null
+          twitter_verified: boolean | null
           updated_at: string
           user_id: string
           user_type: string | null
           username: string | null
           wallet_address: string | null
+          youtube_access_token: string | null
           youtube_channel_id: string | null
           youtube_connected: boolean | null
+          youtube_refresh_token: string | null
+          youtube_verified: boolean | null
         }
         Insert: {
           agency_name?: string | null
@@ -401,25 +448,37 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          instagram_access_token?: string | null
           instagram_connected?: boolean | null
+          instagram_user_id?: string | null
           instagram_username?: string | null
+          instagram_verified?: boolean | null
           is_admin?: boolean | null
           managed_streamers?: string[] | null
           onboarding_completed?: boolean | null
           profile_visibility?: string | null
           streaming_platform?: string | null
           team_contact_info?: Json | null
+          tiktok_access_token?: string | null
           tiktok_connected?: boolean | null
+          tiktok_user_id?: string | null
           tiktok_username?: string | null
+          tiktok_verified?: boolean | null
           twitch_username?: string | null
+          twitter_access_token?: string | null
+          twitter_user_id?: string | null
           twitter_username?: string | null
+          twitter_verified?: boolean | null
           updated_at?: string
           user_id: string
           user_type?: string | null
           username?: string | null
           wallet_address?: string | null
+          youtube_access_token?: string | null
           youtube_channel_id?: string | null
           youtube_connected?: boolean | null
+          youtube_refresh_token?: string | null
+          youtube_verified?: boolean | null
         }
         Update: {
           agency_name?: string | null
@@ -429,25 +488,37 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          instagram_access_token?: string | null
           instagram_connected?: boolean | null
+          instagram_user_id?: string | null
           instagram_username?: string | null
+          instagram_verified?: boolean | null
           is_admin?: boolean | null
           managed_streamers?: string[] | null
           onboarding_completed?: boolean | null
           profile_visibility?: string | null
           streaming_platform?: string | null
           team_contact_info?: Json | null
+          tiktok_access_token?: string | null
           tiktok_connected?: boolean | null
+          tiktok_user_id?: string | null
           tiktok_username?: string | null
+          tiktok_verified?: boolean | null
           twitch_username?: string | null
+          twitter_access_token?: string | null
+          twitter_user_id?: string | null
           twitter_username?: string | null
+          twitter_verified?: boolean | null
           updated_at?: string
           user_id?: string
           user_type?: string | null
           username?: string | null
           wallet_address?: string | null
+          youtube_access_token?: string | null
           youtube_channel_id?: string | null
           youtube_connected?: boolean | null
+          youtube_refresh_token?: string | null
+          youtube_verified?: boolean | null
         }
         Relationships: []
       }

@@ -1,1 +1,7 @@
 project_id = "ticyyepbetskexuifnma"
+
+[functions.verify-social-account]
+verify_jwt = true
+
+[functions.check-campaign-eligibility]
+verify_jwt = true
