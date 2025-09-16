@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CampaignCard } from "@/components/rewards/CampaignCard";
 import { CampaignDetail } from "@/components/rewards/CampaignDetail";
+import { SubmissionModal } from "@/components/rewards/SubmissionModal";
 import { 
   Gift, 
   Plus, 
@@ -21,90 +22,107 @@ import {
 const Rewards = () => {
   const [selectedCampaign, setSelectedCampaign] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("active");
+  const [showSubmissionModal, setShowSubmissionModal] = useState(false);
+  const [selectedCampaignForSubmission, setSelectedCampaignForSubmission] = useState<string>("");
 
   // Mock campaigns data
   const campaigns = {
     active: [
       {
         id: "1",
-        title: "Holiday Crypto Clips Challenge",
-        description: "Create viral clips featuring holiday-themed crypto content from top streamers",
-        rewardPool: 5000,
-        pointsPerClip: 100,
+        title: "Clip For Her Fantasy Box",
+        description: "Create engaging content featuring Her Fantasy Box products. Show product unboxing, reviews, or creative uses.",
+        rewardPool: 10021.53,
+        pointsPerClip: 200,
         participants: 89,
-        maxParticipants: 200,
+        maxParticipants: 500,
         deadline: "Dec 31, 2024",
         status: 'active' as const,
-        requirements: ["15-60 seconds", "Holiday theme", "Original audio"],
-        tags: ["Holiday", "Crypto", "Viral", "2x Bonus"],
-        progress: 45
+        requirements: ["15-60 seconds", "Show product clearly", "Original audio", "High quality"],
+        tags: ["Products", "Unboxing", "Review", "2x Bonus"],
+        progress: 18,
+        image: "fantasy-box.jpg",
+        minPayout: 2.00,
+        maxPayout: 1000
       },
       {
         id: "2",
-        title: "Pump.fun Launch Moments",
-        description: "Capture the best moments from new token launches and trading reactions",
-        rewardPool: 3000,
-        pointsPerClip: 75,
-        participants: 67,
-        maxParticipants: 150,
+        title: "Gaming Content Creator Challenge",
+        description: "Submit your best gaming moments, tutorials, or gameplay highlights for maximum exposure",
+        rewardPool: 7500,
+        pointsPerClip: 150,
+        participants: 156,
+        maxParticipants: 300,
         deadline: "Jan 15, 2025",
         status: 'active' as const,
-        requirements: ["Pump.fun content", "720p quality", "Under 45 seconds"],
-        tags: ["Pump.fun", "Trading", "Launch"],
-        progress: 44
+        requirements: ["Gaming content", "720p quality", "Under 45 seconds", "No copyrighted music"],
+        tags: ["Gaming", "Tutorial", "Highlight"],
+        progress: 52,
+        minPayout: 5.00,
+        maxPayout: 800
       },
       {
         id: "3",
-        title: "Epic Gaming Wins",
-        description: "Focus on incredible gaming plays, clutch moments, and victory celebrations",
-        rewardPool: 2000,
-        pointsPerClip: 50,
-        participants: 134,
-        maxParticipants: 300,
+        title: "Lifestyle & Fashion Trends",
+        description: "Share your style, daily routines, and lifestyle content to inspire others",
+        rewardPool: 5000,
+        pointsPerClip: 100,
+        participants: 234,
+        maxParticipants: 400,
         deadline: "Ongoing",
         status: 'active' as const,
-        requirements: ["Gaming content", "Win/clutch moments", "Clear audio"],
-        tags: ["Gaming", "Weekly", "Clutch"],
-        progress: 45
+        requirements: ["Lifestyle content", "Good lighting", "Clear audio", "Authentic"],
+        tags: ["Fashion", "Weekly", "Lifestyle"],
+        progress: 59,
+        minPayout: 3.00,
+        maxPayout: 500
       }
     ],
     upcoming: [
       {
         id: "4",
-        title: "Valentine's Day Crypto Romance",
-        description: "Create romantic and fun crypto-themed clips for Valentine's Day",
-        rewardPool: 4000,
-        pointsPerClip: 120,
+        title: "Spring Fashion Collection",
+        description: "Showcase the latest spring fashion trends and outfit combinations",
+        rewardPool: 8000,
+        pointsPerClip: 180,
         participants: 0,
-        maxParticipants: 180,
-        deadline: "Feb 14, 2025",
+        maxParticipants: 250,
+        deadline: "Mar 20, 2025",
         status: 'upcoming' as const,
-        requirements: ["Valentine theme", "Crypto content", "Positive vibes"],
-        tags: ["Valentine", "Romance", "Crypto"],
-        progress: 0
+        requirements: ["Spring fashion", "Outfit coordination", "Good lighting"],
+        tags: ["Fashion", "Spring", "Style"],
+        progress: 0,
+        minPayout: 5.00,
+        maxPayout: 1200
       }
     ],
     ended: [
       {
         id: "5",
-        title: "Black Friday Crypto Deals",
-        description: "Clips showcasing Black Friday crypto deals and trading opportunities",
-        rewardPool: 3500,
-        pointsPerClip: 80,
-        participants: 156,
-        maxParticipants: 200,
-        deadline: "Nov 30, 2024",
+        title: "Holiday Shopping Hauls",
+        description: "Share your best holiday shopping finds and gift recommendations",
+        rewardPool: 6500,
+        pointsPerClip: 120,
+        participants: 298,
+        maxParticipants: 300,
+        deadline: "Dec 25, 2024",
         status: 'ended' as const,
-        requirements: ["Black Friday theme", "Deal highlights", "Under 60s"],
-        tags: ["Black Friday", "Deals", "Trading"],
-        progress: 78
+        requirements: ["Holiday shopping", "Product focus", "Under 60s"],
+        tags: ["Holiday", "Shopping", "Gifts"],
+        progress: 99,
+        minPayout: 4.00,
+        maxPayout: 900
       }
     ]
   };
 
   const handleJoinCampaign = (campaignId: string) => {
-    // Mock join functionality
-    console.log("Joining campaign:", campaignId);
+    const campaign = [...campaigns.active, ...campaigns.upcoming, ...campaigns.ended]
+      .find(c => c.id === campaignId);
+    if (campaign) {
+      setSelectedCampaignForSubmission(campaign.title);
+      setShowSubmissionModal(true);
+    }
   };
 
   const handleViewCampaign = (campaignId: string) => {
@@ -130,6 +148,12 @@ const Rewards = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <SubmissionModal
+        isOpen={showSubmissionModal}
+        onClose={() => setShowSubmissionModal(false)}
+        campaignTitle={selectedCampaignForSubmission}
+        campaignId="1"
+      />
       <div className="space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
@@ -153,15 +177,15 @@ const Rewards = () => {
               </p>
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="text-center space-y-2">
-                  <div className="text-2xl font-bold text-gradient-primary">$15K+</div>
+                  <div className="text-2xl font-bold text-gradient-primary">$22K+</div>
                   <div className="text-sm text-muted-foreground">Total Rewards Pool</div>
                 </div>
                 <div className="text-center space-y-2">
-                  <div className="text-2xl font-bold text-gradient-secondary">290+</div>
-                  <div className="text-sm text-muted-foreground">Active Clippers</div>
+                  <div className="text-2xl font-bold text-gradient-secondary">479+</div>
+                  <div className="text-sm text-muted-foreground">Active Creators</div>
                 </div>
                 <div className="text-center space-y-2">
-                  <div className="text-2xl font-bold text-gradient-accent">8</div>
+                  <div className="text-2xl font-bold text-gradient-accent">12</div>
                   <div className="text-sm text-muted-foreground">Live Campaigns</div>
                 </div>
               </div>
