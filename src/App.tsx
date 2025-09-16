@@ -34,16 +34,13 @@ const App = () => {
     );
   }
 
-  if (!user) {
-    console.log('App showing auth page');
-    return <Auth />;
-  }
-
-  if (needsOnboarding) {
+  // If user is logged in but needs onboarding, show onboarding flow
+  if (user && needsOnboarding) {
     console.log('App showing onboarding flow');
     return <OnboardingFlow />;
   }
 
+  // Show main app for everyone (authenticated or not)
   console.log('App showing main app');
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -62,6 +59,7 @@ const App = () => {
             <Route path="/guide" element={<Guide />} />
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/apply-streamer" element={<StreamerApplication />} />
             <Route path="/streamer-application" element={<StreamerApplication />} />
             <Route path="/create-campaign" element={<CreateCampaign />} />

@@ -9,6 +9,8 @@ import {
   Youtube,
   User as TikTokIcon
 } from "lucide-react";
+import { useLoginModal } from '@/contexts/LoginModalContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Campaign {
   id: string;
@@ -36,6 +38,9 @@ interface CampaignCardProps {
 }
 
 export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) => {
+  const { requireAuth } = useLoginModal();
+  const { user } = useAuth();
+  
   // Calculate earnings and progress
   const totalEarned = (campaign.rewardPool * campaign.progress) / 100;
   const totalViews = Math.floor(Math.random() * 50000000) + 1000000; // Mock data for views
@@ -47,6 +52,7 @@ export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) =>
 
   const handleJoinClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!requireAuth(() => onJoin?.(campaign.id))) return;
     onJoin?.(campaign.id);
   };
 

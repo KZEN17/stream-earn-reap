@@ -43,6 +43,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLoginModal } from "@/contexts/LoginModalContext";
 
 const menuItems = [
   { 
@@ -92,6 +93,7 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const { user, signOut } = useAuth();
+  const { openModal } = useLoginModal();
   
   const collapsed = state === "collapsed";
 
@@ -206,75 +208,91 @@ export function AppSidebar() {
         className="border-t border-sidebar-border !bg-sidebar p-2" 
         style={{ backgroundColor: 'hsl(225 15% 6%)', borderColor: 'hsl(225 15% 15%)' }}
       >
-        {collapsed ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="w-full h-12 p-0">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user?.user_metadata?.avatar_url} />
-                  <AvatarFallback className="text-xs">
-                    {user?.email ? getUserInitials(user.email) : 'U'}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side="right" className="w-56">
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">
-                    {user?.email?.split('@')[0]}
-                  </p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {user?.email}
-                  </p>
+        {user ? (
+          // Logged in user menu
+          <>
+            {collapsed ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="w-full h-12 p-0">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user?.user_metadata?.avatar_url} />
+                      <AvatarFallback className="text-xs">
+                        {user?.email ? getUserInitials(user.email) : 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side="right" className="w-56">
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {user?.email?.split('@')[0]}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/profile')}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={signOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2 min-w-0 flex-1">
+                  <Avatar className="h-8 w-8 flex-shrink-0">
+                    <AvatarImage src={user?.user_metadata?.avatar_url} />
+                    <AvatarFallback className="text-xs">
+                      {user?.email ? getUserInitials(user.email) : 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate">
+                      {user?.email?.split('@')[0]}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {user?.email}
+                    </p>
+                  </div>
                 </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate('/profile')}>
-                <User className="mr-2 h-4 w-4" />
-                Profile Settings
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={signOut}>
-                <LogOut className="mr-2 h-4 w-4" />
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 min-w-0 flex-1">
-              <Avatar className="h-8 w-8 flex-shrink-0">
-                <AvatarImage src={user?.user_metadata?.avatar_url} />
-                <AvatarFallback className="text-xs">
-                  {user?.email ? getUserInitials(user.email) : 'U'}
-                </AvatarFallback>
-              </Avatar>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium truncate">
-                  {user?.email?.split('@')[0]}
-                </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  {user?.email}
-                </p>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                      <Settings className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent side="top" className="w-56">
+                    <DropdownMenuItem onClick={() => navigate('/profile')}>
+                      <User className="mr-2 h-4 w-4" />
+                      Profile Settings
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={signOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Log out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                  <Settings className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" className="w-56">
-                <DropdownMenuItem onClick={() => navigate('/profile')}>
-                  <User className="mr-2 h-4 w-4" />
-                  Profile Settings
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={signOut}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            )}
+          </>
+        ) : (
+          // Not logged in - show login button
+          <div className="p-2">
+            <Button 
+              onClick={openModal}
+              className="w-full bg-gradient-primary hover:opacity-90 text-white font-semibold"
+              size={collapsed ? "sm" : "default"}
+            >
+              {collapsed ? <User className="h-4 w-4" /> : "Sign In"}
+            </Button>
           </div>
         )}
       </SidebarFooter>
