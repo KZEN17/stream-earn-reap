@@ -366,7 +366,9 @@ export type Database = {
       }
       profiles: {
         Row: {
+          agency_name: string | null
           avatar_url: string | null
+          banner_url: string | null
           bio: string | null
           created_at: string
           display_name: string | null
@@ -374,17 +376,24 @@ export type Database = {
           instagram_connected: boolean | null
           instagram_username: string | null
           is_admin: boolean | null
+          managed_streamers: string[] | null
+          onboarding_completed: boolean | null
+          streaming_platform: string | null
+          team_contact_info: Json | null
           tiktok_connected: boolean | null
           tiktok_username: string | null
           updated_at: string
           user_id: string
           user_type: string | null
           username: string | null
+          wallet_address: string | null
           youtube_channel_id: string | null
           youtube_connected: boolean | null
         }
         Insert: {
+          agency_name?: string | null
           avatar_url?: string | null
+          banner_url?: string | null
           bio?: string | null
           created_at?: string
           display_name?: string | null
@@ -392,17 +401,24 @@ export type Database = {
           instagram_connected?: boolean | null
           instagram_username?: string | null
           is_admin?: boolean | null
+          managed_streamers?: string[] | null
+          onboarding_completed?: boolean | null
+          streaming_platform?: string | null
+          team_contact_info?: Json | null
           tiktok_connected?: boolean | null
           tiktok_username?: string | null
           updated_at?: string
           user_id: string
           user_type?: string | null
           username?: string | null
+          wallet_address?: string | null
           youtube_channel_id?: string | null
           youtube_connected?: boolean | null
         }
         Update: {
+          agency_name?: string | null
           avatar_url?: string | null
+          banner_url?: string | null
           bio?: string | null
           created_at?: string
           display_name?: string | null
@@ -410,12 +426,17 @@ export type Database = {
           instagram_connected?: boolean | null
           instagram_username?: string | null
           is_admin?: boolean | null
+          managed_streamers?: string[] | null
+          onboarding_completed?: boolean | null
+          streaming_platform?: string | null
+          team_contact_info?: Json | null
           tiktok_connected?: boolean | null
           tiktok_username?: string | null
           updated_at?: string
           user_id?: string
           user_type?: string | null
           username?: string | null
+          wallet_address?: string | null
           youtube_channel_id?: string | null
           youtube_connected?: boolean | null
         }

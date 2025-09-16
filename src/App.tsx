@@ -17,12 +17,13 @@ import NotFound from "./pages/NotFound";
 import StreamerApplication from "./pages/StreamerApplication";
 import CreateCampaign from "./pages/CreateCampaign";
 import SuccessStories from "./pages/SuccessStories";
+import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
 import { Loader2 } from "lucide-react";
 
 const App = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, needsOnboarding } = useAuth();
 
-  console.log('App rendering - user:', user ? 'logged in' : 'not logged in', 'loading:', loading);
+  console.log('App rendering - user:', user ? 'logged in' : 'not logged in', 'loading:', loading, 'needsOnboarding:', needsOnboarding);
 
   if (loading) {
     console.log('App showing loading state');
@@ -36,6 +37,11 @@ const App = () => {
   if (!user) {
     console.log('App showing auth page');
     return <Auth />;
+  }
+
+  if (needsOnboarding) {
+    console.log('App showing onboarding flow');
+    return <OnboardingFlow />;
   }
 
   console.log('App showing main app');

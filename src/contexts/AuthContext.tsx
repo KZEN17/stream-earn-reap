@@ -6,14 +6,18 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  needsOnboarding: boolean;
   signOut: () => Promise<void>;
+  setNeedsOnboarding: (needs: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
   loading: true,
+  needsOnboarding: false,
   signOut: async () => {},
+  setNeedsOnboarding: () => {},
 });
 
 export const useAuth = () => {
@@ -32,28 +36,60 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [needsOnboarding, setNeedsOnboarding] = useState(false);
 
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        setLoading(false);
-
-        // Handle profile creation for new users
+        
         if (event === 'SIGNED_IN' && session?.user) {
+          // Check if user needs onboarding
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('onboarding_completed')
+            .eq('user_id', session.user.id)
+            .single();
+          
+          if (!profile || !profile.onboarding_completed) {
+            setNeedsOnboarding(true);
+          } else {
+            setNeedsOnboarding(false);
+          }
+          
+          // Create profile if it doesn't exist
           setTimeout(() => {
             createUserProfile(session.user);
           }, 0);
+        } else if (event === 'SIGNED_OUT') {
+          setNeedsOnboarding(false);
         }
+        
+        setLoading(false);
       }
     );
 
     // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('onboarding_completed')
+          .eq('user_id', session.user.id)
+          .single();
+        
+        if (!profile || !profile.onboarding_completed) {
+          setNeedsOnboarding(true);
+        } else {
+          setNeedsOnboarding(false);
+        }
+      }
+      
       setLoading(false);
     });
 
@@ -85,11 +121,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
+    setNeedsOnboarding(false);
     setLoading(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signOut }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      session, 
+      loading, 
+      needsOnboarding, 
+      signOut, 
+      setNeedsOnboarding 
+    }}>
       {children}
     </AuthContext.Provider>
   );
