@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Routes, Route } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Leaderboards from "./pages/Leaderboards";
@@ -10,11 +11,30 @@ import RaidChat from "./pages/RaidChat";
 import Rewards from "./pages/Rewards";
 import Guide from "./pages/Guide";
 import About from "./pages/About";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import { Loader2 } from "lucide-react";
 
 const App = () => {
-  console.log('App component is rendering');
-  
+  const { user, loading } = useAuth();
+
+  console.log('App rendering - user:', user ? 'logged in' : 'not logged in', 'loading:', loading);
+
+  if (loading) {
+    console.log('App showing loading state');
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    console.log('App showing auth page');
+    return <Auth />;
+  }
+
+  console.log('App showing main app');
   return (
     <div className="min-h-screen bg-background text-foreground">
       <TooltipProvider>
