@@ -64,7 +64,10 @@ export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) =>
 
   const handleJoinClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!requireAuth(() => onJoin?.(campaign.id))) return;
+    if (!user) {
+      requireAuth(() => onJoin?.(campaign.id));
+      return;
+    }
     onJoin?.(campaign.id);
   };
 

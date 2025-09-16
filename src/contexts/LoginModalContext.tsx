@@ -30,6 +30,7 @@ interface LoginModalProviderProps {
 export const LoginModalProvider = ({ children }: LoginModalProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [pendingCallback, setPendingCallback] = useState<(() => void) | null>(null);
+  const { user } = useAuth();
 
   const openModal = () => setIsOpen(true);
   
@@ -41,8 +42,6 @@ export const LoginModalProvider = ({ children }: LoginModalProviderProps) => {
   const requireAuth = (callback?: () => void): boolean => {
     // This will be called by components that need auth
     // Returns true if user should proceed, false if modal should open
-    const { user } = useAuth();
-    
     if (!user) {
       if (callback) {
         setPendingCallback(() => callback);
