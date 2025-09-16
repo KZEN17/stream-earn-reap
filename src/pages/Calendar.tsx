@@ -1,99 +1,68 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from 'react-router-dom';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
+  Calendar as CalendarIcon, 
   Clock, 
+  ExternalLink, 
+  Download,
   Play,
+  TrendingUp,
   Eye,
   DollarSign,
   Bell,
+  Users,
+  Star,
+  CheckCircle,
+  AlertCircle,
   Lock,
-  Unlock
+  Unlock,
+  Gift,
+  Plus,
+  Sparkles
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 
 const Calendar = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [notifications, setNotifications] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
   const { toast } = useToast();
 
-  const [launches, setLaunches] = useState([
-    {
-      id: 1,
-      title: "$MOON Token Launch Stream",
-      dateTimeISO: "2025-09-16T03:00:00+08:00",
-      streamLink: "https://twitch.tv/moonmaster",
-      streamer: "@moonmaster",
-      streamerName: "Moon Master",
-      streamerAvatar: "/placeholder.svg",
-      description: "Join us for the biggest token launch of the month! Interactive stream with live trading.",
-      priority: "high",
-      expectedViews: 25000,
-      donationAmount: 1250,
-      donationTarget: 1000,
-      isUnlocked: true
-    },
-    {
-      id: 2,
-      title: "Launch Locked",
-      dateTimeISO: "2025-09-16T05:30:00+08:00", 
-      streamLink: "https://twitch.tv/rocketman",
-      streamer: "@rocketman",
-      streamerName: "???",
-      streamerAvatar: "/placeholder.svg",
-      description: "Contribute to unlock this exclusive launch!",
-      priority: "medium",
-      expectedViews: 18000,
-      donationAmount: 750,
-      donationTarget: 1000,
-      isUnlocked: false
-    },
-    {
-      id: 3,
-      title: "Launch Locked",
-      dateTimeISO: "2025-09-16T08:15:00+08:00",
-      streamLink: "https://twitch.tv/cryptoqueen", 
-      streamer: "@cryptoqueen",
-      streamerName: "???",
-      streamerAvatar: "/placeholder.svg",
-      description: "Contribute to unlock this exclusive launch!",
-      priority: "high",
-      expectedViews: 32000,
-      donationAmount: 450,
-      donationTarget: 1000,
-      isUnlocked: false
-    }
-  ]);
-
   const handleDonate = (launchId: number, amount: number) => {
-    setLaunches(prevLaunches => 
-      prevLaunches.map(launch => {
-        if (launch.id === launchId) {
-          const newAmount = launch.donationAmount + amount;
-          const wasLocked = !launch.isUnlocked;
-          const shouldUnlock = newAmount >= launch.donationTarget;
-          
-          if (wasLocked && shouldUnlock) {
-            setShowConfetti(true);
-            setTimeout(() => setShowConfetti(false), 5000);
-            toast({
-              title: "🎉 Launch Unlocked!",
-              description: `Congratulations! The launch has been revealed thanks to community support!`,
-            });
-          }
-          
-          return {
-            ...launch,
-            donationAmount: newAmount,
-            isUnlocked: shouldUnlock || launch.isUnlocked
-          };
+    const updatedLaunches = upcomingLaunches.map(launch => {
+      if (launch.id === launchId) {
+        const newAmount = launch.donationAmount + amount;
+        const wasLocked = !launch.isUnlocked;
+        const shouldUnlock = newAmount >= launch.donationTarget;
+        
+        if (wasLocked && shouldUnlock) {
+          setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 5000);
+          toast({
+            title: "🎉 Launch Unlocked!",
+            description: `Congratulations! The launch has been revealed thanks to community support!`,
+          });
         }
-        return launch;
-      })
-    );
+        
+        return {
+          ...launch,
+          donationAmount: newAmount,
+          isUnlocked: shouldUnlock || launch.isUnlocked
+        };
+      }
+      return launch;
+    });
     
     toast({
       title: "Donation Successful!",
@@ -101,218 +70,798 @@ const Calendar = () => {
     });
   };
 
-  const formatTime = (isoString: string) => {
+  const streamers = [
+    {
+      id: 1,
+      username: "@moonmaster",
+      name: "Moon Master",
+      avatar: "/placeholder.svg",
+      followers: 45000,
+      isVerified: true,
+      status: "live",
+      nextLaunch: "2024-12-20T19:00:00Z"
+    },
+    {
+      id: 2,
+      username: "@rocketman",
+      name: "Rocket Man",
+      avatar: "/placeholder.svg", 
+      followers: 32000,
+      isVerified: true,
+      status: "offline",
+      nextLaunch: "2024-12-22T23:00:00Z"
+    },
+    {
+      id: 3,
+      username: "@cryptoqueen",
+      name: "Crypto Queen",
+      avatar: "/placeholder.svg",
+      followers: 58000,
+      isVerified: true,
+      status: "scheduled",
+      nextLaunch: "2024-12-25T01:00:00Z"
+    }
+  ];
+
+  const upcomingLaunches = [
+    {
+      id: 1,
+      title: "$MOON Token Launch Stream",
+      dateTimeISO: "2024-12-20T19:00:00Z",
+      streamLink: "https://twitch.tv/moonmaster",
+      tokenLink: "https://pump.fun/moon",
+      streamer: "@moonmaster",
+      streamerName: "Moon Master",
+      streamerAvatar: "/placeholder.svg",
+      description: "Join us for the biggest token launch of the month! Interactive stream with live trading.",
+      status: "upcoming",
+      priority: "high",
+      expectedViews: 25000,
+      tokenSymbol: "$MOON",
+      donationAmount: 1250,
+      donationTarget: 1000,
+      isUnlocked: true
+    },
+    {
+      id: 2,
+      title: "Mystery Launch 🔒",
+      dateTimeISO: "2024-12-22T23:00:00Z", 
+      streamLink: "https://twitch.tv/rocketman",
+      tokenLink: "https://pump.fun/rocket",
+      streamer: "@rocketman",
+      streamerName: "???",
+      streamerAvatar: "/placeholder.svg",
+      description: "Unlock this exclusive launch by contributing to pre-donations! Big surprise awaits...",
+      status: "upcoming",
+      priority: "medium",
+      expectedViews: 18000,
+      tokenSymbol: "$???",
+      donationAmount: 750,
+      donationTarget: 1000,
+      isUnlocked: false
+    },
+    {
+      id: 3,
+      title: "Exclusive Holiday Special 🔒",
+      dateTimeISO: "2024-12-25T01:00:00Z",
+      streamLink: "https://twitch.tv/cryptoqueen", 
+      tokenLink: "https://pump.fun/diamond",
+      streamer: "@cryptoqueen",
+      streamerName: "???",
+      streamerAvatar: "/placeholder.svg",
+      description: "Help us reach $1000 in pre-donations to unlock this special Christmas launch event!",
+      status: "upcoming",
+      priority: "high",
+      expectedViews: 32000,
+      tokenSymbol: "$???",
+      donationAmount: 450,
+      donationTarget: 1000,
+      isUnlocked: false
+    }
+  ];
+
+  const pastLaunches = [
+    {
+      id: 1,
+      title: "$PUMP Launch Event",
+      date: "Dec 15, 2024",
+      clipsCount: 24,
+      totalViews: 450000,
+      feesGenerated: 1250,
+      streamer: "@pumpmaster"
+    },
+    {
+      id: 2,
+      title: "$HODL Stream Marathon", 
+      date: "Dec 12, 2024",
+      clipsCount: 18,
+      totalViews: 320000,
+      feesGenerated: 980,
+      streamer: "@hodlking"
+    },
+    {
+      id: 3,
+      title: "$MEME Token Reveal",
+      date: "Dec 10, 2024", 
+      clipsCount: 31,
+      totalViews: 580000,
+      feesGenerated: 1750,
+      streamer: "@memelord"
+    }
+  ];
+
+  const formatDateTime = (isoString: string) => {
     const date = new Date(isoString);
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      timeZoneName: 'short'
-    });
+    return {
+      date: date.toLocaleDateString('en-US', { 
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long', 
+        day: 'numeric'
+      }),
+      time: date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZoneName: 'short'
+      })
+    };
   };
 
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+  const generateICS = (launch: typeof upcomingLaunches[0]) => {
+    const startDate = new Date(launch.dateTimeISO);
+    const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000); // 2 hours later
+    
+    const formatDateForICS = (date: Date) => {
+      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    };
+
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CLIP//Launch Calendar//EN
+BEGIN:VEVENT
+UID:${launch.id}@clip.app
+DTSTAMP:${formatDateForICS(new Date())}
+DTSTART:${formatDateForICS(startDate)}
+DTEND:${formatDateForICS(endDate)}
+SUMMARY:${launch.title}
+DESCRIPTION:${launch.description}\\n\\nStream: ${launch.streamLink}\\nToken: ${launch.tokenLink}
+LOCATION:${launch.streamLink}
+END:VEVENT
+END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${launch.title.replace(/[^a-zA-Z0-9]/g, '_')}.ics`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
-  // Sort launches by time
-  const sortedLaunches = [...launches].sort((a, b) => 
-    new Date(a.dateTimeISO).getTime() - new Date(b.dateTimeISO).getTime()
-  );
+  const getStreamerStatus = (status: string) => {
+    switch (status) {
+      case "live":
+        return { color: "bg-red-500", text: "Live Now" };
+      case "scheduled":
+        return { color: "bg-yellow-500", text: "Scheduled" };
+      default:
+        return { color: "bg-gray-400", text: "Offline" };
+    }
+  };
 
-  // Get the date from the first launch for the header
-  const headerDate = sortedLaunches[0] ? formatDate(sortedLaunches[0].dateTimeISO) : '';
+  const toggleNotifications = () => {
+    setNotifications(!notifications);
+  };
+
+  const handleCreateLaunch = () => {
+    if (user) {
+      navigate('/streamer-application');
+    } else {
+      navigate('/auth');
+    }
+  };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {showConfetti && <Confetti />}
-      
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">
-          Launches for {headerDate}
-        </h1>
-      </div>
+      <div className="space-y-8">
+        {/* Sticky Onboarding Header */}
+        <div className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border pb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Mission Statement */}
+            <Card className="flex-1 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Launch your token stream today.</h3>
+                    <p className="text-sm text-muted-foreground">Create, stream, and get featured in the calendar.</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Create Launch CTA */}
+            <Button
+              onClick={handleCreateLaunch}
+              className="bg-gradient-to-r from-primary to-secondary hover:from-primary-glow hover:to-secondary-glow text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-glow transition-all duration-300 flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Create a Launch
+            </Button>
+          </div>
+        </div>
 
-      {/* Launch Cards */}
-      <div className="space-y-6">
-        {sortedLaunches.map((launch) => {
-          if (launch.isUnlocked) {
-            // Unlocked Launch Card
-            return (
-              <Card key={launch.id} className="bg-muted/20 border-muted/30 hover-lift">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    {/* Avatar */}
-                    <Avatar className="w-16 h-16 border-2 border-muted/50">
-                      <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
-                      <AvatarFallback className="text-lg font-semibold">
-                        {launch.streamerName.slice(0, 2)}
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl lg:text-5xl font-bold text-gradient-rainbow">Launch Calendar</h1>
+          <p className="text-xl text-muted-foreground">
+            Never miss a pump.fun launch event
+          </p>
+          
+          <div className="flex justify-center">
+            <Button
+              variant={notifications ? "default" : "outline"}
+              onClick={toggleNotifications}
+              className="flex items-center gap-2"
+            >
+              <Bell className={`w-4 h-4 ${notifications ? "text-white" : "text-muted-foreground"}`} />
+              {notifications ? "Notifications On" : "Enable Notifications"}
+            </Button>
+          </div>
+
+          {/* Contribution Info Note */}
+          <div className="max-w-2xl mx-auto">
+            <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 justify-center">
+                  <AlertCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                  <p className="text-sm text-muted-foreground">
+                    Contributions unlock launches and fund initial allocation + DEX fees
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Success Stories Section */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="text-center flex-1">
+              <h2 className="text-2xl font-bold flex items-center justify-center gap-2">
+                <CheckCircle className="w-6 h-6 text-success" />
+                Success Stories
+              </h2>
+              <p className="text-muted-foreground">Real streamers, real results</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                id: 1,
+                streamerName: "Moon Master",
+                streamerUsername: "@moonmaster",
+                streamerAvatar: "/placeholder.svg",
+                tokenName: "$MOON",
+                amountRaised: 125000,
+                viewsGained: 250000,
+                quote: "Hit 25K views in 24h!"
+              },
+              {
+                id: 2,
+                streamerName: "Crypto Queen", 
+                streamerUsername: "@cryptoqueen",
+                streamerAvatar: "/placeholder.svg",
+                tokenName: "$DIAMOND",
+                amountRaised: 89000,
+                viewsGained: 180000,
+                quote: "Community funded in 10 minutes!"
+              },
+              {
+                id: 3,
+                streamerName: "Rocket Man",
+                streamerUsername: "@rocketman", 
+                streamerAvatar: "/placeholder.svg",
+                tokenName: "$ROCKET",
+                amountRaised: 67000,
+                viewsGained: 145000,
+                quote: "Turned 2K followers into 15K overnight!"
+              }
+            ].map((story) => (
+              <Card 
+                key={story.id} 
+                className="hover-lift cursor-pointer border-success/20 bg-gradient-to-br from-success/5 to-accent/5 transition-all duration-300 hover:shadow-glow"
+                onClick={() => navigate('/success-stories')}
+              >
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="w-10 h-10 border-2 border-success/30">
+                      <AvatarImage src={story.streamerAvatar} alt={story.streamerName} />
+                      <AvatarFallback className="bg-success/20 text-success font-semibold">
+                        {story.streamerName.slice(0, 2)}
                       </AvatarFallback>
                     </Avatar>
-                    
-                    {/* Main Content */}
-                    <div className="flex-1 space-y-3">
-                      {/* Title and Priority Badge */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-1">
+                        <h3 className="font-semibold text-sm">{story.streamerName}</h3>
+                        <CheckCircle className="w-3 h-3 text-success" />
+                      </div>
+                      <p className="text-xs text-muted-foreground">{story.streamerUsername}</p>
+                    </div>
+                    <Badge variant="outline" className="bg-success/10 text-success border-success/30 text-xs">
+                      {story.tokenName}
+                    </Badge>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div>
+                      <div className="text-lg font-bold text-success">
+                        ${(story.amountRaised / 1000).toFixed(0)}K
+                      </div>
+                      <div className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+                        <DollarSign className="w-2 h-2" />
+                        Raised
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-secondary">
+                        {(story.viewsGained / 1000).toFixed(0)}K
+                      </div>
+                      <div className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+                        <Eye className="w-2 h-2" />
+                        Views
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-muted/30 rounded-lg p-2 border-l-2 border-success">
+                    <p className="text-xs italic text-center">"{story.quote}"</p>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-1 text-xs text-success">
+                    <Sparkles className="w-3 h-3" />
+                    <span>Unlocked Success</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Button
+              variant="outline"
+              onClick={() => navigate('/success-stories')}
+              className="text-success border-success/30 hover:bg-success/10"
+            >
+              See More Success Stories
+            </Button>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <Tabs defaultValue="calendar" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="calendar">Calendar View</TabsTrigger>
+            <TabsTrigger value="streamers">Streamers</TabsTrigger>
+            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="calendar" className="space-y-6">
+            <div className="grid lg:grid-cols-3 gap-6">
+              {/* Calendar */}
+              <Card className="lg:col-span-1">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CalendarIcon className="w-5 h-5" />
+                    Launch Calendar
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CalendarComponent
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    className="rounded-md border-0 pointer-events-auto"
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Selected Date Launches */}
+              <Card className="lg:col-span-2">
+                <CardHeader>
+                  <CardTitle>
+                    {selectedDate ? `Launches for ${selectedDate.toLocaleDateString()}` : "Select a Date"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {upcomingLaunches.map((launch) => {
+                      const { date, time } = formatDateTime(launch.dateTimeISO);
+                      const priority = launch.priority === "high" ? "destructive" : "secondary";
+                      
+                      return (
+                         <Card key={launch.id} className={`hover-lift ${!launch.isUnlocked ? 'relative' : ''}`}>
+                           {!launch.isUnlocked && (
+                             <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-50 rounded-lg flex items-center justify-center">
+                              <div className="text-center space-y-4 p-6">
+                                <Lock className="w-12 h-12 mx-auto text-primary" />
+                                <div className="space-y-2">
+                                  <h3 className="text-lg font-semibold text-white">Launch Locked</h3>
+                                  <p className="text-sm text-white/80">Contribute to unlock this exclusive launch!</p>
+                                  <div className="space-y-2">
+                                    <Progress 
+                                      value={(launch.donationAmount / launch.donationTarget) * 100} 
+                                      className="w-full h-2"
+                                    />
+                                    <p className="text-xs text-white/70">
+                                      ${launch.donationAmount} / ${launch.donationTarget}
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-2 justify-center mt-4">
+                                    <Button size="sm" onClick={() => handleDonate(launch.id, 25)}>
+                                      <DollarSign className="w-3 h-3 mr-1" />
+                                      $25
+                                    </Button>
+                                    <Button size="sm" onClick={() => handleDonate(launch.id, 50)}>
+                                      <DollarSign className="w-3 h-3 mr-1" />
+                                      $50
+                                    </Button>
+                                    <Button size="sm" onClick={() => handleDonate(launch.id, 100)}>
+                                      <DollarSign className="w-3 h-3 mr-1" />
+                                      $100
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          <CardContent className="p-4">
+                            <div className="flex items-start gap-4">
+                              <Avatar className="w-12 h-12">
+                                <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
+                                <AvatarFallback>{launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}</AvatarFallback>
+                              </Avatar>
+                              
+                              <div className="flex-1 space-y-2">
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <h3 className="font-semibold text-lg flex items-center gap-2">
+                                      {launch.title}
+                                      {!launch.isUnlocked && <Lock className="w-4 h-4 text-muted-foreground" />}
+                                      {launch.isUnlocked && launch.donationAmount >= launch.donationTarget && (
+                                        <Unlock className="w-4 h-4 text-green-500" />
+                                      )}
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                                      <Star className="w-3 h-3" />
+                                      {launch.isUnlocked ? launch.streamerName : '???'}
+                                    </p>
+                                  </div>
+                                  <Badge variant={priority}>{launch.priority} priority</Badge>
+                                </div>
+                                
+                                <p className="text-sm text-muted-foreground">{launch.description}</p>
+                                
+                                <div className="flex items-center gap-4 text-sm">
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="w-3 h-3" />
+                                    {time}
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <Eye className="w-3 h-3" />
+                                    {launch.expectedViews.toLocaleString()} expected
+                                  </div>
+                                  {launch.donationAmount >= launch.donationTarget && (
+                                    <Badge variant="outline" className="text-green-600 border-green-600">
+                                      <Gift className="w-3 h-3 mr-1" />
+                                      Unlocked!
+                                    </Badge>
+                                  )}
+                                </div>
+                                
+                                {launch.isUnlocked && (
+                                  <div className="flex gap-2">
+                                    <Button size="sm" variant="default">
+                                      <Bell className="w-3 h-3 mr-1" />
+                                      Notify Me
+                                    </Button>
+                                    <Button size="sm" variant="outline" asChild>
+                                      <a href={launch.streamLink} target="_blank">
+                                        <Play className="w-3 h-3 mr-1" />
+                                        Stream
+                                      </a>
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="streamers" className="space-y-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {streamers.map((streamer) => {
+                const status = getStreamerStatus(streamer.status);
+                const nextLaunch = formatDateTime(streamer.nextLaunch);
+                
+                return (
+                  <Card key={streamer.id} className="hover-lift">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="relative">
+                          <Avatar className="w-16 h-16">
+                            <AvatarImage src={streamer.avatar} alt={streamer.name} />
+                            <AvatarFallback>{streamer.name.slice(0, 2)}</AvatarFallback>
+                          </Avatar>
+                          <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full ${status.color} border-2 border-background`} />
+                        </div>
+                        
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold">{streamer.name}</h3>
+                            {streamer.isVerified && (
+                              <CheckCircle className="w-4 h-4 text-blue-500" />
+                            )}
+                          </div>
+                          <p className="text-sm text-muted-foreground">{streamer.username}</p>
+                          <div className="flex items-center gap-1 text-sm">
+                            <Users className="w-3 h-3" />
+                            {streamer.followers.toLocaleString()} followers
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            {status.text}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 pt-4 border-t space-y-3">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Next Launch:</span>
+                          <br />
+                          <span className="font-medium">{nextLaunch.date}</span>
+                          <br />
+                          <span className="text-muted-foreground">{nextLaunch.time}</span>
+                        </div>
+                        
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline" className="flex-1">
+                            <Bell className="w-3 h-3 mr-1" />
+                            Follow
+                          </Button>
+                          <Button size="sm" variant="default" className="flex-1">
+                            View Profile
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="upcoming" className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              {upcomingLaunches.map((launch) => {
+                const { date, time } = formatDateTime(launch.dateTimeISO);
+                const priority = launch.priority === "high" ? "destructive" : "secondary";
+                
+                return (
+                  <Card key={launch.id} className={`hover-lift shadow-card ${!launch.isUnlocked ? 'relative' : ''}`}>
+                     {!launch.isUnlocked && (
+                       <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-50 rounded-lg flex items-center justify-center">
+                        <div className="text-center space-y-4 p-6">
+                          <Lock className="w-12 h-12 mx-auto text-primary" />
+                          <div className="space-y-2">
+                            <h3 className="text-lg font-semibold text-white">Launch Locked</h3>
+                            <p className="text-sm text-white/80">Contribute to unlock this exclusive launch!</p>
+                            <div className="space-y-2">
+                              <Progress 
+                                value={(launch.donationAmount / launch.donationTarget) * 100} 
+                                className="w-full h-2"
+                              />
+                              <p className="text-xs text-white/70">
+                                ${launch.donationAmount} / ${launch.donationTarget}
+                              </p>
+                            </div>
+                            <div className="flex gap-2 justify-center mt-4">
+                              <Button size="sm" onClick={() => handleDonate(launch.id, 25)}>
+                                <DollarSign className="w-3 h-3 mr-1" />
+                                $25
+                              </Button>
+                              <Button size="sm" onClick={() => handleDonate(launch.id, 50)}>
+                                <DollarSign className="w-3 h-3 mr-1" />
+                                $50
+                              </Button>
+                              <Button size="sm" onClick={() => handleDonate(launch.id, 100)}>
+                                <DollarSign className="w-3 h-3 mr-1" />
+                                $100
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    <CardHeader>
                       <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-3">
-                          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                            {launch.title}
-                            <Unlock className="w-5 h-5 text-green-500" />
-                          </h2>
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <Badge variant={priority}>{launch.priority}</Badge>
+                            <Badge variant="outline">{launch.isUnlocked ? launch.tokenSymbol : '$???'}</Badge>
+                            {!launch.isUnlocked && <Lock className="w-4 h-4 text-muted-foreground" />}
+                            {launch.isUnlocked && launch.donationAmount >= launch.donationTarget && (
+                              <Unlock className="w-4 h-4 text-green-500" />
+                            )}
+                          </div>
+                          <CardTitle className="text-xl">{launch.title}</CardTitle>
+                          <div className="flex items-center gap-2">
+                            <Avatar className="w-6 h-6">
+                              <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
+                              <AvatarFallback>{launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}</AvatarFallback>
+                            </Avatar>
+                            <p className="text-sm text-muted-foreground">{launch.isUnlocked ? launch.streamerName : '???'}</p>
+                          </div>
                         </div>
-                        <Badge 
-                          variant={launch.priority === "high" ? "destructive" : "secondary"}
-                          className="px-3 py-1"
-                        >
+                        <div className="text-right text-sm">
+                          <div className="font-medium">{date}</div>
+                          <div className="text-muted-foreground flex items-center">
+                            <Clock className="w-3 h-3 mr-1" />
+                            {time}
+                          </div>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <p className="text-muted-foreground">{launch.description}</p>
+                      
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Eye className="w-3 h-3" />
+                          {launch.expectedViews.toLocaleString()} expected views
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
                           {launch.priority} priority
-                        </Badge>
-                      </div>
-
-                      {/* Streamer Name */}
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <span>⭐</span>
-                        <span>{launch.streamerName}</span>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-muted-foreground">
-                        {launch.description}
-                      </p>
-
-                      {/* Time and Expected Views */}
-                      <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
-                          <span>{formatTime(launch.dateTimeISO)}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Eye className="w-4 h-4" />
-                          <span>{launch.expectedViews.toLocaleString()} expected</span>
-                        </div>
-                        <Badge variant="outline" className="text-green-500 border-green-500/30 bg-green-500/10">
-                          🔓 Unlocked!
-                        </Badge>
+                        {launch.donationAmount >= launch.donationTarget && (
+                          <Badge variant="outline" className="text-green-600 border-green-600">
+                            <Gift className="w-3 h-3 mr-1" />
+                            Unlocked!
+                          </Badge>
+                        )}
                       </div>
+                      
+                      {!launch.isUnlocked && (
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-muted-foreground">Unlock Progress:</span>
+                            <span className="font-medium">${launch.donationAmount} / ${launch.donationTarget}</span>
+                          </div>
+                          <Progress value={(launch.donationAmount / launch.donationTarget) * 100} className="h-2" />
+                        </div>
+                      )}
+                      
+                      {launch.isUnlocked && (
+                        <div className="flex flex-wrap gap-2">
+                          <Button 
+                            variant="default" 
+                            size="sm"
+                            onClick={() => generateICS(launch)}
+                            className="flex items-center space-x-1"
+                          >
+                            <Download className="w-4 h-4" />
+                            <span>Set Reminder</span>
+                          </Button>
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            asChild
+                          >
+                            <a href={launch.streamLink} target="_blank" rel="noopener noreferrer">
+                              <Play className="w-4 h-4 mr-1" />
+                              View Stream
+                            </a>
+                          </Button>
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            asChild
+                          >
+                            <a href={launch.tokenLink} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="w-4 h-4 mr-1" />
+                              Token Page
+                            </a>
+                          </Button>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </TabsContent>
+        </Tabs>
 
-                      {/* Action Buttons */}
-                      <div className="flex gap-3 pt-2">
-                        <Button 
-                          className="bg-primary hover:bg-primary/90 text-white px-6"
-                          onClick={() => toast({ title: "Notification Set!", description: "You'll be notified when this launch starts." })}
-                        >
-                          <Bell className="w-4 h-4 mr-2" />
-                          Notify Me
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          className="border-primary/30 text-primary hover:bg-primary/10"
-                          asChild
-                        >
-                          <a href={launch.streamLink} target="_blank" rel="noopener noreferrer">
-                            <Play className="w-4 h-4 mr-2" />
-                            Stream
-                          </a>
-                        </Button>
+        {/* Past Launches */}
+        <section className="space-y-6">
+          <h2 className="text-3xl font-bold flex items-center space-x-2">
+            <TrendingUp className="w-8 h-8 text-secondary" />
+            <span>Past Launches</span>
+          </h2>
+          
+          <div className="grid gap-6">
+            {pastLaunches.map((launch) => (
+              <Card key={launch.id} className="hover-lift shadow-card">
+                <CardContent className="p-6">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                    <div className="space-y-2">
+                      <h3 className="text-xl font-semibold">{launch.title}</h3>
+                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                        <span>{launch.date}</span>
+                        <span>•</span>
+                        <span>{launch.streamer}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-6 text-center">
+                      <div className="space-y-1">
+                        <div className="text-2xl font-bold text-primary">{launch.clipsCount}</div>
+                        <div className="text-sm text-muted-foreground">Clips</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-2xl font-bold text-secondary flex items-center justify-center">
+                          <Eye className="w-5 h-5 mr-1" />
+                          {(launch.totalViews / 1000).toFixed(0)}K
+                        </div>
+                        <div className="text-sm text-muted-foreground">Views</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-2xl font-bold text-accent flex items-center justify-center">
+                          <DollarSign className="w-5 h-5 mr-1" />
+                          {launch.feesGenerated}
+                        </div>
+                        <div className="text-sm text-muted-foreground">Fees</div>
                       </div>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-            );
-          } else {
-            // Locked Launch Card
-            return (
-              <Card key={launch.id} className="bg-muted/20 border-muted/30 relative overflow-hidden">
-                {/* Blurred Background Content */}
-                <div className="filter blur-sm opacity-50">
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
-                      <Avatar className="w-16 h-16 border-2 border-muted/50">
-                        <AvatarFallback className="text-lg font-semibold">??</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 space-y-3">
-                        <div className="flex items-start justify-between">
-                          <h2 className="text-xl font-bold text-white">████████████████</h2>
-                          <div className="w-20 h-6 bg-red-500/50 rounded"></div>
-                        </div>
-                        <div className="w-24 h-4 bg-muted/50 rounded"></div>
-                        <div className="space-y-2">
-                          <div className="w-full h-4 bg-muted/50 rounded"></div>
-                          <div className="w-3/4 h-4 bg-muted/50 rounded"></div>
-                        </div>
-                        <div className="flex gap-6">
-                          <div className="w-24 h-4 bg-muted/50 rounded"></div>
-                          <div className="w-32 h-4 bg-muted/50 rounded"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </div>
+            ))}
+          </div>
+        </section>
 
-                {/* Lock Overlay */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
-                  <div className="text-center space-y-6 max-w-md">
-                    {/* Lock Icon */}
-                    <div className="w-16 h-16 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
-                      <Lock className="w-8 h-8 text-primary" />
-                    </div>
-
-                    {/* Title and Description */}
-                    <div className="space-y-2">
-                      <h3 className="text-2xl font-bold text-white">Launch Locked</h3>
-                      <p className="text-muted-foreground">
-                        Contribute to unlock this exclusive launch!
-                      </p>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="space-y-3 w-full">
-                      <Progress 
-                        value={(launch.donationAmount / launch.donationTarget) * 100} 
-                        className="h-3"
-                        animated={true}
-                        showGlow={true}
-                      />
-                      <p className="text-sm text-muted-foreground font-medium">
-                        ${launch.donationAmount} / ${launch.donationTarget}
-                      </p>
-                    </div>
-
-                    {/* Contribution Buttons */}
-                    <div className="flex gap-3 justify-center">
-                      <Button 
-                        className="bg-primary hover:bg-primary/90 text-white px-6"
-                        onClick={() => handleDonate(launch.id, 25)}
-                      >
-                        <DollarSign className="w-4 h-4 mr-1" />
-                        $25
-                      </Button>
-                      <Button 
-                        className="bg-primary hover:bg-primary/90 text-white px-6"
-                        onClick={() => handleDonate(launch.id, 50)}
-                      >
-                        <DollarSign className="w-4 h-4 mr-1" />
-                        $50
-                      </Button>
-                      <Button 
-                        className="bg-primary hover:bg-primary/90 text-white px-6"
-                        onClick={() => handleDonate(launch.id, 100)}
-                      >
-                        <DollarSign className="w-4 h-4 mr-1" />
-                        $100
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            );
-          }
-        })}
+        {/* CTA Section */}
+        <section className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 rounded-xl p-8">
+          <div className="text-center space-y-6">
+            <h2 className="text-3xl font-bold">Want to Launch Your Token?</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Get featured on our launch calendar and tap into our clipper network for maximum exposure.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="hero" size="lg" onClick={() => navigate('/apply-streamer')}>
+                Submit Launch Request
+              </Button>
+              <Button variant="outline" size="lg" onClick={() => navigate('/guide')}>
+                View Launch Guide
+              </Button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
