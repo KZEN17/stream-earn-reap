@@ -18,7 +18,10 @@ import { Loader2 } from "lucide-react";
 const App = () => {
   const { user, loading } = useAuth();
 
+  console.log('App rendering - user:', user ? 'logged in' : 'not logged in', 'loading:', loading);
+
   if (loading) {
+    console.log('App showing loading state');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -27,9 +30,11 @@ const App = () => {
   }
 
   if (!user) {
+    console.log('App showing auth page');
     return <Auth />;
   }
 
+  console.log('App showing main app');
   return (
     <TooltipProvider>
       <Toaster />
