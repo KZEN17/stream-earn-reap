@@ -65,7 +65,7 @@
     --radius-xl: 2rem;
 
     /* Gaming Sidebar - CLIP Brand */
-    --sidebar-background: 225 15% 6%;
+    --sidebar-background: 225 15% 6% / 0.8;
     --sidebar-foreground: 189 100% 50%;
     --sidebar-primary: 189 100% 50%;
     --sidebar-primary-foreground: 225 15% 8%;
@@ -106,7 +106,7 @@
     --ring: 285 72% 60%;
     
     /* Gaming Sidebar */
-    --sidebar-background: 225 15% 6%;
+    --sidebar-background: 225 15% 6% / 0.8;
     --sidebar-foreground: 210 20% 98%;
     --sidebar-primary: 285 72% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
