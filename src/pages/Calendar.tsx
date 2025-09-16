@@ -257,6 +257,25 @@ END:VCALENDAR`;
           <p className="text-xl text-muted-foreground">
             Never miss a pump.fun launch event
           </p>
+          
+          {/* Contribution Info Note */}
+          <div className="max-w-3xl mx-auto">
+            <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+              <CardContent className="p-4">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                  <div className="text-left space-y-1">
+                    <h3 className="font-semibold text-sm">How Contributions Work</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Contributions to unlock exclusive launches will be used for initial token allocation, 
+                      plus LOCK mechanisms and DEX payment fees. Help unlock premium launch events!
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          
           <div className="flex justify-center">
             <Button
               variant={notifications ? "default" : "outline"}
