@@ -383,6 +383,8 @@ export type Database = {
           team_contact_info: Json | null
           tiktok_connected: boolean | null
           tiktok_username: string | null
+          twitch_username: string | null
+          twitter_username: string | null
           updated_at: string
           user_id: string
           user_type: string | null
@@ -409,6 +411,8 @@ export type Database = {
           team_contact_info?: Json | null
           tiktok_connected?: boolean | null
           tiktok_username?: string | null
+          twitch_username?: string | null
+          twitter_username?: string | null
           updated_at?: string
           user_id: string
           user_type?: string | null
@@ -435,6 +439,8 @@ export type Database = {
           team_contact_info?: Json | null
           tiktok_connected?: boolean | null
           tiktok_username?: string | null
+          twitch_username?: string | null
+          twitter_username?: string | null
           updated_at?: string
           user_id?: string
           user_type?: string | null

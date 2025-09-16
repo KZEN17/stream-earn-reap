@@ -98,23 +98,24 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
         if (uploadedUrl) bannerUrl = uploadedUrl;
       }
 
-      const { error } = await supabase
-        .from('profiles')
-        .upsert({
-          user_id: user.id,
-          display_name: formData.display_name,
-          avatar_url: avatarUrl,
-          banner_url: bannerUrl,
-          streaming_platform: formData.streaming_platform,
-          twitch_username: formData.twitch_username,
-          youtube_channel: formData.youtube_channel,
-          instagram_username: formData.twitter_username, // Using instagram field for social
-          wallet_address: formData.wallet_address,
-          user_type: 'streamer',
-          onboarding_completed: true
-        }, {
-          onConflict: 'user_id'
-        });
+        const { error } = await supabase
+          .from('profiles')
+          .upsert({
+            user_id: user.id,
+            username: formData.display_name, // Use username for display name
+            display_name: formData.display_name,
+            avatar_url: avatarUrl,
+            banner_url: bannerUrl,
+            streaming_platform: formData.streaming_platform,
+            twitch_username: formData.twitch_username,
+            youtube_channel_id: formData.youtube_channel, // Correct field name
+            twitter_username: formData.twitter_username, // Now using correct field
+            wallet_address: formData.wallet_address,
+            user_type: 'streamer',
+            onboarding_completed: true
+          }, {
+            onConflict: 'user_id'
+          });
 
       if (error) throw error;
 
