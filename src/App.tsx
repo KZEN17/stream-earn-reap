@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./components/ThemeProvider";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Leaderboards from "./pages/Leaderboards";
@@ -17,25 +18,27 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/leaderboards" element={<Leaderboards />} />
-            <Route path="/leaderboards/:type" element={<Leaderboards />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/raidchat" element={<RaidChat />} />
-            <Route path="/rewards" element={<Rewards />} />
-            <Route path="/guide" element={<Guide />} />
-            <Route path="/about" element={<About />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="clip-ui-theme">
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/leaderboards" element={<Leaderboards />} />
+              <Route path="/leaderboards/:type" element={<Leaderboards />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/raidchat" element={<RaidChat />} />
+              <Route path="/rewards" element={<Rewards />} />
+              <Route path="/guide" element={<Guide />} />
+              <Route path="/about" element={<About />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

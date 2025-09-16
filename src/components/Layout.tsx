@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
+import { ThemeToggle } from "./ThemeToggle";
 import TargetCursor from "@/components/ui/TargetCursor";
 import GradualBlur from "@/components/ui/GradualBlur";
 
@@ -22,8 +23,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <SidebarTrigger />
             </div>
             
-            {/* Auth Buttons */}
+            {/* Theme Toggle & Auth Buttons */}
             <div className="flex items-center space-x-3">
+              <ThemeToggle />
               <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors">
                 Login
               </button>
