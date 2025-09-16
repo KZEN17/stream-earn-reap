@@ -5,10 +5,21 @@ import { Progress } from "@/components/ui/progress";
 import { 
   Target,
   Eye,
-  Instagram,
-  Youtube,
-  User as TikTokIcon
+  Share2,
+  Twitter,
+  Music,
+  Heart,
+  Play,
+  Copy,
+  ExternalLink
 } from "lucide-react";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 import { useLoginModal } from '@/contexts/LoginModalContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -40,6 +51,7 @@ interface CampaignCardProps {
 export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) => {
   const { requireAuth } = useLoginModal();
   const { user } = useAuth();
+  const { toast } = useToast();
   
   // Calculate earnings and progress
   const totalEarned = (campaign.rewardPool * campaign.progress) / 100;
@@ -56,6 +68,24 @@ export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) =>
     onJoin?.(campaign.id);
   };
 
+  const handleShare = async (e: React.MouseEvent, platform: string) => {
+    e.stopPropagation();
+    const url = window.location.origin + `/rewards?campaign=${campaign.id}`;
+    const text = `Check out this campaign: ${campaign.title} - Earn $${campaign.pointsPerClip} per 1,000 views!`;
+    
+    switch (platform) {
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        break;
+      case 'copy':
+        await navigator.clipboard.writeText(url);
+        toast({ title: "Link copied to clipboard!" });
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Card className="bg-card border border-border rounded-xl p-4 hover:shadow-lg transition-all duration-200 cursor-pointer group overflow-hidden">
       <CardContent className="p-0 space-y-3" onClick={handleCardClick}>
@@ -65,13 +95,37 @@ export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) =>
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
               <Target className="w-4 h-4 text-white" />
             </div>
-            <h3 className="font-semibold text-foreground text-sm truncate max-w-[200px]">
+            <h3 className="font-semibold text-foreground text-sm truncate max-w-[150px]">
               {campaign.title}
             </h3>
           </div>
-          <Badge className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 text-xs font-medium">
-            ${campaign.pointsPerClip.toFixed(2)} / 1000
-          </Badge>
+          <div className="flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 hover:bg-muted"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Share2 className="w-3 h-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={(e) => handleShare(e, 'twitter')}>
+                  <Twitter className="w-3 h-3 mr-2" />
+                  Share on Twitter
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => handleShare(e, 'copy')}>
+                  <Copy className="w-3 h-3 mr-2" />
+                  Copy Link
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Badge className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 text-xs font-medium">
+              ${campaign.pointsPerClip.toFixed(2)} / 1000
+            </Badge>
+          </div>
         </div>
 
         {/* Subtitle */}
@@ -110,14 +164,17 @@ export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) =>
             
             {/* Platform Icons */}
             <div className="flex items-center gap-1">
-              <div className="w-5 h-5 bg-pink-600 rounded flex items-center justify-center">
-                <Instagram className="w-3 h-3 text-white" />
+              <div className="w-5 h-5 bg-gradient-to-br from-purple-500 to-pink-500 rounded flex items-center justify-center">
+                <Heart className="w-3 h-3 text-white" />
               </div>
               <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
-                <TikTokIcon className="w-3 h-3 text-white" />
+                <Music className="w-3 h-3 text-white" />
               </div>
               <div className="w-5 h-5 bg-red-600 rounded flex items-center justify-center">
-                <Youtube className="w-3 h-3 text-white" />
+                <Play className="w-3 h-3 text-white" />
+              </div>
+              <div className="w-5 h-5 bg-blue-500 rounded flex items-center justify-center">
+                <Twitter className="w-3 h-3 text-white" />
               </div>
             </div>
           </div>
