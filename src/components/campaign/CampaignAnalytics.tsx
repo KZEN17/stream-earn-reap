@@ -30,6 +30,7 @@ import {
   User as UserIcon
 } from 'lucide-react';
 import { format } from 'date-fns';
+import { PayoutDashboard } from './PayoutDashboard';
 
 interface CampaignAnalyticsProps {
   campaignId: string;
@@ -335,10 +336,14 @@ export const CampaignAnalytics = ({ campaignId, onBack }: CampaignAnalyticsProps
 
       {/* Analytics Tabs */}
       <Tabs defaultValue="submissions" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="submissions" className="flex items-center gap-2">
             <FileText className="w-4 h-4" />
             Submissions ({clips.length})
+          </TabsTrigger>
+          <TabsTrigger value="payouts" className="flex items-center gap-2">
+            <Target className="w-4 h-4" />
+            Payouts
           </TabsTrigger>
           <TabsTrigger value="performance" className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
@@ -528,6 +533,11 @@ export const CampaignAnalytics = ({ campaignId, onBack }: CampaignAnalyticsProps
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Payouts Tab */}
+        <TabsContent value="payouts" className="space-y-6">
+          <PayoutDashboard campaignId={campaignId} />
         </TabsContent>
 
         {/* Performance Analytics */}

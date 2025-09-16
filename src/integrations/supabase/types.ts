@@ -52,6 +52,7 @@ export type Database = {
       campaigns: {
         Row: {
           admin_notes: string | null
+          anomaly_detected: boolean | null
           approval_status: string | null
           asset_requirements: Json | null
           auto_approve: boolean | null
@@ -62,12 +63,17 @@ export type Database = {
           creator_id: string
           description: string | null
           end_date: string | null
+          escrow_cap_usdc: number | null
+          escrow_usdc: number | null
           id: string
+          manual_approval_required: boolean | null
           max_payout_per_clip: number | null
           min_views_required: number | null
           participants_count: number | null
+          payout_paused: boolean | null
           payout_per_1000_views: number | null
           prize_pool: number | null
+          rate_usd_per_k: number | null
           requirements: Json | null
           start_date: string | null
           status: string | null
@@ -79,6 +85,7 @@ export type Database = {
         }
         Insert: {
           admin_notes?: string | null
+          anomaly_detected?: boolean | null
           approval_status?: string | null
           asset_requirements?: Json | null
           auto_approve?: boolean | null
@@ -89,12 +96,17 @@ export type Database = {
           creator_id: string
           description?: string | null
           end_date?: string | null
+          escrow_cap_usdc?: number | null
+          escrow_usdc?: number | null
           id?: string
+          manual_approval_required?: boolean | null
           max_payout_per_clip?: number | null
           min_views_required?: number | null
           participants_count?: number | null
+          payout_paused?: boolean | null
           payout_per_1000_views?: number | null
           prize_pool?: number | null
+          rate_usd_per_k?: number | null
           requirements?: Json | null
           start_date?: string | null
           status?: string | null
@@ -106,6 +118,7 @@ export type Database = {
         }
         Update: {
           admin_notes?: string | null
+          anomaly_detected?: boolean | null
           approval_status?: string | null
           asset_requirements?: Json | null
           auto_approve?: boolean | null
@@ -116,12 +129,17 @@ export type Database = {
           creator_id?: string
           description?: string | null
           end_date?: string | null
+          escrow_cap_usdc?: number | null
+          escrow_usdc?: number | null
           id?: string
+          manual_approval_required?: boolean | null
           max_payout_per_clip?: number | null
           min_views_required?: number | null
           participants_count?: number | null
+          payout_paused?: boolean | null
           payout_per_1000_views?: number | null
           prize_pool?: number | null
+          rate_usd_per_k?: number | null
           requirements?: Json | null
           start_date?: string | null
           status?: string | null
@@ -136,16 +154,19 @@ export type Database = {
       clips: {
         Row: {
           admin_notes: string | null
+          anomaly_flagged: boolean | null
           approval_date: string | null
           approved_at: string | null
           campaign_id: string
           created_at: string
+          creator_wallet: string | null
           description: string | null
           earned_amount: number | null
           id: string
           instagram_url: string | null
           instagram_views: number | null
           last_view_update: string | null
+          milestones_paid: number | null
           payout_status: string | null
           rejected_at: string | null
           rejection_reason: string | null
@@ -159,22 +180,26 @@ export type Database = {
           updated_at: string
           user_id: string
           verification_notes: string | null
+          verified_views: number | null
           video_url: string | null
           youtube_url: string | null
           youtube_views: number | null
         }
         Insert: {
           admin_notes?: string | null
+          anomaly_flagged?: boolean | null
           approval_date?: string | null
           approved_at?: string | null
           campaign_id: string
           created_at?: string
+          creator_wallet?: string | null
           description?: string | null
           earned_amount?: number | null
           id?: string
           instagram_url?: string | null
           instagram_views?: number | null
           last_view_update?: string | null
+          milestones_paid?: number | null
           payout_status?: string | null
           rejected_at?: string | null
           rejection_reason?: string | null
@@ -188,22 +213,26 @@ export type Database = {
           updated_at?: string
           user_id: string
           verification_notes?: string | null
+          verified_views?: number | null
           video_url?: string | null
           youtube_url?: string | null
           youtube_views?: number | null
         }
         Update: {
           admin_notes?: string | null
+          anomaly_flagged?: boolean | null
           approval_date?: string | null
           approved_at?: string | null
           campaign_id?: string
           created_at?: string
+          creator_wallet?: string | null
           description?: string | null
           earned_amount?: number | null
           id?: string
           instagram_url?: string | null
           instagram_views?: number | null
           last_view_update?: string | null
+          milestones_paid?: number | null
           payout_status?: string | null
           rejected_at?: string | null
           rejection_reason?: string | null
@@ -217,6 +246,7 @@ export type Database = {
           updated_at?: string
           user_id?: string
           verification_notes?: string | null
+          verified_views?: number | null
           video_url?: string | null
           youtube_url?: string | null
           youtube_views?: number | null
@@ -345,6 +375,115 @@ export type Database = {
           title?: string
           type?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      payout_tasks: {
+        Row: {
+          amount_usdc: number
+          campaign_id: string
+          clip_id: string
+          created_at: string
+          creator_wallet: string
+          error_message: string | null
+          id: string
+          idempotency_key: string
+          milestone_number: number
+          processed_at: string | null
+          status: string | null
+          transaction_id: string | null
+        }
+        Insert: {
+          amount_usdc: number
+          campaign_id: string
+          clip_id: string
+          created_at?: string
+          creator_wallet: string
+          error_message?: string | null
+          id?: string
+          idempotency_key: string
+          milestone_number: number
+          processed_at?: string | null
+          status?: string | null
+          transaction_id?: string | null
+        }
+        Update: {
+          amount_usdc?: number
+          campaign_id?: string
+          clip_id?: string
+          created_at?: string
+          creator_wallet?: string
+          error_message?: string | null
+          id?: string
+          idempotency_key?: string
+          milestone_number?: number
+          processed_at?: string | null
+          status?: string | null
+          transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payout_tasks_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payout_tasks_clip_id_fkey"
+            columns: ["clip_id"]
+            isOneToOne: false
+            referencedRelation: "clips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payout_tasks_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "payout_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payout_transactions: {
+        Row: {
+          batch_period: string
+          confirmed_at: string | null
+          created_at: string
+          error_message: string | null
+          gas_fee_usdc: number | null
+          id: string
+          status: string | null
+          task_count: number
+          total_amount_usdc: number
+          tx_hash: string | null
+          wallet_address: string
+        }
+        Insert: {
+          batch_period?: string
+          confirmed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          gas_fee_usdc?: number | null
+          id?: string
+          status?: string | null
+          task_count: number
+          total_amount_usdc: number
+          tx_hash?: string | null
+          wallet_address: string
+        }
+        Update: {
+          batch_period?: string
+          confirmed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          gas_fee_usdc?: number | null
+          id?: string
+          status?: string | null
+          task_count?: number
+          total_amount_usdc?: number
+          tx_hash?: string | null
+          wallet_address?: string
         }
         Relationships: []
       }
