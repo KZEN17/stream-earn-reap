@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,39 +10,40 @@ import {
   Gift,
   TrendingUp,
   ExternalLink,
-  PlayCircle
+  PlayCircle,
+  Plus
 } from "lucide-react";
+import { useRaidEvents } from "@/hooks/useRaidEvents";
+import { useAuth } from "@/contexts/AuthContext";
+import { RaidCreator } from "@/components/raid/RaidCreator";
+import { RaidCard } from "@/components/raid/RaidCard";
+import { useToast } from "@/hooks/use-toast";
 
 const RaidChat = () => {
-  const currentRaidSession = {
-    id: 1,
-    title: "MEGA PUMP RAID",
-    targetChannel: "@cryptoking",
-    startTime: "2024-12-19T20:00:00Z",
-    endTime: "2024-12-19T22:00:00Z",
-    participants: 234,
-    totalRaised: 2450,
-    status: "live"
-  };
+  const [showCreator, setShowCreator] = useState(false);
+  const { raids, loading, joinRaid } = useRaidEvents();
+  const { user } = useAuth();
+  const { toast } = useToast();
 
-  const upcomingRaids = [
-    {
-      id: 2,
-      title: "Holiday Token Celebration",
-      targetChannel: "@holidaystreamer",
-      startTime: "2024-12-20T19:00:00Z",
-      participants: 0,
-      estimatedBudget: 1500
-    },
-    {
-      id: 3,
-      title: "New Year Launch Support",
-      targetChannel: "@newyeartoken", 
-      startTime: "2024-12-31T23:00:00Z",
-      participants: 0,
-      estimatedBudget: 3000
+  const liveRaids = raids.filter(raid => raid.status === 'live');
+  const scheduledRaids = raids.filter(raid => raid.status === 'scheduled');
+  const currentRaid = liveRaids[0]; // Show first live raid as current
+
+  const handleJoinRaid = async (raidId: string) => {
+    try {
+      await joinRaid(raidId);
+      toast({
+        title: "Joined RAID!",
+        description: "You've successfully joined the raid.",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to Join",
+        description: error instanceof Error ? error.message : "Failed to join raid",
+        variant: "destructive"
+      });
     }
-  ];
+  };
 
   const recentActions = [
     {
@@ -188,97 +190,72 @@ const RaidChat = () => {
           </CardContent>
         </Card>
 
-        {/* Live/Current Raid Session */}
+        {/* Create RAID Section */}
         <section className="space-y-6">
-          <h2 className="text-3xl font-bold flex items-center space-x-2">
-            <PlayCircle className="w-8 h-8 text-primary" />
-            <span>Current Raid Session</span>
-          </h2>
-          
-          <Card className="border-primary/50 shadow-glow">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="destructive" className="animate-pulse">LIVE</Badge>
-                    <span className="text-sm text-muted-foreground">
-                      Ends at {formatTime(currentRaidSession.endTime)}
-                    </span>
-                  </div>
-                  <CardTitle className="text-2xl">{currentRaidSession.title}</CardTitle>
-                  <p className="text-muted-foreground">Target: {currentRaidSession.targetChannel}</p>
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-bold flex items-center space-x-2">
+              <PlayCircle className="w-8 h-8 text-primary" />
+              <span>RAID Center</span>
+            </h2>
+            {user && (
+              <Button 
+                onClick={() => setShowCreator(true)}
+                className="gap-2"
+                variant="hero"
+              >
+                <Plus className="w-4 h-4" />
+                Create RAID
+              </Button>
+            )}
+          </div>
+
+          {/* Current Live Raid */}
+          {currentRaid ? (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold flex items-center gap-2">
+                <Badge variant="destructive" className="animate-pulse">LIVE</Badge>
+                Current Raid Session
+              </h3>
+              <RaidCard raid={currentRaid} onJoin={handleJoinRaid} />
+            </div>
+          ) : (
+            <Card className="border-dashed border-2 border-muted-foreground/30">
+              <CardContent className="p-8 text-center space-y-4">
+                <div className="text-muted-foreground">
+                  <PlayCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <h3 className="text-lg font-semibold mb-2">No Active RAIDs</h3>
+                  <p>Be the first to create a raid and rally the community!</p>
                 </div>
-                <div className="text-right space-y-2">
-                  <div className="text-3xl font-bold text-gradient-primary">
-                    ${currentRaidSession.totalRaised}
-                  </div>
-                  <div className="text-sm text-muted-foreground">Total Raised</div>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Users className="w-5 h-5 text-muted-foreground" />
-                  <span>{currentRaidSession.participants} participants</span>
-                </div>
-                <div className="flex space-x-2">
-                  <Button variant="hero" size="sm">
-                    Join Raid
+                {user && (
+                  <Button 
+                    onClick={() => setShowCreator(true)}
+                    variant="outline"
+                    className="gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Create First RAID
                   </Button>
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="https://discord.gg/clip" target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="w-4 h-4 mr-1" />
-                      Discord
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </section>
 
         {/* Upcoming Raids */}
-        <section className="space-y-6">
-          <h2 className="text-3xl font-bold flex items-center space-x-2">
-            <Clock className="w-8 h-8 text-secondary" />
-            <span>Upcoming Raids</span>
-          </h2>
-          
-          <div className="grid lg:grid-cols-2 gap-6">
-            {upcomingRaids.map((raid) => (
-              <Card key={raid.id} className="hover-lift shadow-card">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-2">
-                      <Badge variant="secondary">
-                        {getTimeUntilStart(raid.startTime)}
-                      </Badge>
-                      <CardTitle className="text-lg">{raid.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">Target: {raid.targetChannel}</p>
-                    </div>
-                    <div className="text-right space-y-1">
-                      <div className="text-xl font-bold text-gradient-secondary">
-                        ${raid.estimatedBudget}
-                      </div>
-                      <div className="text-xs text-muted-foreground">Est. Budget</div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">
-                      {formatTime(raid.startTime)}
-                    </div>
-                    <Button variant="outline" size="sm">
-                      Set Reminder
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
+        {scheduledRaids.length > 0 && (
+          <section className="space-y-6">
+            <h2 className="text-3xl font-bold flex items-center space-x-2">
+              <Clock className="w-8 h-8 text-secondary" />
+              <span>Upcoming Raids</span>
+            </h2>
+            
+            <div className="grid lg:grid-cols-2 gap-6">
+              {scheduledRaids.map((raid) => (
+                <RaidCard key={raid.id} raid={raid} onJoin={handleJoinRaid} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Action Log */}
         <section className="space-y-6">
@@ -351,6 +328,16 @@ const RaidChat = () => {
           </div>
         </section>
       </div>
+
+      {/* RAID Creator Modal */}
+      {showCreator && (
+        <RaidCreator 
+          onClose={() => setShowCreator(false)}
+          onSuccess={() => {
+            // Optional: Add any success handling here
+          }}
+        />
+      )}
     </div>
   );
 };

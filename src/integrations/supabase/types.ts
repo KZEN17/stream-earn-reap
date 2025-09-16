@@ -528,11 +528,17 @@ export type Database = {
           created_by: string | null
           current_participants: number | null
           description: string | null
+          goal_amount: number | null
+          goal_description: string | null
           id: string
+          leader_id: string | null
           max_participants: number | null
+          mission_type: string | null
           scheduled_time: string | null
           status: string | null
+          target_url: string | null
           title: string
+          total_raised: number | null
           twitch_stream_url: string | null
           updated_at: string
         }
@@ -541,11 +547,17 @@ export type Database = {
           created_by?: string | null
           current_participants?: number | null
           description?: string | null
+          goal_amount?: number | null
+          goal_description?: string | null
           id?: string
+          leader_id?: string | null
           max_participants?: number | null
+          mission_type?: string | null
           scheduled_time?: string | null
           status?: string | null
+          target_url?: string | null
           title: string
+          total_raised?: number | null
           twitch_stream_url?: string | null
           updated_at?: string
         }
@@ -554,11 +566,17 @@ export type Database = {
           created_by?: string | null
           current_participants?: number | null
           description?: string | null
+          goal_amount?: number | null
+          goal_description?: string | null
           id?: string
+          leader_id?: string | null
           max_participants?: number | null
+          mission_type?: string | null
           scheduled_time?: string | null
           status?: string | null
+          target_url?: string | null
           title?: string
+          total_raised?: number | null
           twitch_stream_url?: string | null
           updated_at?: string
         }

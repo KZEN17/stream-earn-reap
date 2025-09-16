@@ -14,6 +14,12 @@ export interface RaidEvent {
   current_participants?: number;
   created_at: string;
   updated_at: string;
+  target_url?: string;
+  mission_type?: 'mission' | 'takeover' | 'support';
+  leader_id?: string;
+  goal_amount?: number;
+  total_raised?: number;
+  goal_description?: string;
 }
 
 export const useRaidEvents = () => {
@@ -31,7 +37,12 @@ export const useRaidEvents = () => {
         .order('scheduled_time', { ascending: true });
 
       if (error) throw error;
-      setRaids(data || []);
+      // Type cast mission_type to ensure proper typing
+      const typedData = (data || []).map(raid => ({
+        ...raid,
+        mission_type: raid.mission_type as 'mission' | 'takeover' | 'support' | undefined
+      }));
+      setRaids(typedData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch raids');
     } finally {
