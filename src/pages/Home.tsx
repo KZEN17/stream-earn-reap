@@ -287,7 +287,6 @@ const Home = () => {
                     </div>
                     <div>
                       <div className="text-2xl font-bold text-gradient-secondary">{story.views}</div>
-                      <div className="text-sm text-muted-foreground">Total Views</div>
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground">{story.story}</p>
