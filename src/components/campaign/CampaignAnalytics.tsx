@@ -121,18 +121,39 @@ export const CampaignAnalytics = ({ campaignId, onBack }: CampaignAnalyticsProps
           created_at,
           approval_date,
           rejection_reason,
-          user_id,
-          profiles(display_name, username, avatar_url)
+          user_id
         `)
         .eq('campaign_id', campaignId)
         .order('created_at', { ascending: false });
 
       if (clipsError) throw clipsError;
 
+      // Fetch profile data for all unique user_ids
+      const userIds = [...new Set(clipsData?.map(clip => clip.user_id) || [])];
+      let profilesMap: Record<string, { display_name: string; username: string; avatar_url: string }> = {};
+      
+      if (userIds.length > 0) {
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('user_id, display_name, username, avatar_url')
+          .in('user_id', userIds);
+        
+        if (profilesData) {
+          profilesMap = profilesData.reduce((acc, profile) => {
+            acc[profile.user_id] = {
+              display_name: profile.display_name || 'Unknown User',
+              username: profile.username || 'unknown',
+              avatar_url: profile.avatar_url || ''
+            };
+            return acc;
+          }, {} as Record<string, { display_name: string; username: string; avatar_url: string }>);
+        }
+      }
+
       setCampaign(campaignData);
       setClips((clipsData || []).map(clip => ({
         ...clip,
-        profiles: (clip.profiles as any) || null
+        profiles: profilesMap[clip.user_id] || null
       })));
 
     } catch (error) {
