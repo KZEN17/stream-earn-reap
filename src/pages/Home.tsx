@@ -104,9 +104,9 @@ const Home = () => {
             <h3 className="text-2xl font-bold text-gradient-primary">For Clippers</h3>
             <div className="space-y-4">
               {[
-                "Find trending streams and missions",
+                "Find trending streamer and missions",
                 "Create and submit viral clips",
-                "Earn points and token rewards"
+                "Earn rewards"
               ].map((step, index) => (
                 <div key={index} className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
@@ -123,7 +123,7 @@ const Home = () => {
             <h3 className="text-2xl font-bold text-gradient-secondary">For Streamers</h3>
             <div className="space-y-4">
               {[
-                "Connect your channels and create missions",
+                "Connect your channels to Pumpfun and create missions",
                 "Stream and engage with your audience", 
                 "Watch your content spread and earn fees"
               ].map((step, index) => (
