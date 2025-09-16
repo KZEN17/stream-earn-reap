@@ -43,86 +43,48 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         if (!mounted) return;
         
         console.log('Auth state changed:', event, session ? 'user logged in' : 'no user');
         
         setSession(session);
         setUser(session?.user ?? null);
+        setLoading(false); // Set loading to false immediately
         
-        if (event === 'SIGNED_IN' && session?.user) {
-          try {
-            // Check if user needs onboarding
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('onboarding_completed')
-              .eq('user_id', session.user.id)
-              .maybeSingle();
-            
-            console.log('Profile check result:', profile);
-            
-            if (!profile || !profile.onboarding_completed) {
-              setNeedsOnboarding(true);
-            } else {
-              setNeedsOnboarding(false);
-            }
-            
-            // Create profile if it doesn't exist
-            if (!profile) {
-              setTimeout(() => {
-                createUserProfile(session.user);
-              }, 0);
-            }
-          } catch (error) {
-            console.error('Error checking onboarding status:', error);
-            setNeedsOnboarding(true); // Default to onboarding if error
-          }
-        } else if (event === 'SIGNED_OUT') {
+        console.log('Auth processing complete, loading set to false');
+        
+        // Handle profile check separately with setTimeout to avoid blocking
+        if (session?.user) {
+          setTimeout(() => {
+            checkUserProfile(session.user);
+          }, 0);
+        } else {
           setNeedsOnboarding(false);
         }
-        
-        // Always set loading to false after processing
-        setLoading(false);
-        console.log('Auth processing complete, loading set to false');
       }
     );
 
     // THEN check for existing session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       if (!mounted) return;
       
       console.log('Initial session check:', session ? 'user logged in' : 'no user');
       
       setSession(session);
       setUser(session?.user ?? null);
+      setLoading(false); // Set loading to false immediately
       
+      console.log('Initial auth processing complete, loading set to false');
+      
+      // Handle profile check separately
       if (session?.user) {
-        try {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('onboarding_completed')
-            .eq('user_id', session.user.id)
-            .maybeSingle();
-          
-          console.log('Initial profile check result:', profile);
-          
-          if (!profile || !profile.onboarding_completed) {
-            setNeedsOnboarding(true);
-          } else {
-            setNeedsOnboarding(false);
-          }
-        } catch (error) {
-          console.error('Error checking onboarding status:', error);
-          setNeedsOnboarding(true); // Default to onboarding if error
-        }
+        setTimeout(() => {
+          checkUserProfile(session.user);
+        }, 0);
       } else {
         setNeedsOnboarding(false);
       }
-      
-      // Always set loading to false after processing
-      setLoading(false);
-      console.log('Initial auth processing complete, loading set to false');
     });
 
     return () => {
@@ -130,6 +92,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       subscription.unsubscribe();
     };
   }, []);
+
+  const checkUserProfile = async (user: User) => {
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('onboarding_completed')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      
+      console.log('Profile check result:', profile);
+      
+      if (!profile || !profile.onboarding_completed) {
+        setNeedsOnboarding(true);
+        
+        // Create profile if it doesn't exist
+        if (!profile) {
+          createUserProfile(user);
+        }
+      } else {
+        setNeedsOnboarding(false);
+      }
+    } catch (error) {
+      console.error('Error checking onboarding status:', error);
+      setNeedsOnboarding(true); // Default to onboarding if error
+    }
+  };
 
   const createUserProfile = async (user: User) => {
     try {
