@@ -120,10 +120,14 @@ const About = () => {
                 <CardTitle className="text-center text-2xl">Gaming Partnerships</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
                   <div className="space-y-2">
                     <div className="text-lg font-semibold">FACEIT</div>
                     <p className="text-sm text-muted-foreground">Counter-Strike & Overwatch 2</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-lg font-semibold">CAA Stellar</div>
+                    <p className="text-sm text-muted-foreground">Large Esports Agency</p>
                   </div>
                   <div className="space-y-2">
                     <div className="text-lg font-semibold">Shrapnel</div>
