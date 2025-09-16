@@ -8,7 +8,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, X, Plus } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Upload, X, Plus, CalendarIcon } from 'lucide-react';
 
 interface CampaignCreatorProps {
   onClose: () => void;
@@ -28,13 +32,13 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
     min_views_required: '1000',
     category: 'general',
     campaign_rules: '',
-    target_countries: [] as string[],
-    tags: [] as string[],
+    gdrive_link: '',
+    social_media_links: [] as string[],
     end_date: '',
   });
 
-  const [newTag, setNewTag] = useState('');
-  const [newCountry, setNewCountry] = useState('');
+  const [newSocialLink, setNewSocialLink] = useState('');
+  const [endDate, setEndDate] = useState<Date>();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
 
@@ -50,37 +54,20 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
     }
   };
 
-  const addTag = () => {
-    if (newTag && !formData.tags.includes(newTag)) {
+  const addSocialLink = () => {
+    if (newSocialLink && !formData.social_media_links.includes(newSocialLink)) {
       setFormData(prev => ({
         ...prev,
-        tags: [...prev.tags, newTag]
+        social_media_links: [...prev.social_media_links, newSocialLink]
       }));
-      setNewTag('');
+      setNewSocialLink('');
     }
   };
 
-  const removeTag = (tag: string) => {
+  const removeSocialLink = (link: string) => {
     setFormData(prev => ({
       ...prev,
-      tags: prev.tags.filter(t => t !== tag)
-    }));
-  };
-
-  const addCountry = () => {
-    if (newCountry && !formData.target_countries.includes(newCountry)) {
-      setFormData(prev => ({
-        ...prev,
-        target_countries: [...prev.target_countries, newCountry]
-      }));
-      setNewCountry('');
-    }
-  };
-
-  const removeCountry = (country: string) => {
-    setFormData(prev => ({
-      ...prev,
-      target_countries: prev.target_countries.filter(c => c !== country)
+      social_media_links: prev.social_media_links.filter(l => l !== link)
     }));
   };
 
@@ -115,14 +102,21 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
       const { error } = await supabase
         .from('campaigns')
         .insert({
-          ...formData,
+          title: formData.title,
+          description: formData.description,
+          campaign_rules: formData.campaign_rules,
           creator_id: user.id,
           campaign_image_url: imageUrl || null,
           prize_pool: parseFloat(formData.prize_pool) || 0,
           payout_per_1000_views: parseFloat(formData.payout_per_1000_views),
           max_payout_per_clip: parseFloat(formData.max_payout_per_clip),
           min_views_required: parseInt(formData.min_views_required),
-          end_date: formData.end_date ? new Date(formData.end_date).toISOString() : null,
+          end_date: endDate ? endDate.toISOString() : null,
+          // Store social links and gdrive in admin_notes for now since these aren't database fields
+          admin_notes: JSON.stringify({
+            gdrive_link: formData.gdrive_link,
+            social_media_links: formData.social_media_links
+          })
         });
 
       if (error) throw error;
@@ -175,12 +169,12 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
               </div>
 
               <div>
-                <Label htmlFor="campaign_rules">Campaign Rules</Label>
+                <Label htmlFor="campaign_rules">Campaign Conditions</Label>
                 <Textarea
                   id="campaign_rules"
                   value={formData.campaign_rules}
                   onChange={(e) => setFormData(prev => ({ ...prev, campaign_rules: e.target.value }))}
-                  placeholder="List all requirements and rules for this campaign..."
+                  placeholder="List all requirements and conditions for this campaign..."
                   rows={4}
                 />
               </div>
@@ -210,6 +204,7 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
                     <label className="cursor-pointer flex flex-col items-center space-y-2">
                       <Upload className="h-8 w-8 text-muted-foreground" />
                       <span className="text-sm text-muted-foreground">Upload campaign image</span>
+                      <span className="text-xs text-muted-foreground">Recommended: 1200x630px (Max: 5MB)</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -246,60 +241,73 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
               </div>
 
               <div>
-                <Label htmlFor="end_date">Campaign End Date</Label>
-                <Input
-                  id="end_date"
-                  type="datetime-local"
-                  value={formData.end_date}
-                  onChange={(e) => setFormData(prev => ({ ...prev, end_date: e.target.value }))}
-                />
+                <Label>Campaign End Date</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !endDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {endDate ? format(endDate, "PPP") : <span>Pick end date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={endDate}
+                      onSelect={setEndDate}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <Label>Tags</Label>
-              <div className="flex gap-2 mb-2">
-                <Input
-                  placeholder="Add a tag"
-                  value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                />
-                <Button type="button" onClick={addTag} size="sm">
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {formData.tags.map(tag => (
-                  <Badge key={tag} variant="secondary" className="cursor-pointer" onClick={() => removeTag(tag)}>
-                    {tag} <X className="h-3 w-3 ml-1" />
-                  </Badge>
-                ))}
-              </div>
+              <Label htmlFor="gdrive_link">Google Drive Link</Label>
+              <Input
+                id="gdrive_link"
+                type="url"
+                placeholder="https://drive.google.com/drive/folders/..."
+                value={formData.gdrive_link}
+                onChange={(e) => setFormData(prev => ({ ...prev, gdrive_link: e.target.value }))}
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Optional: Link to Google Drive folder with campaign assets
+              </p>
             </div>
 
             <div>
-              <Label>Target Countries</Label>
+              <Label>Social Media Links</Label>
               <div className="flex gap-2 mb-2">
                 <Input
-                  placeholder="Add a country"
-                  value={newCountry}
-                  onChange={(e) => setNewCountry(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addCountry())}
+                  placeholder="Add social media or website link"
+                  value={newSocialLink}
+                  onChange={(e) => setNewSocialLink(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSocialLink())}
                 />
-                <Button type="button" onClick={addCountry} size="sm">
+                <Button type="button" onClick={addSocialLink} size="sm">
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2">
-                {formData.target_countries.map(country => (
-                  <Badge key={country} variant="outline" className="cursor-pointer" onClick={() => removeCountry(country)}>
-                    {country} <X className="h-3 w-3 ml-1" />
+                {formData.social_media_links.map(link => (
+                  <Badge key={link} variant="secondary" className="cursor-pointer" onClick={() => removeSocialLink(link)}>
+                    {link} <X className="h-3 w-3 ml-1" />
                   </Badge>
                 ))}
               </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Add relevant social media profiles, websites, or other links
+              </p>
             </div>
           </div>
 

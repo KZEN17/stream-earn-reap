@@ -41,7 +41,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               {user && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="flex items-center space-x-2 px-3 py-2">
+                    <Button variant="ghost" className="flex items-center space-x-2 px-3 py-2 hover:bg-accent">
                       <Avatar className="h-6 w-6">
                         <AvatarImage src={user.user_metadata?.avatar_url} />
                         <AvatarFallback className="text-xs">
@@ -53,8 +53,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem onClick={signOut}>
+                  <DropdownMenuContent align="end" className="w-48 bg-card border border-border shadow-lg z-50">
+                    <DropdownMenuItem onClick={signOut} className="cursor-pointer hover:bg-accent">
                       <LogOut className="mr-2 h-4 w-4" />
                       Sign Out
                     </DropdownMenuItem>
