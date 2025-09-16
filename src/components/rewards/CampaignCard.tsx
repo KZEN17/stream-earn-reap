@@ -87,12 +87,12 @@ export const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) =>
           </div>
           
           {/* Progress Bar */}
-          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-300"
-              style={{ width: `${progressPercentage}%` }}
-            />
-          </div>
+          <Progress 
+            value={progressPercentage} 
+            className="h-3" 
+            animated={true}
+            showGlow={true}
+          />
         </div>
 
         {/* Bottom Section */}

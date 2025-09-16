@@ -155,7 +155,12 @@ export const RaidCard: React.FC<RaidCardProps> = ({
         {/* Progress Bar */}
         {showProgress && raid.goal_amount && raid.goal_amount > 0 && (
           <div className="space-y-2">
-            <Progress value={progressPercentage} className="h-2" />
+            <Progress 
+              value={progressPercentage} 
+              className="h-3" 
+              animated={true}
+              showGlow={raid.status === 'live'}
+            />
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>{Math.round(progressPercentage)}% complete</span>
               {raid.goal_description && <span>{raid.goal_description}</span>}

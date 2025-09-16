@@ -503,3 +503,17 @@
     box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
   }
 }
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200%);
+    opacity: 0;
+  }
+}
