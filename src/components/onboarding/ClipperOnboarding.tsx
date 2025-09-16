@@ -80,9 +80,10 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
         .from('profiles')
         .upsert({
           user_id: user.id,
+          username: formData.display_name, // Set username for consistency
           display_name: formData.display_name,
           avatar_url: avatarUrl,
-          instagram_username: formData.twitter_username, // Using instagram field for social
+          twitter_username: formData.twitter_username, // Fixed field mapping
           user_type: 'clipper',
           onboarding_completed: true
         }, {

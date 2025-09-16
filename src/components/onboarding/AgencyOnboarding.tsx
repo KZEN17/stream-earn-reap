@@ -88,6 +88,7 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
         .from('profiles')
         .upsert({
           user_id: user.id,
+          username: formData.display_name, // Set username for consistency
           display_name: formData.display_name,
           agency_name: formData.agency_name,
           avatar_url: avatarUrl,
