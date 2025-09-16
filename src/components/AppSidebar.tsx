@@ -87,8 +87,8 @@ export function AppSidebar() {
 
   const getNavClassName = (isActiveRoute: boolean) =>
     isActiveRoute 
-      ? "bg-accent/30 text-accent font-black border-r-4 border-accent shadow-neon" 
-      : "text-accent/90 hover:text-accent hover:bg-accent/20 transition-all duration-300";
+      ? "bg-primary/30 text-primary font-black border-r-4 border-primary shadow-glow" 
+      : "text-sidebar-foreground hover:text-primary hover:bg-primary/20 transition-all duration-300";
 
   const getItemClassName = (itemTitle: string, isActiveRoute: boolean) => {
     const baseClass = getNavClassName(isActiveRoute);
