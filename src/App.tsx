@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Routes, Route } from "react-router-dom";
-import { useAuth } from "@/contexts/PrivyAuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Leaderboards from "./pages/Leaderboards";
