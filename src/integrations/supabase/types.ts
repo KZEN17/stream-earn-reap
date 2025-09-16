@@ -17,6 +17,7 @@ export type Database = {
       campaigns: {
         Row: {
           campaign_image_url: string | null
+          category: string | null
           created_at: string
           creator_id: string
           description: string | null
@@ -24,16 +25,20 @@ export type Database = {
           id: string
           max_payout_per_clip: number | null
           min_views_required: number | null
+          participants_count: number | null
           payout_per_1000_views: number | null
           prize_pool: number | null
           requirements: Json | null
           start_date: string | null
           status: string | null
+          tags: string[] | null
           title: string
+          total_submissions: number | null
           updated_at: string
         }
         Insert: {
           campaign_image_url?: string | null
+          category?: string | null
           created_at?: string
           creator_id: string
           description?: string | null
@@ -41,16 +46,20 @@ export type Database = {
           id?: string
           max_payout_per_clip?: number | null
           min_views_required?: number | null
+          participants_count?: number | null
           payout_per_1000_views?: number | null
           prize_pool?: number | null
           requirements?: Json | null
           start_date?: string | null
           status?: string | null
+          tags?: string[] | null
           title: string
+          total_submissions?: number | null
           updated_at?: string
         }
         Update: {
           campaign_image_url?: string | null
+          category?: string | null
           created_at?: string
           creator_id?: string
           description?: string | null
@@ -58,18 +67,23 @@ export type Database = {
           id?: string
           max_payout_per_clip?: number | null
           min_views_required?: number | null
+          participants_count?: number | null
           payout_per_1000_views?: number | null
           prize_pool?: number | null
           requirements?: Json | null
           start_date?: string | null
           status?: string | null
+          tags?: string[] | null
           title?: string
+          total_submissions?: number | null
           updated_at?: string
         }
         Relationships: []
       }
       clips: {
         Row: {
+          admin_notes: string | null
+          approved_at: string | null
           campaign_id: string
           created_at: string
           description: string | null
@@ -79,7 +93,10 @@ export type Database = {
           instagram_views: number | null
           last_view_update: string | null
           payout_status: string | null
+          rejected_at: string | null
           status: string | null
+          submission_date: string | null
+          thumbnail_url: string | null
           tiktok_url: string | null
           tiktok_views: number | null
           title: string
@@ -87,10 +104,13 @@ export type Database = {
           updated_at: string
           user_id: string
           verification_notes: string | null
+          video_url: string | null
           youtube_url: string | null
           youtube_views: number | null
         }
         Insert: {
+          admin_notes?: string | null
+          approved_at?: string | null
           campaign_id: string
           created_at?: string
           description?: string | null
@@ -100,7 +120,10 @@ export type Database = {
           instagram_views?: number | null
           last_view_update?: string | null
           payout_status?: string | null
+          rejected_at?: string | null
           status?: string | null
+          submission_date?: string | null
+          thumbnail_url?: string | null
           tiktok_url?: string | null
           tiktok_views?: number | null
           title: string
@@ -108,10 +131,13 @@ export type Database = {
           updated_at?: string
           user_id: string
           verification_notes?: string | null
+          video_url?: string | null
           youtube_url?: string | null
           youtube_views?: number | null
         }
         Update: {
+          admin_notes?: string | null
+          approved_at?: string | null
           campaign_id?: string
           created_at?: string
           description?: string | null
@@ -121,7 +147,10 @@ export type Database = {
           instagram_views?: number | null
           last_view_update?: string | null
           payout_status?: string | null
+          rejected_at?: string | null
           status?: string | null
+          submission_date?: string | null
+          thumbnail_url?: string | null
           tiktok_url?: string | null
           tiktok_views?: number | null
           title?: string
@@ -129,6 +158,7 @@ export type Database = {
           updated_at?: string
           user_id?: string
           verification_notes?: string | null
+          video_url?: string | null
           youtube_url?: string | null
           youtube_views?: number | null
         }
@@ -141,6 +171,87 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      launch_events: {
+        Row: {
+          created_at: string
+          current_participants: number | null
+          description: string | null
+          game: string | null
+          id: string
+          max_participants: number | null
+          platform: string | null
+          scheduled_date: string
+          status: string | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_participants?: number | null
+          description?: string | null
+          game?: string | null
+          id?: string
+          max_participants?: number | null
+          platform?: string | null
+          scheduled_date: string
+          status?: string | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_participants?: number | null
+          description?: string | null
+          game?: string | null
+          id?: string
+          max_participants?: number | null
+          platform?: string | null
+          scheduled_date?: string
+          status?: string | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          action_url: string | null
+          created_at: string
+          id: string
+          message: string
+          read_at: string | null
+          title: string
+          type: string | null
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          read_at?: string | null
+          title: string
+          type?: string | null
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          read_at?: string | null
+          title?: string
+          type?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       payouts: {
         Row: {
@@ -304,6 +415,48 @@ export type Database = {
           updated_at?: string
           user_id?: string
           youtube_channel?: string | null
+        }
+        Relationships: []
+      }
+      user_stats: {
+        Row: {
+          clips_this_week: number | null
+          created_at: string
+          earnings_this_week: number | null
+          id: string
+          rank_position: number | null
+          total_clips: number | null
+          total_earnings: number | null
+          total_views: number | null
+          updated_at: string
+          user_id: string
+          views_this_week: number | null
+        }
+        Insert: {
+          clips_this_week?: number | null
+          created_at?: string
+          earnings_this_week?: number | null
+          id?: string
+          rank_position?: number | null
+          total_clips?: number | null
+          total_earnings?: number | null
+          total_views?: number | null
+          updated_at?: string
+          user_id: string
+          views_this_week?: number | null
+        }
+        Update: {
+          clips_this_week?: number | null
+          created_at?: string
+          earnings_this_week?: number | null
+          id?: string
+          rank_position?: number | null
+          total_clips?: number | null
+          total_earnings?: number | null
+          total_views?: number | null
+          updated_at?: string
+          user_id?: string
+          views_this_week?: number | null
         }
         Relationships: []
       }

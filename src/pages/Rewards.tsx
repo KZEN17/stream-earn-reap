@@ -1,127 +1,40 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Trophy, Target, Clock, Users, Zap, Play, Gift, Star, Calendar, BookOpen } from "lucide-react";
 import { CampaignCard } from "@/components/rewards/CampaignCard";
 import { CampaignDetail } from "@/components/rewards/CampaignDetail";
 import { SubmissionModal } from "@/components/rewards/SubmissionModal";
-import { 
-  Gift, 
-  Plus, 
-  TrendingUp, 
-  Target,
-  Clock,
-  Award,
-  RefreshCw,
-  Trophy,
-  Zap,
-  Filter
-} from "lucide-react";
+import { useCampaigns } from "@/hooks/useCampaigns";
+import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Rewards = () => {
   const [selectedCampaign, setSelectedCampaign] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState("active");
-  const [showSubmissionModal, setShowSubmissionModal] = useState(false);
-  const [selectedCampaignForSubmission, setSelectedCampaignForSubmission] = useState<string>("");
+  const [activeTab, setActiveTab] = useState('active');
+  const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
+  const [submissionCampaignId, setSubmissionCampaignId] = useState<string>('');
+  const [submissionCampaignTitle, setSubmissionCampaignTitle] = useState<string>('');
+  
+  const { campaigns, loading, error } = useCampaigns();
+  const { toast } = useToast();
 
-  // Mock campaigns data
-  const campaigns = {
-    active: [
-      {
-        id: "1",
-        title: "Clip For Her Fantasy Box",
-        description: "Create engaging content featuring Her Fantasy Box products. Show product unboxing, reviews, or creative uses.",
-        rewardPool: 10021.53,
-        pointsPerClip: 200,
-        participants: 89,
-        maxParticipants: 500,
-        deadline: "Dec 31, 2024",
-        status: 'active' as const,
-        requirements: ["15-60 seconds", "Show product clearly", "Original audio", "High quality"],
-        tags: ["Products", "Unboxing", "Review", "2x Bonus"],
-        progress: 18,
-        image: "fantasy-box.jpg",
-        minPayout: 2.00,
-        maxPayout: 1000
-      },
-      {
-        id: "2",
-        title: "Gaming Content Creator Challenge",
-        description: "Submit your best gaming moments, tutorials, or gameplay highlights for maximum exposure",
-        rewardPool: 7500,
-        pointsPerClip: 150,
-        participants: 156,
-        maxParticipants: 300,
-        deadline: "Jan 15, 2025",
-        status: 'active' as const,
-        requirements: ["Gaming content", "720p quality", "Under 45 seconds", "No copyrighted music"],
-        tags: ["Gaming", "Tutorial", "Highlight"],
-        progress: 52,
-        minPayout: 5.00,
-        maxPayout: 800
-      },
-      {
-        id: "3",
-        title: "Lifestyle & Fashion Trends",
-        description: "Share your style, daily routines, and lifestyle content to inspire others",
-        rewardPool: 5000,
-        pointsPerClip: 100,
-        participants: 234,
-        maxParticipants: 400,
-        deadline: "Ongoing",
-        status: 'active' as const,
-        requirements: ["Lifestyle content", "Good lighting", "Clear audio", "Authentic"],
-        tags: ["Fashion", "Weekly", "Lifestyle"],
-        progress: 59,
-        minPayout: 3.00,
-        maxPayout: 500
-      }
-    ],
-    upcoming: [
-      {
-        id: "4",
-        title: "Spring Fashion Collection",
-        description: "Showcase the latest spring fashion trends and outfit combinations",
-        rewardPool: 8000,
-        pointsPerClip: 180,
-        participants: 0,
-        maxParticipants: 250,
-        deadline: "Mar 20, 2025",
-        status: 'upcoming' as const,
-        requirements: ["Spring fashion", "Outfit coordination", "Good lighting"],
-        tags: ["Fashion", "Spring", "Style"],
-        progress: 0,
-        minPayout: 5.00,
-        maxPayout: 1200
-      }
-    ],
-    ended: [
-      {
-        id: "5",
-        title: "Holiday Shopping Hauls",
-        description: "Share your best holiday shopping finds and gift recommendations",
-        rewardPool: 6500,
-        pointsPerClip: 120,
-        participants: 298,
-        maxParticipants: 300,
-        deadline: "Dec 25, 2024",
-        status: 'ended' as const,
-        requirements: ["Holiday shopping", "Product focus", "Under 60s"],
-        tags: ["Holiday", "Shopping", "Gifts"],
-        progress: 99,
-        minPayout: 4.00,
-        maxPayout: 900
-      }
-    ]
+  // Categorize campaigns by status
+  const categorizedCampaigns = {
+    active: campaigns.filter(c => c.status === 'active'),
+    upcoming: campaigns.filter(c => c.status === 'upcoming'),
+    ended: campaigns.filter(c => c.status === 'ended' || c.status === 'completed')
   };
 
   const handleJoinCampaign = (campaignId: string) => {
-    const campaign = [...campaigns.active, ...campaigns.upcoming, ...campaigns.ended]
-      .find(c => c.id === campaignId);
+    const campaign = campaigns.find(c => c.id === campaignId);
     if (campaign) {
-      setSelectedCampaignForSubmission(campaign.title);
-      setShowSubmissionModal(true);
+      setSubmissionCampaignId(campaignId);
+      setSubmissionCampaignTitle(campaign.title);
+      setIsSubmissionModalOpen(true);
     }
   };
 
@@ -132,6 +45,14 @@ const Rewards = () => {
   const handleBackToCampaigns = () => {
     setSelectedCampaign(null);
   };
+
+  if (error) {
+    toast({
+      title: "Error",
+      description: error,
+      variant: "destructive"
+    });
+  }
 
   // If viewing campaign detail
   if (selectedCampaign) {
@@ -148,12 +69,12 @@ const Rewards = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <SubmissionModal
-        isOpen={showSubmissionModal}
-        onClose={() => setShowSubmissionModal(false)}
-        campaignTitle={selectedCampaignForSubmission}
-        campaignId="1"
-      />
+        <SubmissionModal
+          isOpen={isSubmissionModalOpen}
+          onClose={() => setIsSubmissionModalOpen(false)}
+          campaignTitle={submissionCampaignTitle}
+          campaignId={submissionCampaignId}
+        />
       <div className="space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
@@ -228,43 +149,159 @@ const Rewards = () => {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="active" className="mt-6">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {campaigns.active.map((campaign) => (
-                  <CampaignCard 
-                    key={campaign.id} 
-                    campaign={campaign}
-                    onJoin={handleJoinCampaign}
-                    onView={handleViewCampaign}
-                  />
-                ))}
-              </div>
+            <TabsContent value="active" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Trophy className="w-5 h-5 text-accent" />
+                      Active Campaigns
+                    </CardTitle>
+                    <Badge variant="secondary">
+                      {categorizedCampaigns.active.length} Active
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {loading ? (
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {[1, 2, 3, 4].map((i) => (
+                        <Skeleton key={i} className="h-64 w-full" />
+                      ))}
+                    </div>
+                  ) : categorizedCampaigns.active.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Trophy className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">No active campaigns at the moment</p>
+                    </div>
+                  ) : (
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {categorizedCampaigns.active.map((campaign) => (
+                        <CampaignCard
+                          key={campaign.id}
+                          campaign={{
+                            id: campaign.id,
+                            title: campaign.title,
+                            description: campaign.description || '',
+                            rewardPool: campaign.prize_pool || 0,
+                            participants: campaign.participants_count || 0,
+                            deadline: campaign.end_date || '',
+                            status: campaign.status as 'active',
+                            tags: campaign.tags || [],
+                            progress: Math.min(((campaign.total_submissions || 0) / 100) * 100, 100),
+                            pointsPerClip: campaign.payout_per_1000_views || 0,
+                            maxEarnings: campaign.max_payout_per_clip || 0
+                          }}
+                          onJoin={handleJoinCampaign}
+                          onView={handleViewCampaign}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            <TabsContent value="upcoming" className="mt-6">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {campaigns.upcoming.map((campaign) => (
-                  <CampaignCard 
-                    key={campaign.id} 
-                    campaign={campaign}
-                    onJoin={handleJoinCampaign}
-                    onView={handleViewCampaign}
-                  />
-                ))}
-              </div>
+            <TabsContent value="upcoming" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-primary" />
+                      Upcoming Campaigns
+                    </CardTitle>
+                    <Badge variant="outline">{categorizedCampaigns.upcoming.length} Coming Soon</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {loading ? (
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {[1, 2].map((i) => (
+                        <Skeleton key={i} className="h-64 w-full" />
+                      ))}
+                    </div>
+                  ) : categorizedCampaigns.upcoming.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Clock className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">No upcoming campaigns scheduled</p>
+                    </div>
+                  ) : (
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {categorizedCampaigns.upcoming.map((campaign) => (
+                        <CampaignCard
+                          key={campaign.id}
+                          campaign={{
+                            id: campaign.id,
+                            title: campaign.title,
+                            description: campaign.description || '',
+                            rewardPool: campaign.prize_pool || 0,
+                            participants: campaign.participants_count || 0,
+                            deadline: campaign.end_date || '',
+                            status: campaign.status as 'upcoming',
+                            tags: campaign.tags || [],
+                            progress: 0,
+                            pointsPerClip: campaign.payout_per_1000_views || 0,
+                            maxEarnings: campaign.max_payout_per_clip || 0
+                          }}
+                          onJoin={handleJoinCampaign}
+                          onView={handleViewCampaign}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            <TabsContent value="ended" className="mt-6">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {campaigns.ended.map((campaign) => (
-                  <CampaignCard 
-                    key={campaign.id} 
-                    campaign={campaign}
-                    onJoin={handleJoinCampaign}
-                    onView={handleViewCampaign}
-                  />
-                ))}
-              </div>
+            <TabsContent value="ended" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="w-5 h-5 text-muted-foreground" />
+                      Past Campaigns
+                    </CardTitle>
+                    <Badge variant="secondary">{categorizedCampaigns.ended.length} Completed</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {loading ? (
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {[1, 2].map((i) => (
+                        <Skeleton key={i} className="h-64 w-full" />
+                      ))}
+                    </div>
+                  ) : categorizedCampaigns.ended.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Star className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">No completed campaigns yet</p>
+                    </div>
+                  ) : (
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {categorizedCampaigns.ended.map((campaign) => (
+                        <CampaignCard
+                          key={campaign.id}
+                          campaign={{
+                            id: campaign.id,
+                            title: campaign.title,
+                            description: campaign.description || '',
+                            rewardPool: campaign.prize_pool || 0,
+                            participants: campaign.participants_count || 0,
+                            deadline: campaign.end_date || '',
+                            status: campaign.status as 'ended',
+                            tags: campaign.tags || [],
+                            progress: 100,
+                            pointsPerClip: campaign.payout_per_1000_views || 0,
+                            maxEarnings: campaign.max_payout_per_clip || 0
+                          }}
+                          onJoin={handleJoinCampaign}
+                          onView={handleViewCampaign}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </section>

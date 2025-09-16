@@ -1,116 +1,20 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Trophy, 
-  TrendingUp, 
-  Eye, 
-  ThumbsUp, 
-  Clock,
-  Crown,
-  Medal,
-  Award,
-  DollarSign
-} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Crown, Medal, Award, Users, TrendingUp, DollarSign, Eye, Play } from "lucide-react";
+import { useLeaderboards } from "@/hooks/useLeaderboards";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Leaderboards = () => {
   const { type } = useParams();
-  const [timeFilter, setTimeFilter] = useState("week");
-  
+  const [timeFilter, setTimeFilter] = useState<'week' | 'all-time'>('week');
+  const { streamers, clippers, loading, error } = useLeaderboards(timeFilter);
+
   const activeTab = type || "clippers";
-
-  const mockStreamers = [
-    {
-      id: 1,
-      handle: "@ninja",
-      avatar: "/placeholder.svg",
-      streamTitle: "VALORANT Ranked Grind",
-      viewers: 45000,
-      totalEarnings: 8750,
-      rank: 1
-    },
-    {
-      id: 2,
-      handle: "@shroud",
-      avatar: "/placeholder.svg", 
-      streamTitle: "CS2 Pro Matches",
-      viewers: 38000,
-      totalEarnings: 7200,
-      rank: 2
-    },
-    {
-      id: 3,
-      handle: "@xqc",
-      avatar: "/placeholder.svg",
-      streamTitle: "Variety Gaming",
-      viewers: 52000,
-      totalEarnings: 6800,
-      rank: 3
-    }
-  ];
-
-  const mockClippers = [
-    {
-      id: 1,
-      handle: "@clipmaster",
-      avatar: "/placeholder.svg",
-      weeklyPoints: 2450,
-      totalViews: 156000,
-      rank: 1
-    },
-    {
-      id: 2,
-      handle: "@viralking", 
-      avatar: "/placeholder.svg",
-      weeklyPoints: 2130,
-      totalViews: 124000,
-      rank: 2
-    },
-    {
-      id: 3,
-      handle: "@contentcreator",
-      avatar: "/placeholder.svg",
-      weeklyPoints: 1890,
-      totalViews: 112000,
-      rank: 3
-    }
-  ];
-
-  const mockFees = [
-    {
-      id: 1,
-      handle: "@pumpstreamer",
-      avatar: "/placeholder.svg",
-      feesUSD: 1250,
-      toStreamsUSD: 625,
-      toTalentUSD: 375,
-      toAudienceUSD: 250,
-      rank: 1
-    },
-    {
-      id: 2,
-      handle: "@cryptoking",
-      avatar: "/placeholder.svg", 
-      feesUSD: 980,
-      toStreamsUSD: 490,
-      toTalentUSD: 294,
-      toAudienceUSD: 196,
-      rank: 2
-    },
-    {
-      id: 3,
-      handle: "@tokenmaster",
-      avatar: "/placeholder.svg",
-      feesUSD: 750,
-      toStreamsUSD: 375,
-      toTalentUSD: 225,
-      toAudienceUSD: 150,
-      rank: 3
-    }
-  ];
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -147,9 +51,9 @@ const Leaderboards = () => {
               This Week
             </Button>
             <Button
-              variant={timeFilter === "alltime" ? "default" : "ghost"}
+              variant={timeFilter === "all-time" ? "default" : "ghost"}
               size="sm"
-              onClick={() => setTimeFilter("alltime")}
+              onClick={() => setTimeFilter("all-time")}
             >
               All Time
             </Button>
@@ -164,7 +68,7 @@ const Leaderboards = () => {
               <span>Clippers</span>
             </TabsTrigger>
             <TabsTrigger value="streams" className="flex items-center space-x-2">
-              <Trophy className="w-4 h-4" />
+              <Users className="w-4 h-4" />
               <span>Streams</span>
             </TabsTrigger>
           </TabsList>
@@ -180,39 +84,53 @@ const Leaderboards = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {mockStreamers.map((streamer) => (
-                    <div key={streamer.id} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className="flex items-center justify-center w-8">
-                        {getRankIcon(streamer.rank)}
+                  <div className="space-y-4">
+                    {loading ? (
+                      Array(5).fill(0).map((_, i) => (
+                        <Skeleton key={i} className="h-20 w-full" />
+                      ))
+                    ) : streamers.length === 0 ? (
+                      <div className="text-center py-8">
+                        <Users className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                        <p className="text-muted-foreground">No streamers data available</p>
                       </div>
-                      
-                      <div className="w-12 h-12 bg-gradient-primary rounded-full"></div>
-                      
-                      <div className="flex-1 space-y-1">
-                        <h3 className="font-semibold">{streamer.handle}</h3>
-                        <p className="text-sm text-muted-foreground">{streamer.streamTitle}</p>
-                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                          <div className="flex items-center space-x-1">
-                            <Eye className="w-4 h-4" />
-                            <span>{(streamer.viewers / 1000).toFixed(0)}K viewers</span>
+                    ) : (
+                      streamers.map((streamer) => (
+                        <div
+                          key={streamer.id}
+                          className="flex items-center gap-4 p-4 rounded-lg border bg-card/50 hover:bg-card transition-colors"
+                        >
+                          <div className="flex items-center gap-3 min-w-0 flex-1">
+                            <div className="flex-shrink-0">
+                              {getRankIcon(streamer.rank_position)}
+                            </div>
+                            <Avatar className="h-10 w-10 flex-shrink-0">
+                              <AvatarImage src={streamer.avatar_url} />
+                              <AvatarFallback>{streamer.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                            <div className="min-w-0 flex-1">
+                              <p className="font-medium truncate">@{streamer.username}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {(timeFilter === 'week' ? streamer.views_this_week : streamer.total_views).toLocaleString()} views
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-4 text-sm">
+                            <div className="text-center">
+                              <div className="flex items-center gap-1 text-green-600">
+                                <DollarSign className="w-4 h-4" />
+                                ${(timeFilter === 'week' ? streamer.earnings_this_week : streamer.total_earnings).toLocaleString()}
+                              </div>
+                            </div>
+                            <Button variant="outline" size="sm">
+                              View Profile
+                            </Button>
                           </div>
                         </div>
-                      </div>
-                      
-                      <div className="text-right">
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Total Earnings: </span>
-                          <span className="font-medium">${streamer.totalEarnings.toLocaleString()}</span>
-                        </div>
-                      </div>
-                      
-                      <Button variant="outline" size="sm">
-                        View Stream
-                      </Button>
-                    </div>
-                  ))}
-                </div>
+                      ))
+                    )}
+                  </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -229,39 +147,59 @@ const Leaderboards = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {mockClippers.map((clipper) => (
-                    <div key={clipper.id} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className="flex items-center justify-center w-8">
-                        {getRankIcon(clipper.rank)}
+                  <div className="space-y-4">
+                    {loading ? (
+                      Array(5).fill(0).map((_, i) => (
+                        <Skeleton key={i} className="h-20 w-full" />
+                      ))
+                    ) : clippers.length === 0 ? (
+                      <div className="text-center py-8">
+                        <TrendingUp className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                        <p className="text-muted-foreground">No clippers data available</p>
                       </div>
-                      
-                      <div className="w-12 h-12 bg-gradient-secondary rounded-full"></div>
-                      
-                      <div className="flex-1 space-y-2">
-                        <h3 className="font-semibold">{clipper.handle}</h3>
-                        <div className="grid grid-cols-3 gap-2 text-sm">
-                          <div>
-                            <span className="text-muted-foreground">Weekly Points: </span>
-                            <span className="font-medium">{clipper.weeklyPoints.toLocaleString()}</span>
+                    ) : (
+                      clippers.map((clipper) => (
+                        <div
+                          key={clipper.id}
+                          className="flex items-center gap-4 p-4 rounded-lg border bg-card/50 hover:bg-card transition-colors"
+                        >
+                          <div className="flex items-center gap-3 min-w-0 flex-1">
+                            <div className="flex-shrink-0">
+                              {getRankIcon(clipper.rank_position)}
+                            </div>
+                            <Avatar className="h-10 w-10 flex-shrink-0">
+                              <AvatarImage src={clipper.avatar_url} />
+                              <AvatarFallback>{clipper.display_name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                            <div className="min-w-0 flex-1">
+                              <p className="font-medium truncate">@{clipper.username}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {clipper.total_clips} clips
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <span className="text-muted-foreground">Total Views: </span>
-                            <span className="font-medium">{(clipper.totalViews / 1000).toFixed(0)}K</span>
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground">Rewards: </span>
-                            <span className="font-medium">${(clipper.weeklyPoints * 0.5).toFixed(0)}</span>
+                          
+                          <div className="flex items-center gap-4 text-sm">
+                            <div className="text-center">
+                              <div className="flex items-center gap-1 text-muted-foreground">
+                                <Eye className="w-4 h-4" />
+                                {(timeFilter === 'week' ? clipper.views_this_week : clipper.total_views).toLocaleString()}
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <div className="flex items-center gap-1 text-green-600">
+                                <DollarSign className="w-4 h-4" />
+                                ${(timeFilter === 'week' ? clipper.earnings_this_week : clipper.total_earnings).toLocaleString()}
+                              </div>
+                            </div>
+                            <Button variant="outline" size="sm">
+                              View Profile
+                            </Button>
                           </div>
                         </div>
-                      </div>
-                      
-                      <Button variant="outline" size="sm">
-                        View Profile
-                      </Button>
-                    </div>
-                  ))}
-                </div>
+                      ))
+                    )}
+                  </div>
               </CardContent>
             </Card>
           </TabsContent>

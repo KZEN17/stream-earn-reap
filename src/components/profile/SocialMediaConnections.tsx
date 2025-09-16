@@ -1,109 +1,46 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
-import { Instagram, Music, Youtube, Check, X } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Instagram, Music, Youtube, CheckCircle, XCircle } from "lucide-react";
+import { useUserProfile } from '@/hooks/useUserProfile';
+import { useToast } from '@/hooks/use-toast';
 
-interface Profile {
-  instagram_username: string;
-  instagram_connected: boolean;
-  tiktok_username: string;
-  tiktok_connected: boolean;
-  youtube_channel_id: string;
-  youtube_connected: boolean;
-}
+const SocialMediaConnections = () => {
+  const { profile, loading, connectSocialMedia, disconnectSocialMedia } = useUserProfile();
+  const { toast } = useToast();
 
-export default function SocialMediaConnections() {
-  const { user } = useAuth();
-  const [profile, setProfile] = useState<Profile>({
-    instagram_username: '',
-    instagram_connected: false,
-    tiktok_username: '',
-    tiktok_connected: false,
-    youtube_channel_id: '',
-    youtube_connected: false,
-  });
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      loadProfile();
-    }
-  }, [user]);
-
-  const loadProfile = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('instagram_username, instagram_connected, tiktok_username, tiktok_connected, youtube_channel_id, youtube_connected')
-        .eq('user_id', user?.id)
-        .single();
-
-      if (error) throw error;
-      if (data) setProfile(data);
-    } catch (error) {
-      console.error('Error loading profile:', error);
-    }
-  };
 
   const handleConnect = async (platform: 'instagram' | 'tiktok' | 'youtube', username: string) => {
-    setLoading(true);
     try {
-      const updates: any = {};
-      updates[`${platform}_username`] = username;
-      updates[`${platform}_connected`] = true;
-
-      const { error } = await supabase
-        .from('profiles')
-        .update(updates)
-        .eq('user_id', user?.id);
-
-      if (error) throw error;
-
-      setProfile(prev => ({
-        ...prev,
-        ...updates,
-      }));
-
-      toast.success(`${platform.charAt(0).toUpperCase() + platform.slice(1)} connected successfully!`);
+      await connectSocialMedia(platform, username);
+      toast({
+        title: "Success!",
+        description: `${platform.charAt(0).toUpperCase() + platform.slice(1)} connected successfully`,
+      });
     } catch (error) {
-      toast.error('Failed to connect account');
-      console.error('Error connecting account:', error);
-    } finally {
-      setLoading(false);
+      toast({
+        title: "Connection Failed",
+        description: error instanceof Error ? error.message : `Failed to connect ${platform}`,
+        variant: "destructive"
+      });
     }
   };
 
   const handleDisconnect = async (platform: 'instagram' | 'tiktok' | 'youtube') => {
-    setLoading(true);
     try {
-      const updates: any = {};
-      updates[`${platform}_username`] = '';
-      updates[`${platform}_connected`] = false;
-
-      const { error } = await supabase
-        .from('profiles')
-        .update(updates)
-        .eq('user_id', user?.id);
-
-      if (error) throw error;
-
-      setProfile(prev => ({
-        ...prev,
-        ...updates,
-      }));
-
-      toast.success(`${platform.charAt(0).toUpperCase() + platform.slice(1)} disconnected`);
+      await disconnectSocialMedia(platform);
+      toast({
+        title: "Disconnected",
+        description: `${platform.charAt(0).toUpperCase() + platform.slice(1)} disconnected successfully`,
+      });
     } catch (error) {
-      toast.error('Failed to disconnect account');
-      console.error('Error disconnecting account:', error);
-    } finally {
-      setLoading(false);
+      toast({
+        title: "Disconnection Failed",
+        description: error instanceof Error ? error.message : `Failed to disconnect ${platform}`,
+        variant: "destructive"
+      });
     }
   };
 
@@ -136,12 +73,12 @@ export default function SocialMediaConnections() {
           <div className="ml-auto">
             {connected ? (
               <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
-                <Check className="w-3 h-3 mr-1" />
+                <CheckCircle className="w-3 h-3 mr-1" />
                 Connected
               </Badge>
             ) : (
               <Badge variant="outline">
-                <X className="w-3 h-3 mr-1" />
+                <XCircle className="w-3 h-3 mr-1" />
                 Not Connected
               </Badge>
             )}
@@ -201,8 +138,8 @@ export default function SocialMediaConnections() {
           platform="instagram"
           icon={<Instagram className="w-5 h-5 text-pink-500" />}
           name="Instagram"
-          username={profile.instagram_username}
-          connected={profile.instagram_connected}
+          username={profile?.instagram_username || ''}
+          connected={profile?.instagram_connected || false}
           onConnect={(username) => handleConnect('instagram', username)}
           onDisconnect={() => handleDisconnect('instagram')}
         />
@@ -211,8 +148,8 @@ export default function SocialMediaConnections() {
           platform="tiktok"
           icon={<Music className="w-5 h-5 text-black dark:text-white" />}
           name="TikTok"
-          username={profile.tiktok_username}
-          connected={profile.tiktok_connected}
+          username={profile?.tiktok_username || ''}
+          connected={profile?.tiktok_connected || false}
           onConnect={(username) => handleConnect('tiktok', username)}
           onDisconnect={() => handleDisconnect('tiktok')}
         />
@@ -221,8 +158,8 @@ export default function SocialMediaConnections() {
           platform="youtube"
           icon={<Youtube className="w-5 h-5 text-red-500" />}
           name="YouTube"
-          username={profile.youtube_channel_id}
-          connected={profile.youtube_connected}
+          username={profile?.youtube_channel_id || ''}
+          connected={profile?.youtube_connected || false}
           onConnect={(username) => handleConnect('youtube', username)}
           onDisconnect={() => handleDisconnect('youtube')}
         />
@@ -241,4 +178,6 @@ export default function SocialMediaConnections() {
       </Card>
     </div>
   );
-}
+};
+
+export default SocialMediaConnections;

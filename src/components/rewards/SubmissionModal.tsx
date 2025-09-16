@@ -1,25 +1,25 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  Upload, 
-  Link as LinkIcon, 
-  Check, 
-  AlertCircle, 
-  X,
-  Calendar,
-  Users,
-  Target,
-  TrendingUp
-} from "lucide-react";
 import { useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { 
+  AlertTriangle, 
+  Upload, 
+  CheckCircle, 
+  Loader2, 
+  Link, 
+  Play,
+  ArrowLeft,
+  ArrowRight
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useClips } from "@/hooks/useClips";
+import { useToast } from "@/hooks/use-toast";
 
 interface SubmissionModalProps {
   isOpen: boolean;
@@ -28,20 +28,23 @@ interface SubmissionModalProps {
   campaignId: string;
 }
 
-export const SubmissionModal = ({ isOpen, onClose, campaignTitle }: SubmissionModalProps) => {
+export const SubmissionModal = ({ isOpen, onClose, campaignTitle, campaignId }: SubmissionModalProps) => {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    socialLink: '',
-    description: '',
-    mediaFile: null as File | null
-  });
+  const [socialLink, setSocialLink] = useState('');
+  const [description, setDescription] = useState('');
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [title, setTitle] = useState('');
+  
+  const { submitClip } = useClips();
+  const { toast } = useToast();
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setFormData(prev => ({ ...prev, mediaFile: file }));
+      setMediaFile(file);
     }
   };
 
@@ -54,16 +57,63 @@ export const SubmissionModal = ({ isOpen, onClose, campaignTitle }: SubmissionMo
     }, 2000);
   };
 
-  const handleSubmit = () => {
-    // Handle submission logic
-    console.log('Submitting:', formData);
-    onClose();
-    setStep(1);
-    setFormData({ socialLink: '', description: '', mediaFile: null });
-    setIsVerified(false);
+  const handleSubmit = async () => {
+    if (!title.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please provide a title for your clip",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Determine which platform the link is from
+      let clipData: any = {
+        campaign_id: campaignId,
+        title: title.trim(),
+        description: description.trim() || undefined,
+        video_file: mediaFile || undefined
+      };
+
+      if (socialLink.includes('instagram.com')) {
+        clipData.instagram_url = socialLink;
+      } else if (socialLink.includes('tiktok.com')) {
+        clipData.tiktok_url = socialLink;
+      } else if (socialLink.includes('youtube.com') || socialLink.includes('youtu.be')) {
+        clipData.youtube_url = socialLink;
+      }
+
+      await submitClip(clipData);
+      
+      toast({
+        title: "Success!",
+        description: "Your clip has been submitted successfully",
+      });
+      
+      onClose();
+      
+      // Reset form
+      setStep(1);
+      setSocialLink('');
+      setDescription('');
+      setMediaFile(null);
+      setIsVerified(false);
+      setTitle('');
+    } catch (error) {
+      toast({
+        title: "Submission Failed",
+        description: error instanceof Error ? error.message : "Failed to submit clip",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const canProceed = step === 1 ? formData.socialLink && isVerified : formData.mediaFile;
+  const canProceed = step === 1 ? title.trim() : step === 2 ? (mediaFile || socialLink) : false;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -121,45 +171,63 @@ export const SubmissionModal = ({ isOpen, onClose, campaignTitle }: SubmissionMo
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="socialLink">Social Media Link *</Label>
-                  <div className="flex gap-2 mt-2">
-                    <Input
-                      id="socialLink"
-                      placeholder="https://www.instagram.com/reel/1234567890"
-                      value={formData.socialLink}
-                      onChange={(e) => setFormData(prev => ({ ...prev, socialLink: e.target.value }))}
-                      className="flex-1"
-                    />
-                    <Button 
-                      onClick={handleVerifyLink}
-                      disabled={!formData.socialLink || isVerifying || isVerified}
-                      variant={isVerified ? "outline" : "default"}
-                    >
-                      {isVerifying ? "Verifying..." : isVerified ? <Check className="w-4 h-4" /> : "Verify"}
-                    </Button>
-                  </div>
-                  {isVerified && (
-                    <p className="text-sm text-green-600 mt-1 flex items-center">
-                      <Check className="w-4 h-4 mr-1" />
-                      Link verified successfully
-                    </p>
-                  )}
-                </div>
-
-                {isVerified && (
-                  <Alert className="border-red-200 bg-red-50">
-                    <AlertCircle className="w-4 h-4 text-red-600" />
-                    <AlertDescription className="text-red-800">
-                      Please verify account ownership to submit this post. 
-                      <Button variant="link" className="text-red-800 p-0 h-auto ml-1">
-                        Click here for verification.
-                      </Button>
-                    </AlertDescription>
-                  </Alert>
-                )}
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Clip Title *</Label>
+                <Input
+                  id="title"
+                  placeholder="Enter a catchy title for your clip"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="socialLink">Social Media Link (Optional)</Label>
+                <div className="relative">
+                  <Link className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="socialLink"
+                    placeholder="https://instagram.com/p/... or https://tiktok.com/@..."
+                    value={socialLink}
+                    onChange={(e) => setSocialLink(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Paste your Instagram, TikTok, or YouTube link here (optional if uploading file)
+                </p>
+              </div>
+
+              {socialLink && !isVerified && (
+                <Button
+                  onClick={handleVerifyLink}
+                  disabled={isVerifying}
+                  className="w-full"
+                >
+                  {isVerifying ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Verifying Link...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="mr-2 h-4 w-4" />
+                      Verify Link
+                    </>
+                  )}
+                </Button>
+              )}
+
+              {isVerified && (
+                <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <span className="text-sm text-green-700 dark:text-green-400">
+                    Link verified successfully!
+                  </span>
+                </div>
+              )}
+            </div>
 
               <div className="flex justify-between">
                 <Button variant="outline" onClick={onClose}>
@@ -208,10 +276,10 @@ export const SubmissionModal = ({ isOpen, onClose, campaignTitle }: SubmissionMo
                         onChange={handleFileUpload}
                       />
                     </div>
-                    {formData.mediaFile && (
+                    {mediaFile && (
                       <p className="text-sm text-green-600 mt-2 flex items-center">
-                        <Check className="w-4 h-4 mr-1" />
-                        {formData.mediaFile.name} uploaded successfully
+                        <CheckCircle className="w-4 h-4 mr-1" />
+                        {mediaFile.name} uploaded successfully
                       </p>
                     )}
                   </div>
@@ -219,13 +287,13 @@ export const SubmissionModal = ({ isOpen, onClose, campaignTitle }: SubmissionMo
 
                 <div>
                   <Label htmlFor="description">Description (Optional)</Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Add any additional context about your submission..."
-                    value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    className="mt-2"
-                  />
+                      <Textarea
+                        id="description"
+                        placeholder="Add any additional context about your submission..."
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="mt-2"
+                      />
                 </div>
               </div>
 
@@ -233,13 +301,28 @@ export const SubmissionModal = ({ isOpen, onClose, campaignTitle }: SubmissionMo
                 <Button variant="outline" onClick={() => setStep(1)}>
                   Back
                 </Button>
-                <Button 
-                  onClick={handleSubmit}
-                  disabled={!canProceed}
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  Submit Entry
-                </Button>
+                  <Button
+                    onClick={step === 2 ? handleSubmit : () => setStep(2)}
+                    disabled={!canProceed || isSubmitting}
+                    className="flex-1"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : step === 2 ? (
+                      <>
+                        <CheckCircle className="mr-2 h-4 w-4" />
+                        Submit Entry
+                      </>
+                    ) : (
+                      <>
+                        Next Step
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
               </div>
             </div>
           )}
