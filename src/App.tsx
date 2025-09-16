@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Routes, Route } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/PrivyAuthContext";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Leaderboards from "./pages/Leaderboards";
@@ -13,6 +13,7 @@ import Guide from "./pages/Guide";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
+import PrivyAuth from "./pages/PrivyAuth";
 import NotFound from "./pages/NotFound";
 import StreamerApplication from "./pages/StreamerApplication";
 import CreateCampaign from "./pages/CreateCampaign";
@@ -61,6 +62,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/privy-auth" element={<PrivyAuth />} />
             <Route path="/apply-streamer" element={<StreamerApplication />} />
             <Route path="/streamer-application" element={<StreamerApplication />} />
             <Route path="/create-campaign" element={<CreateCampaign />} />
