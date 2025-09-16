@@ -165,6 +165,11 @@ const Home = () => {
                 <div className="text-sm text-muted-foreground">To Mission</div>
               </div>
             </div>
+            <div className="mt-6 text-center">
+              <p className="text-sm text-muted-foreground">
+                We take 0% Fees 0% allocation except running infra cost
+              </p>
+            </div>
           </CardContent>
         </Card>
       </section>
