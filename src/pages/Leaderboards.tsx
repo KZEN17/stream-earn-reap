@@ -20,34 +20,37 @@ const Leaderboards = () => {
   const { type } = useParams();
   const [timeFilter, setTimeFilter] = useState("week");
   
-  const activeTab = type || "clips";
+  const activeTab = type || "clippers";
 
-  const mockClips = [
+  const mockStreamers = [
     {
       id: 1,
-      title: "Epic 1v5 Clutch Victory",
-      thumbnail: "/placeholder.svg",
-      streamer: "@ninja",
-      views: 125000,
-      upvotes: 2400,
+      handle: "@ninja",
+      avatar: "/placeholder.svg",
+      streamTitle: "VALORANT Ranked Grind",
+      viewers: 45000,
+      totalEarnings: 8750,
+      weeklyEarnings: 2450,
       rank: 1
     },
     {
       id: 2,
-      title: "Insane No-Scope Headshot",
-      thumbnail: "/placeholder.svg", 
-      streamer: "@shroud",
-      views: 98000,
-      upvotes: 1800,
+      handle: "@shroud",
+      avatar: "/placeholder.svg", 
+      streamTitle: "CS2 Pro Matches",
+      viewers: 38000,
+      totalEarnings: 7200,
+      weeklyEarnings: 2130,
       rank: 2
     },
     {
       id: 3,
-      title: "200 IQ Strategic Play",
-      thumbnail: "/placeholder.svg",
-      streamer: "@xqc",
-      views: 87000,
-      upvotes: 1650,
+      handle: "@xqc",
+      avatar: "/placeholder.svg",
+      streamTitle: "Variety Gaming",
+      viewers: 52000,
+      totalEarnings: 6800,
+      weeklyEarnings: 1890,
       rank: 3
     }
   ];
@@ -132,7 +135,7 @@ const Leaderboards = () => {
         <div className="text-center space-y-4">
           <h1 className="text-4xl lg:text-5xl font-bold text-gradient-rainbow">Leaderboards</h1>
           <p className="text-xl text-muted-foreground">
-            See who's dominating the clip economy
+            See who's leading in streaming and clipping rewards
           </p>
         </div>
 
@@ -158,61 +161,61 @@ const Leaderboards = () => {
 
         {/* Leaderboard Tabs */}
         <Tabs value={activeTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-96 mx-auto">
-            <TabsTrigger value="clips" className="flex items-center space-x-2">
-              <Trophy className="w-4 h-4" />
-              <span>Clips</span>
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 lg:w-96 mx-auto">
             <TabsTrigger value="clippers" className="flex items-center space-x-2">
               <TrendingUp className="w-4 h-4" />
               <span>Clippers</span>
             </TabsTrigger>
-            <TabsTrigger value="fees" className="flex items-center space-x-2">
-              <DollarSign className="w-4 h-4" />
-              <span>Fees</span>
+            <TabsTrigger value="streams" className="flex items-center space-x-2">
+              <Trophy className="w-4 h-4" />
+              <span>Streams</span>
             </TabsTrigger>
           </TabsList>
 
-          {/* Clips Leaderboard */}
-          <TabsContent value="clips" className="space-y-6">
+          {/* Streams Leaderboard */}
+          <TabsContent value="streams" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Trophy className="w-5 h-5 text-primary" />
-                  <span>Top Clips</span>
+                  <span>Top Streamers</span>
                   <Badge variant="secondary">{timeFilter === "week" ? "This Week" : "All Time"}</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockClips.map((clip) => (
-                    <div key={clip.id} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
+                  {mockStreamers.map((streamer) => (
+                    <div key={streamer.id} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
                       <div className="flex items-center justify-center w-8">
-                        {getRankIcon(clip.rank)}
+                        {getRankIcon(streamer.rank)}
                       </div>
                       
-                      <div className="w-16 h-12 bg-muted rounded-lg flex items-center justify-center">
-                        <Eye className="w-4 h-4 text-muted-foreground" />
-                      </div>
+                      <div className="w-12 h-12 bg-gradient-primary rounded-full"></div>
                       
                       <div className="flex-1 space-y-1">
-                        <h3 className="font-semibold">{clip.title}</h3>
-                        <p className="text-sm text-muted-foreground">{clip.streamer}</p>
+                        <h3 className="font-semibold">{streamer.handle}</h3>
+                        <p className="text-sm text-muted-foreground">{streamer.streamTitle}</p>
+                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                          <div className="flex items-center space-x-1">
+                            <Eye className="w-4 h-4" />
+                            <span>{(streamer.viewers / 1000).toFixed(0)}K viewers</span>
+                          </div>
+                        </div>
                       </div>
                       
-                      <div className="flex items-center space-x-6 text-sm">
-                        <div className="flex items-center space-x-1">
-                          <Eye className="w-4 h-4 text-muted-foreground" />
-                          <span>{(clip.views / 1000).toFixed(0)}K</span>
+                      <div className="text-right space-y-1">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Total: </span>
+                          <span className="font-medium">${streamer.totalEarnings.toLocaleString()}</span>
                         </div>
-                        <div className="flex items-center space-x-1">
-                          <ThumbsUp className="w-4 h-4 text-muted-foreground" />
-                          <span>{(clip.upvotes / 1000).toFixed(1)}K</span>
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Weekly: </span>
+                          <span className="font-medium">${streamer.weeklyEarnings.toLocaleString()}</span>
                         </div>
                       </div>
                       
                       <Button variant="outline" size="sm">
-                        View Clip
+                        View Stream
                       </Button>
                     </div>
                   ))}
@@ -221,13 +224,14 @@ const Leaderboards = () => {
             </Card>
           </TabsContent>
 
-          {/* Clippers Leaderboard */}
+
+          {/* Clippers Rewards */}
           <TabsContent value="clippers" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <TrendingUp className="w-5 h-5 text-secondary" />
-                  <span>Top Clippers</span>
+                  <span>Top Clippers Rewards</span>
                   <Badge variant="secondary">{timeFilter === "week" ? "This Week" : "All Time"}</Badge>
                 </CardTitle>
               </CardHeader>
@@ -241,62 +245,24 @@ const Leaderboards = () => {
                       
                       <div className="w-12 h-12 bg-gradient-secondary rounded-full"></div>
                       
-                      <div className="flex-1 space-y-1">
-                        <h3 className="font-semibold">{clipper.handle}</h3>
-                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                          <span>Weekly: {clipper.weeklyPoints.toLocaleString()} pts</span>
-                          <span>All-time: {clipper.allTimePoints.toLocaleString()} pts</span>
-                        </div>
-                      </div>
-                      
-                      <Button variant="outline" size="sm">
-                        View Profile
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Fees Leaderboard */}
-          <TabsContent value="fees" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <DollarSign className="w-5 h-5 text-accent" />
-                  <span>Top Fee Earners</span>
-                  <Badge variant="secondary">{timeFilter === "week" ? "This Week" : "All Time"}</Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {mockFees.map((fee) => (
-                    <div key={fee.id} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-                      <div className="flex items-center justify-center w-8">
-                        {getRankIcon(fee.rank)}
-                      </div>
-                      
-                      <div className="w-12 h-12 bg-gradient-accent rounded-full"></div>
-                      
                       <div className="flex-1 space-y-2">
-                        <h3 className="font-semibold">{fee.handle}</h3>
+                        <h3 className="font-semibold">{clipper.handle}</h3>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-sm">
                           <div>
-                            <span className="text-muted-foreground">Total: </span>
-                            <span className="font-medium">${fee.feesUSD}</span>
+                            <span className="text-muted-foreground">Weekly Points: </span>
+                            <span className="font-medium">{clipper.weeklyPoints.toLocaleString()}</span>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Streams: </span>
-                            <span className="font-medium">${fee.toStreamsUSD}</span>
+                            <span className="text-muted-foreground">Total Points: </span>
+                            <span className="font-medium">{clipper.allTimePoints.toLocaleString()}</span>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Talent: </span>
-                            <span className="font-medium">${fee.toTalentUSD}</span>
+                            <span className="text-muted-foreground">Rewards: </span>
+                            <span className="font-medium">${(clipper.weeklyPoints * 0.5).toFixed(0)}</span>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Audience: </span>
-                            <span className="font-medium">${fee.toAudienceUSD}</span>
+                            <span className="text-muted-foreground">Rank Bonus: </span>
+                            <span className="font-medium">${clipper.rank <= 3 ? (500 - clipper.rank * 150) : 0}</span>
                           </div>
                         </div>
                       </div>
