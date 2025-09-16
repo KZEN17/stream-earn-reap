@@ -92,8 +92,8 @@ export function AppSidebar() {
 
   const getItemClassName = (itemTitle: string, isActiveRoute: boolean) => {
     const baseClass = getNavClassName(isActiveRoute);
-    const isBold = itemTitle === "Leaderboards";
-    return `${baseClass} ${isBold ? 'font-bold' : 'font-normal'}`;
+    // Apply bold font (Leaderboard style) to all items
+    return `${baseClass} font-bold`;
   };
 
   const toggleSubmenu = (title: string) => {
@@ -122,7 +122,7 @@ export function AppSidebar() {
         style={{ backgroundColor: 'hsl(225 15% 6%)' }}
       >
         <SidebarGroup>
-          {!collapsed && <SidebarGroupLabel className="text-accent font-black uppercase tracking-wide text-xs">NAVIGATION</SidebarGroupLabel>}
+          {!collapsed && <SidebarGroupLabel className="text-accent font-black uppercase tracking-wider text-xs">NAVIGATION</SidebarGroupLabel>}
           
           <SidebarGroupContent>
             <SidebarMenu>
@@ -138,11 +138,11 @@ export function AppSidebar() {
                           className={`w-full justify-between ${getItemClassName(item.title, isActive(item.url))}`}
                           tooltip={collapsed ? item.title : undefined}
                         >
-                          <div className="flex items-center space-x-2">
-                            <item.icon className="h-4 w-4 flex-shrink-0" />
-                            {!collapsed && <span>{item.title}</span>}
+                          <div className="flex items-center space-x-3">
+                            <item.icon className="h-5 w-5 flex-shrink-0" />
+                            {!collapsed && <span className="font-bold">{item.title}</span>}
                           </div>
-                          {!collapsed && <ChevronDown className="h-4 w-4" />}
+                          {!collapsed && <ChevronDown className="h-5 w-5" />}
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
                       <CollapsibleContent>
@@ -169,8 +169,8 @@ export function AppSidebar() {
                         end={item.url === "/"}
                         className={({ isActive }) => getItemClassName(item.title, isActive)}
                       >
-                        <item.icon className="h-4 w-4 flex-shrink-0" />
-                        {!collapsed && <span>{item.title}</span>}
+                        <item.icon className="h-5 w-5 flex-shrink-0" />
+                        {!collapsed && <span className="font-bold">{item.title}</span>}
                       </NavLink>
                     </SidebarMenuButton>
                   )}
