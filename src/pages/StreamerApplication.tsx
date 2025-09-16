@@ -5,9 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useStreamerApplications } from '@/hooks/useStreamerApplications';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarDays, Upload } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { CalendarDays, Upload, CalendarIcon, X } from 'lucide-react';
 
 export default function StreamerApplication() {
   const navigate = useNavigate();
@@ -16,8 +21,11 @@ export default function StreamerApplication() {
   const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
+    streamer_name: '',
     twitch_username: '',
     youtube_channel: '',
+    tiktok_username: '',
+    instagram_username: '',
     discord_server: '',
     launch_title: '',
     launch_description: '',
@@ -25,17 +33,52 @@ export default function StreamerApplication() {
     scheduled_launch_date: '',
   });
 
+  const [launchDate, setLaunchDate] = useState<Date>();
+  const [tokenLogo, setTokenLogo] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string>('');
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setTokenLogo(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setLogoPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
       setLoading(true);
       
+      let logoUrl = '';
+      
+      // Upload token logo if selected
+      if (tokenLogo) {
+        const fileExt = tokenLogo.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('user-avatars')
+          .upload(`token-logos/${fileName}`, tokenLogo);
+        
+        if (uploadError) throw uploadError;
+        
+        const { data } = supabase.storage
+          .from('user-avatars')
+          .getPublicUrl(`token-logos/${fileName}`);
+        
+        logoUrl = data.publicUrl;
+      }
+
       await submitApplication({
         ...formData,
-        scheduled_launch_date: formData.scheduled_launch_date 
-          ? new Date(formData.scheduled_launch_date).toISOString() 
-          : undefined,
+        launch_thumbnail_url: logoUrl || undefined,
+        scheduled_launch_date: launchDate ? launchDate.toISOString() : undefined,
       });
 
       toast({
@@ -70,6 +113,17 @@ export default function StreamerApplication() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <Label htmlFor="streamer_name">Streamer Name</Label>
+                <Input
+                  id="streamer_name"
+                  placeholder="Enter your streamer/brand name"
+                  value={formData.streamer_name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, streamer_name: e.target.value }))}
+                  required
+                />
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="twitch_username">Twitch Username</Label>
@@ -92,6 +146,28 @@ export default function StreamerApplication() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="tiktok_username">TikTok Username</Label>
+                  <Input
+                    id="tiktok_username"
+                    placeholder="Enter your TikTok username"
+                    value={formData.tiktok_username}
+                    onChange={(e) => setFormData(prev => ({ ...prev, tiktok_username: e.target.value }))}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="instagram_username">Instagram Username</Label>
+                  <Input
+                    id="instagram_username"
+                    placeholder="Enter your Instagram username"
+                    value={formData.instagram_username}
+                    onChange={(e) => setFormData(prev => ({ ...prev, instagram_username: e.target.value }))}
+                  />
+                </div>
+              </div>
+
               <div>
                 <Label htmlFor="discord_server">Discord Server (Optional)</Label>
                 <Input
@@ -106,15 +182,52 @@ export default function StreamerApplication() {
                 <h3 className="text-lg font-semibold mb-4">Token Launch Details</h3>
                 
                 <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="launch_title">Launch Title</Label>
-                    <Input
-                      id="launch_title"
-                      placeholder="Enter your token launch title"
-                      value={formData.launch_title}
-                      onChange={(e) => setFormData(prev => ({ ...prev, launch_title: e.target.value }))}
-                      required
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="launch_title">Launch Title (Token / Streamer Name)</Label>
+                      <Input
+                        id="launch_title"
+                        placeholder={`${formData.streamer_name ? `${formData.streamer_name} Token` : 'Enter your token launch title'}`}
+                        value={formData.launch_title}
+                        onChange={(e) => setFormData(prev => ({ ...prev, launch_title: e.target.value }))}
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <Label>Token Logo</Label>
+                      <div className="border-2 border-dashed border-border rounded-lg p-4">
+                        {logoPreview ? (
+                          <div className="relative">
+                            <img src={logoPreview} alt="Token Logo" className="w-full h-20 object-contain rounded" />
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              className="absolute top-1 right-1"
+                              onClick={() => {
+                                setTokenLogo(null);
+                                setLogoPreview('');
+                              }}
+                            >
+                              <X className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <label className="cursor-pointer flex flex-col items-center space-y-1">
+                            <Upload className="h-6 w-6 text-muted-foreground" />
+                            <span className="text-xs text-muted-foreground">Upload token logo</span>
+                            <span className="text-xs text-muted-foreground">Recommended: 200x200px</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleLogoUpload}
+                              className="hidden"
+                            />
+                          </label>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   <div>
@@ -140,14 +253,31 @@ export default function StreamerApplication() {
                     </div>
 
                     <div>
-                      <Label htmlFor="scheduled_launch_date">Scheduled Launch Date</Label>
-                      <Input
-                        id="scheduled_launch_date"
-                        type="datetime-local"
-                        value={formData.scheduled_launch_date}
-                        onChange={(e) => setFormData(prev => ({ ...prev, scheduled_launch_date: e.target.value }))}
-                        required
-                      />
+                      <Label>Scheduled Launch Date</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left font-normal",
+                              !launchDate && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {launchDate ? format(launchDate, "PPP") : <span>Pick launch date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={launchDate}
+                            onSelect={setLaunchDate}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </div>
                   </div>
                 </div>
