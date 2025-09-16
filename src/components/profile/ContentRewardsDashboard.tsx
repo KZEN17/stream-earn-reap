@@ -208,6 +208,7 @@ export const ContentRewardsDashboard = () => {
                       <TableHead>Participants</TableHead>
                       <TableHead>Submissions</TableHead>
                       <TableHead>Created</TableHead>
+                      <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -219,6 +220,15 @@ export const ContentRewardsDashboard = () => {
                         <TableCell>{campaign.participants_count || 0}</TableCell>
                         <TableCell>{campaign.submission_count || campaign.total_submissions || 0}</TableCell>
                         <TableCell>{new Date(campaign.created_at).toLocaleDateString()}</TableCell>
+                        <TableCell>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => window.location.href = `/campaign-analytics/${campaign.id}`}
+                          >
+                            View Analytics
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

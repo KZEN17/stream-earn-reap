@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Upload, X, Plus, CalendarIcon } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 
 interface CampaignCreatorProps {
   onClose: () => void;
@@ -35,6 +36,7 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
     gdrive_link: '',
     social_media_links: [] as string[],
     end_date: '',
+    auto_approve: false,
   });
 
   const [newSocialLink, setNewSocialLink] = useState('');
@@ -112,6 +114,7 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
           max_payout_per_clip: parseFloat(formData.max_payout_per_clip),
           min_views_required: parseInt(formData.min_views_required),
           end_date: endDate ? endDate.toISOString() : null,
+          auto_approve: formData.auto_approve,
           // Store social links and gdrive in admin_notes for now since these aren't database fields
           admin_notes: JSON.stringify({
             gdrive_link: formData.gdrive_link,
@@ -308,6 +311,21 @@ export const CampaignCreator = ({ onClose }: CampaignCreatorProps) => {
               <p className="text-xs text-muted-foreground mt-1">
                 Add relevant social media profiles, websites, or other links
               </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="space-y-1">
+                  <Label className="text-base font-medium">Auto-approve Submissions</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Automatically approve all submissions without manual review. Recommended for trusted creators only.
+                  </p>
+                </div>
+                <Switch
+                  checked={formData.auto_approve}
+                  onCheckedChange={(checked) => setFormData(prev => ({ ...prev, auto_approve: checked }))}
+                />
+              </div>
             </div>
           </div>
 

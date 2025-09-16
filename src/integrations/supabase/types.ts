@@ -54,6 +54,7 @@ export type Database = {
           admin_notes: string | null
           approval_status: string | null
           asset_requirements: Json | null
+          auto_approve: boolean | null
           campaign_image_url: string | null
           campaign_rules: string | null
           category: string | null
@@ -80,6 +81,7 @@ export type Database = {
           admin_notes?: string | null
           approval_status?: string | null
           asset_requirements?: Json | null
+          auto_approve?: boolean | null
           campaign_image_url?: string | null
           campaign_rules?: string | null
           category?: string | null
@@ -106,6 +108,7 @@ export type Database = {
           admin_notes?: string | null
           approval_status?: string | null
           asset_requirements?: Json | null
+          auto_approve?: boolean | null
           campaign_image_url?: string | null
           campaign_rules?: string | null
           category?: string | null
@@ -133,6 +136,7 @@ export type Database = {
       clips: {
         Row: {
           admin_notes: string | null
+          approval_date: string | null
           approved_at: string | null
           campaign_id: string
           created_at: string
@@ -144,6 +148,7 @@ export type Database = {
           last_view_update: string | null
           payout_status: string | null
           rejected_at: string | null
+          rejection_reason: string | null
           status: string | null
           submission_date: string | null
           thumbnail_url: string | null
@@ -160,6 +165,7 @@ export type Database = {
         }
         Insert: {
           admin_notes?: string | null
+          approval_date?: string | null
           approved_at?: string | null
           campaign_id: string
           created_at?: string
@@ -171,6 +177,7 @@ export type Database = {
           last_view_update?: string | null
           payout_status?: string | null
           rejected_at?: string | null
+          rejection_reason?: string | null
           status?: string | null
           submission_date?: string | null
           thumbnail_url?: string | null
@@ -187,6 +194,7 @@ export type Database = {
         }
         Update: {
           admin_notes?: string | null
+          approval_date?: string | null
           approved_at?: string | null
           campaign_id?: string
           created_at?: string
@@ -198,6 +206,7 @@ export type Database = {
           last_view_update?: string | null
           payout_status?: string | null
           rejected_at?: string | null
+          rejection_reason?: string | null
           status?: string | null
           submission_date?: string | null
           thumbnail_url?: string | null

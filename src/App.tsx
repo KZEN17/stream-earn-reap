@@ -16,6 +16,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import StreamerApplication from "./pages/StreamerApplication";
 import CreateCampaign from "./pages/CreateCampaign";
+import CampaignAnalytics from "./pages/CampaignAnalytics";
 import SuccessStories from "./pages/SuccessStories";
 import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
 import { Loader2 } from "lucide-react";
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/apply-streamer" element={<StreamerApplication />} />
             <Route path="/streamer-application" element={<StreamerApplication />} />
             <Route path="/create-campaign" element={<CreateCampaign />} />
+            <Route path="/campaign-analytics/:campaignId" element={<CampaignAnalytics />} />
             <Route path="/success-stories" element={<SuccessStories />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
