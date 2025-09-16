@@ -3,11 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLoginModal } from "@/contexts/LoginModalContext";
 import { 
   Calendar as CalendarIcon, 
   Clock, 
@@ -34,12 +36,17 @@ import Confetti from "react-confetti";
 const Calendar = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { requireAuth } = useLoginModal();  
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [notifications, setNotifications] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [customAmounts, setCustomAmounts] = useState<{[key: number]: string}>({});
+  const [unlockedLaunches, setUnlockedLaunches] = useState<number[]>([]);
   const { toast } = useToast();
 
   const handleDonate = (launchId: number, amount: number) => {
+    if (!requireAuth()) return;
+    
     const updatedLaunches = upcomingLaunches.map(launch => {
       if (launch.id === launchId) {
         const newAmount = launch.donationAmount + amount;
@@ -48,6 +55,7 @@ const Calendar = () => {
         
         if (wasLocked && shouldUnlock) {
           setShowConfetti(true);
+          setUnlockedLaunches(prev => [...prev, launchId]);
           setTimeout(() => setShowConfetti(false), 5000);
           toast({
             title: "🎉 Launch Unlocked!",
@@ -68,6 +76,21 @@ const Calendar = () => {
       title: "Donation Successful!",
       description: `Thank you for contributing $${amount} to unlock this launch!`,
     });
+  };
+
+  const handleCustomDonate = (launchId: number) => {
+    const amount = parseInt(customAmounts[launchId] || '0');
+    if (amount > 0) {
+      handleDonate(launchId, amount);
+      setCustomAmounts(prev => ({ ...prev, [launchId]: '' }));
+    }
+  };
+
+  const getProgressMilestone = (percentage: number) => {
+    if (percentage >= 100) return { glow: 'shadow-[0_0_20px_hsl(142_75%_45%)]', color: 'hsl(142 75% 45%)' };
+    if (percentage >= 75) return { glow: 'shadow-[0_0_15px_hsl(45_100%_50%)]', color: 'hsl(45 100% 50%)' };
+    if (percentage >= 50) return { glow: 'shadow-[0_0_10px_hsl(210_100%_50%)]', color: 'hsl(210 100% 50%)' };
+    return { glow: '', color: 'hsl(285 72% 60%)' };
   };
 
   const streamers = [
@@ -484,105 +507,156 @@ END:VCALENDAR`;
                     {upcomingLaunches.map((launch) => {
                       const { date, time } = formatDateTime(launch.dateTimeISO);
                       const priority = launch.priority === "high" ? "destructive" : "secondary";
+                      const progressPercentage = (launch.donationAmount / launch.donationTarget) * 100;
+                      const milestone = getProgressMilestone(progressPercentage);
+                      const isRecentlyUnlocked = unlockedLaunches.includes(launch.id);
                       
                       return (
-                         <Card key={launch.id} className={`hover-lift ${!launch.isUnlocked ? 'relative' : ''}`}>
-                           {!launch.isUnlocked && (
-                             <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-50 rounded-lg flex items-center justify-center">
-                              <div className="text-center space-y-4 p-6">
-                                <Lock className="w-12 h-12 mx-auto text-primary" />
-                                <div className="space-y-2">
-                                  <h3 className="text-lg font-semibold text-white">Launch Locked</h3>
-                                  <p className="text-sm text-white/80">Contribute to unlock this exclusive launch!</p>
-                                  <div className="space-y-2">
-                                    <Progress 
-                                      value={(launch.donationAmount / launch.donationTarget) * 100} 
-                                      className="w-full h-2"
-                                    />
-                                    <p className="text-xs text-white/70">
-                                      ${launch.donationAmount} / ${launch.donationTarget}
-                                    </p>
-                                  </div>
-                                  <div className="flex gap-2 justify-center mt-4">
-                                    <Button size="sm" onClick={() => handleDonate(launch.id, 25)}>
-                                      <DollarSign className="w-3 h-3 mr-1" />
-                                      $25
-                                    </Button>
-                                    <Button size="sm" onClick={() => handleDonate(launch.id, 50)}>
-                                      <DollarSign className="w-3 h-3 mr-1" />
-                                      $50
-                                    </Button>
-                                    <Button size="sm" onClick={() => handleDonate(launch.id, 100)}>
-                                      <DollarSign className="w-3 h-3 mr-1" />
-                                      $100
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                          <CardContent className="p-4">
-                            <div className="flex items-start gap-4">
-                              <Avatar className="w-12 h-12">
-                                <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
-                                <AvatarFallback>{launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}</AvatarFallback>
-                              </Avatar>
-                              
-                              <div className="flex-1 space-y-2">
-                                <div className="flex items-start justify-between">
-                                  <div>
-                                    <h3 className="font-semibold text-lg flex items-center gap-2">
-                                      {launch.title}
-                                      {!launch.isUnlocked && <Lock className="w-4 h-4 text-muted-foreground" />}
-                                      {launch.isUnlocked && launch.donationAmount >= launch.donationTarget && (
-                                        <Unlock className="w-4 h-4 text-green-500" />
-                                      )}
-                                    </h3>
-                                    <p className="text-sm text-muted-foreground flex items-center gap-1">
-                                      <Star className="w-3 h-3" />
-                                      {launch.isUnlocked ? launch.streamerName : '???'}
-                                    </p>
-                                  </div>
-                                  <Badge variant={priority}>{launch.priority} priority</Badge>
-                                </div>
-                                
-                                <p className="text-sm text-muted-foreground">{launch.description}</p>
-                                
-                                <div className="flex items-center gap-4 text-sm">
-                                  <div className="flex items-center gap-1">
-                                    <Clock className="w-3 h-3" />
-                                    {time}
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                    <Eye className="w-3 h-3" />
-                                    {launch.expectedViews.toLocaleString()} expected
-                                  </div>
-                                  {launch.donationAmount >= launch.donationTarget && (
-                                    <Badge variant="outline" className="text-green-600 border-green-600">
-                                      <Gift className="w-3 h-3 mr-1" />
-                                      Unlocked!
-                                    </Badge>
-                                  )}
-                                </div>
-                                
-                                {launch.isUnlocked && (
-                                  <div className="flex gap-2">
-                                    <Button size="sm" variant="default">
-                                      <Bell className="w-3 h-3 mr-1" />
-                                      Notify Me
-                                    </Button>
-                                    <Button size="sm" variant="outline" asChild>
-                                      <a href={launch.streamLink} target="_blank">
-                                        <Play className="w-3 h-3 mr-1" />
-                                        Stream
-                                      </a>
-                                    </Button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
+                         <Card key={launch.id} className={`hover-lift transition-all duration-500 ${isRecentlyUnlocked ? 'animate-pulse border-green-500 shadow-glow' : ''} bg-card/50 backdrop-blur-sm border-border/50`}>
+                           <CardContent className="p-4 relative">
+                             {/* Top-right status badge */}
+                             <div className="absolute top-3 right-3 z-10">
+                               {!launch.isUnlocked ? (
+                                 <Badge className="bg-orange-500/90 text-white backdrop-blur-sm text-xs px-2 py-1">
+                                   <Lock className="w-3 h-3 mr-1" />
+                                   Locked – Contribute to Unlock
+                                 </Badge>
+                               ) : isRecentlyUnlocked ? (
+                                 <Badge className="bg-green-500/90 text-white backdrop-blur-sm text-xs px-2 py-1 animate-fade-in">
+                                   <Sparkles className="w-3 h-3 mr-1" />
+                                   Unlocked!
+                                 </Badge>
+                               ) : (
+                                 <Badge className="bg-green-500/90 text-white backdrop-blur-sm text-xs px-2 py-1">
+                                   <CheckCircle className="w-3 h-3 mr-1" />
+                                   Unlocked
+                                 </Badge>
+                               )}
+                             </div>
+
+                             <div className="flex items-start gap-4 pr-20">
+                               <Avatar className="w-12 h-12 border-2 border-primary/20">
+                                 <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
+                                 <AvatarFallback className="bg-primary/10">
+                                   {launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}
+                                 </AvatarFallback>
+                               </Avatar>
+                               
+                               <div className="flex-1 space-y-3">
+                                 <div className="space-y-1">
+                                   <h3 className="font-semibold text-lg">
+                                     {launch.title}
+                                   </h3>
+                                   <p className="text-sm text-muted-foreground flex items-center gap-1">
+                                     <Star className="w-3 h-3" />
+                                     {launch.isUnlocked ? launch.streamerName : '???'}
+                                   </p>
+                                 </div>
+                                 
+                                 <p className="text-sm text-muted-foreground">{launch.description}</p>
+                                 
+                                 <div className="flex items-center gap-4 text-sm">
+                                   <div className="flex items-center gap-1">
+                                     <Clock className="w-3 h-3" />
+                                     {time}
+                                   </div>
+                                   <div className="flex items-center gap-1">
+                                     <Eye className="w-3 h-3" />
+                                     {launch.expectedViews.toLocaleString()} expected
+                                   </div>
+                                   <Badge variant={priority} className="text-xs">
+                                     {launch.priority} priority
+                                   </Badge>
+                                 </div>
+
+                                 {/* Progress Section for Locked Launches */}
+                                 {!launch.isUnlocked && (
+                                   <div className="space-y-3 bg-muted/30 rounded-lg p-4 border border-border/30">
+                                     <div className="flex items-center justify-between text-sm">
+                                       <span className="font-medium text-foreground">Contribution Goal</span>
+                                       <span className="font-bold text-foreground">
+                                         ${launch.donationAmount} of ${launch.donationTarget} raised
+                                       </span>
+                                     </div>
+                                     
+                                     <div className={`relative ${milestone.glow}`}>
+                                       <Progress 
+                                         value={progressPercentage} 
+                                         className="h-3 bg-muted"
+                                         animated={true}
+                                         showGlow={progressPercentage >= 50}
+                                       />
+                                       {progressPercentage >= 50 && (
+                                         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+                                       )}
+                                     </div>
+
+                                     {/* Contribution Buttons */}
+                                     <div className="space-y-2">
+                                       <div className="flex gap-2 flex-wrap">
+                                         {[25, 50, 100].map((amount) => (
+                                           <Button
+                                             key={amount}
+                                             size="sm"
+                                             variant="outline"
+                                             onClick={() => handleDonate(launch.id, amount)}
+                                             className="rounded-full bg-primary/10 border-primary/30 hover:bg-primary/20 text-primary font-medium text-xs px-4 py-1"
+                                           >
+                                             ${amount}
+                                           </Button>
+                                         ))}
+                                       </div>
+                                       
+                                       {/* Custom Amount */}
+                                       <div className="flex gap-2 items-center">
+                                         <Input
+                                           type="number"
+                                           placeholder="Custom amount"
+                                           value={customAmounts[launch.id] || ''}
+                                           onChange={(e) => setCustomAmounts(prev => ({ ...prev, [launch.id]: e.target.value }))}
+                                           className="flex-1 h-8 text-xs rounded-full bg-background/50 border-border/50"
+                                         />
+                                         <Button
+                                           size="sm"
+                                           onClick={() => handleCustomDonate(launch.id)}
+                                           disabled={!customAmounts[launch.id] || parseInt(customAmounts[launch.id]) <= 0}
+                                           className="rounded-full bg-gradient-primary hover:opacity-90 text-white font-medium text-xs px-4 py-1"
+                                         >
+                                           Contribute
+                                         </Button>
+                                       </div>
+                                     </div>
+                                   </div>
+                                 )}
+                                 
+                                 {/* Action Buttons for Unlocked Launches */}
+                                 {launch.isUnlocked && (
+                                   <div className={`flex gap-2 ${isRecentlyUnlocked ? 'animate-fade-in' : ''}`}>
+                                     <Button 
+                                       size="sm" 
+                                       variant="default"
+                                       className={`${isRecentlyUnlocked ? 'bg-gradient-primary shadow-glow animate-pulse' : ''}`}
+                                     >
+                                       <Bell className="w-3 h-3 mr-1" />
+                                       Notify Me
+                                     </Button>
+                                     <Button 
+                                       size="sm" 
+                                       variant="outline" 
+                                       asChild
+                                       className={`${isRecentlyUnlocked ? 'border-primary text-primary shadow-glow animate-pulse' : ''}`}
+                                     >
+                                       <a href={launch.streamLink} target="_blank">
+                                         <Play className="w-3 h-3 mr-1" />
+                                         Stream
+                                       </a>
+                                     </Button>
+                                   </div>
+                                 )}
+                               </div>
+                             </div>
+                           </CardContent>
+                         </Card>
                       );
                     })}
                   </div>
@@ -658,59 +732,46 @@ END:VCALENDAR`;
               {upcomingLaunches.map((launch) => {
                 const { date, time } = formatDateTime(launch.dateTimeISO);
                 const priority = launch.priority === "high" ? "destructive" : "secondary";
+                const progressPercentage = (launch.donationAmount / launch.donationTarget) * 100;
+                const milestone = getProgressMilestone(progressPercentage);
+                const isRecentlyUnlocked = unlockedLaunches.includes(launch.id);
                 
                 return (
-                  <Card key={launch.id} className={`hover-lift shadow-card ${!launch.isUnlocked ? 'relative' : ''}`}>
-                     {!launch.isUnlocked && (
-                       <div className="absolute inset-0 backdrop-blur-sm bg-black/20 z-50 rounded-lg flex items-center justify-center">
-                        <div className="text-center space-y-4 p-6">
-                          <Lock className="w-12 h-12 mx-auto text-primary" />
-                          <div className="space-y-2">
-                            <h3 className="text-lg font-semibold text-white">Launch Locked</h3>
-                            <p className="text-sm text-white/80">Contribute to unlock this exclusive launch!</p>
-                            <div className="space-y-2">
-                              <Progress 
-                                value={(launch.donationAmount / launch.donationTarget) * 100} 
-                                className="w-full h-2"
-                              />
-                              <p className="text-xs text-white/70">
-                                ${launch.donationAmount} / ${launch.donationTarget}
-                              </p>
-                            </div>
-                            <div className="flex gap-2 justify-center mt-4">
-                              <Button size="sm" onClick={() => handleDonate(launch.id, 25)}>
-                                <DollarSign className="w-3 h-3 mr-1" />
-                                $25
-                              </Button>
-                              <Button size="sm" onClick={() => handleDonate(launch.id, 50)}>
-                                <DollarSign className="w-3 h-3 mr-1" />
-                                $50
-                              </Button>
-                              <Button size="sm" onClick={() => handleDonate(launch.id, 100)}>
-                                <DollarSign className="w-3 h-3 mr-1" />
-                                $100
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
+                  <Card key={launch.id} className={`hover-lift shadow-card transition-all duration-500 ${isRecentlyUnlocked ? 'animate-pulse border-green-500 shadow-glow' : ''} bg-card/50 backdrop-blur-sm border-border/50`}>
+                    <CardHeader className="relative">
+                      {/* Top-right status badge */}
+                      <div className="absolute top-4 right-4 z-10">
+                        {!launch.isUnlocked ? (
+                          <Badge className="bg-orange-500/90 text-white backdrop-blur-sm text-xs px-2 py-1">
+                            <Lock className="w-3 h-3 mr-1" />
+                            Locked – Contribute to Unlock
+                          </Badge>
+                        ) : isRecentlyUnlocked ? (
+                          <Badge className="bg-green-500/90 text-white backdrop-blur-sm text-xs px-2 py-1 animate-fade-in">
+                            <Sparkles className="w-3 h-3 mr-1" />
+                            Unlocked!
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-green-500/90 text-white backdrop-blur-sm text-xs px-2 py-1">
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            Unlocked
+                          </Badge>
+                        )}
                       </div>
-                    )}
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
+
+                      <div className="flex items-start justify-between pr-24">
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
                             <Badge variant={priority}>{launch.priority}</Badge>
                             <Badge variant="outline">{launch.isUnlocked ? launch.tokenSymbol : '$???'}</Badge>
-                            {!launch.isUnlocked && <Lock className="w-4 h-4 text-muted-foreground" />}
-                            {launch.isUnlocked && launch.donationAmount >= launch.donationTarget && (
-                              <Unlock className="w-4 h-4 text-green-500" />
-                            )}
                           </div>
                           <CardTitle className="text-xl">{launch.title}</CardTitle>
                           <div className="flex items-center gap-2">
-                            <Avatar className="w-6 h-6">
+                            <Avatar className="w-6 h-6 border border-primary/20">
                               <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
-                              <AvatarFallback>{launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}</AvatarFallback>
+                              <AvatarFallback className="bg-primary/10 text-xs">
+                                {launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}
+                              </AvatarFallback>
                             </Avatar>
                             <p className="text-sm text-muted-foreground">{launch.isUnlocked ? launch.streamerName : '???'}</p>
                           </div>
@@ -724,6 +785,7 @@ END:VCALENDAR`;
                         </div>
                       </div>
                     </CardHeader>
+                    
                     <CardContent className="space-y-4">
                       <p className="text-muted-foreground">{launch.description}</p>
                       
@@ -736,31 +798,76 @@ END:VCALENDAR`;
                           <AlertCircle className="w-3 h-3" />
                           {launch.priority} priority
                         </div>
-                        {launch.donationAmount >= launch.donationTarget && (
-                          <Badge variant="outline" className="text-green-600 border-green-600">
-                            <Gift className="w-3 h-3 mr-1" />
-                            Unlocked!
-                          </Badge>
-                        )}
                       </div>
-                      
+
+                      {/* Progress Section for Locked Launches */}
                       {!launch.isUnlocked && (
-                        <div className="space-y-2">
+                        <div className="space-y-3 bg-muted/30 rounded-lg p-4 border border-border/30">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-muted-foreground">Unlock Progress:</span>
-                            <span className="font-medium">${launch.donationAmount} / ${launch.donationTarget}</span>
+                            <span className="font-medium text-foreground">Contribution Goal</span>
+                            <span className="font-bold text-foreground">
+                              ${launch.donationAmount} of ${launch.donationTarget} raised
+                            </span>
                           </div>
-                          <Progress value={(launch.donationAmount / launch.donationTarget) * 100} className="h-2" />
+                          
+                          <div className={`relative ${milestone.glow}`}>
+                            <Progress 
+                              value={progressPercentage} 
+                              className="h-3 bg-muted"
+                              animated={true}
+                              showGlow={progressPercentage >= 50}
+                            />
+                            {progressPercentage >= 50 && (
+                              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+                            )}
+                          </div>
+
+                          {/* Contribution Buttons */}
+                          <div className="space-y-2">
+                            <div className="flex gap-2 flex-wrap">
+                              {[25, 50, 100].map((amount) => (
+                                <Button
+                                  key={amount}
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleDonate(launch.id, amount)}
+                                  className="rounded-full bg-primary/10 border-primary/30 hover:bg-primary/20 text-primary font-medium text-xs px-4 py-1"
+                                >
+                                  ${amount}
+                                </Button>
+                              ))}
+                            </div>
+                            
+                            {/* Custom Amount */}
+                            <div className="flex gap-2 items-center">
+                              <Input
+                                type="number"
+                                placeholder="Custom amount"
+                                value={customAmounts[launch.id] || ''}
+                                onChange={(e) => setCustomAmounts(prev => ({ ...prev, [launch.id]: e.target.value }))}
+                                className="flex-1 h-8 text-xs rounded-full bg-background/50 border-border/50"
+                              />
+                              <Button
+                                size="sm"
+                                onClick={() => handleCustomDonate(launch.id)}
+                                disabled={!customAmounts[launch.id] || parseInt(customAmounts[launch.id]) <= 0}
+                                className="rounded-full bg-gradient-primary hover:opacity-90 text-white font-medium text-xs px-4 py-1"
+                              >
+                                Contribute
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       )}
                       
+                      {/* Action Buttons for Unlocked Launches */}
                       {launch.isUnlocked && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className={`flex flex-wrap gap-2 ${isRecentlyUnlocked ? 'animate-fade-in' : ''}`}>
                           <Button 
                             variant="default" 
                             size="sm"
                             onClick={() => generateICS(launch)}
-                            className="flex items-center space-x-1"
+                            className={`flex items-center space-x-1 ${isRecentlyUnlocked ? 'bg-gradient-primary shadow-glow animate-pulse' : ''}`}
                           >
                             <Download className="w-4 h-4" />
                             <span>Set Reminder</span>
@@ -770,6 +877,7 @@ END:VCALENDAR`;
                             variant="outline" 
                             size="sm" 
                             asChild
+                            className={`${isRecentlyUnlocked ? 'border-primary text-primary shadow-glow animate-pulse' : ''}`}
                           >
                             <a href={launch.streamLink} target="_blank" rel="noopener noreferrer">
                               <Play className="w-4 h-4 mr-1" />
