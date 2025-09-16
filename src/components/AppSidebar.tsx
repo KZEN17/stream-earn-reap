@@ -54,9 +54,8 @@ const menuItems = [
     url: "/leaderboards", 
     icon: Trophy,
     submenu: [
-      { title: "Clips", url: "/leaderboards/clips" },
       { title: "Clippers", url: "/leaderboards/clippers" },
-      { title: "Fees", url: "/leaderboards/fees" },
+      { title: "Streams", url: "/leaderboards/streams" },
     ]
   },
   { 
