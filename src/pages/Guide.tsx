@@ -109,11 +109,6 @@ const Guide = () => {
     }
   ];
 
-  const generatePDF = () => {
-    // In a real app, this would generate an actual PDF
-    // For now, we'll just show an alert
-    alert("PDF download coming soon! For now, bookmark this page.");
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -124,10 +119,6 @@ const Guide = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Your complete guide to launching on pump.fun and connecting with CLIP
           </p>
-          <Button variant="outline" onClick={generatePDF} className="flex items-center space-x-2">
-            <Download className="w-4 h-4" />
-            <span>Download PDF Guide</span>
-          </Button>
         </div>
 
         {/* Overview */}
@@ -144,7 +135,7 @@ const Guide = () => {
               </p>
               <div className="grid md:grid-cols-3 gap-6 mt-8">
                 <div className="text-center space-y-2">
-                  <div className="text-3xl font-bold text-gradient-primary">~2 hours</div>
+                  <div className="text-3xl font-bold text-gradient-primary">15-30 min</div>
                   <div className="text-sm text-muted-foreground">Setup Time</div>
                 </div>
                 <div className="text-center space-y-2">
@@ -265,28 +256,6 @@ const Guide = () => {
           </div>
         </section>
 
-        {/* Success Metrics */}
-        <Card className="border-accent/20 bg-accent/5">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center">What Success Looks Like</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-6 text-center">
-              <div className="space-y-2">
-                <div className="text-3xl font-bold text-gradient-primary">10+</div>
-                <div className="text-sm text-muted-foreground">Viral clips created</div>
-              </div>
-              <div className="space-y-2">
-                <div className="text-3xl font-bold text-gradient-secondary">$1K+</div>
-                <div className="text-sm text-muted-foreground">Creator fees earned</div>
-              </div>
-              <div className="space-y-2">
-                <div className="text-3xl font-bold text-gradient-accent">500K+</div>
-                <div className="text-sm text-muted-foreground">Total clip views</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* CTA Section */}
         <section className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 rounded-xl p-8">
@@ -295,13 +264,9 @@ const Guide = () => {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Follow this guide and join the ranks of successful pump.fun streamers earning through CLIP's ecosystem.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Button variant="hero" size="lg">
                 Start Your Launch
-              </Button>
-              <Button variant="outline" size="lg" onClick={generatePDF}>
-                <Download className="w-5 h-5 mr-2" />
-                Download PDF Guide
               </Button>
             </div>
           </div>
