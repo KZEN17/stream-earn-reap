@@ -378,6 +378,7 @@ export type Database = {
           is_admin: boolean | null
           managed_streamers: string[] | null
           onboarding_completed: boolean | null
+          profile_visibility: string | null
           streaming_platform: string | null
           team_contact_info: Json | null
           tiktok_connected: boolean | null
@@ -403,6 +404,7 @@ export type Database = {
           is_admin?: boolean | null
           managed_streamers?: string[] | null
           onboarding_completed?: boolean | null
+          profile_visibility?: string | null
           streaming_platform?: string | null
           team_contact_info?: Json | null
           tiktok_connected?: boolean | null
@@ -428,6 +430,7 @@ export type Database = {
           is_admin?: boolean | null
           managed_streamers?: string[] | null
           onboarding_completed?: boolean | null
+          profile_visibility?: string | null
           streaming_platform?: string | null
           team_contact_info?: Json | null
           tiktok_connected?: boolean | null
@@ -633,7 +636,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_public_profile_data: {
+        Args: { profile_user_id: string }
+        Returns: {
+          avatar_url: string
+          display_name: string
+          user_id: string
+          user_type: string
+          username: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
