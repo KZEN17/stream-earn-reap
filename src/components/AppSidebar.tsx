@@ -8,7 +8,8 @@ import {
   BookOpen, 
   Rocket,
   TrendingUp,
-  ChevronDown
+  ChevronDown,
+  Info
 } from "lucide-react";
 import {
   Sidebar,
@@ -62,6 +63,11 @@ const menuItems = [
     title: "Guide", 
     url: "/guide", 
     icon: BookOpen 
+  },
+  { 
+    title: "About", 
+    url: "/about", 
+    icon: Info 
   },
 ];
 
