@@ -329,6 +329,121 @@ END:VCALENDAR`;
           </div>
         </div>
 
+        {/* Success Stories Section */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="text-center flex-1">
+              <h2 className="text-2xl font-bold flex items-center justify-center gap-2">
+                <CheckCircle className="w-6 h-6 text-success" />
+                Success Stories
+              </h2>
+              <p className="text-muted-foreground">Real streamers, real results</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                id: 1,
+                streamerName: "Moon Master",
+                streamerUsername: "@moonmaster",
+                streamerAvatar: "/placeholder.svg",
+                tokenName: "$MOON",
+                amountRaised: 125000,
+                viewsGained: 250000,
+                quote: "Hit 25K views in 24h!"
+              },
+              {
+                id: 2,
+                streamerName: "Crypto Queen", 
+                streamerUsername: "@cryptoqueen",
+                streamerAvatar: "/placeholder.svg",
+                tokenName: "$DIAMOND",
+                amountRaised: 89000,
+                viewsGained: 180000,
+                quote: "Community funded in 10 minutes!"
+              },
+              {
+                id: 3,
+                streamerName: "Rocket Man",
+                streamerUsername: "@rocketman", 
+                streamerAvatar: "/placeholder.svg",
+                tokenName: "$ROCKET",
+                amountRaised: 67000,
+                viewsGained: 145000,
+                quote: "Turned 2K followers into 15K overnight!"
+              }
+            ].map((story) => (
+              <Card 
+                key={story.id} 
+                className="hover-lift cursor-pointer border-success/20 bg-gradient-to-br from-success/5 to-accent/5 transition-all duration-300 hover:shadow-glow"
+                onClick={() => navigate('/success-stories')}
+              >
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="w-10 h-10 border-2 border-success/30">
+                      <AvatarImage src={story.streamerAvatar} alt={story.streamerName} />
+                      <AvatarFallback className="bg-success/20 text-success font-semibold">
+                        {story.streamerName.slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-1">
+                        <h3 className="font-semibold text-sm">{story.streamerName}</h3>
+                        <CheckCircle className="w-3 h-3 text-success" />
+                      </div>
+                      <p className="text-xs text-muted-foreground">{story.streamerUsername}</p>
+                    </div>
+                    <Badge variant="outline" className="bg-success/10 text-success border-success/30 text-xs">
+                      {story.tokenName}
+                    </Badge>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div>
+                      <div className="text-lg font-bold text-success">
+                        ${(story.amountRaised / 1000).toFixed(0)}K
+                      </div>
+                      <div className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+                        <DollarSign className="w-2 h-2" />
+                        Raised
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-secondary">
+                        {(story.viewsGained / 1000).toFixed(0)}K
+                      </div>
+                      <div className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+                        <Eye className="w-2 h-2" />
+                        Views
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-muted/30 rounded-lg p-2 border-l-2 border-success">
+                    <p className="text-xs italic text-center">"{story.quote}"</p>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-1 text-xs text-success">
+                    <Sparkles className="w-3 h-3" />
+                    <span>Unlocked Success</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Button
+              variant="outline"
+              onClick={() => navigate('/success-stories')}
+              className="text-success border-success/30 hover:bg-success/10"
+            >
+              See More Success Stories
+            </Button>
+          </div>
+        </div>
+
         {/* Main Content */}
         <Tabs defaultValue="calendar" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">

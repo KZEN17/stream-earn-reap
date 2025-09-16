@@ -16,6 +16,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import StreamerApplication from "./pages/StreamerApplication";
 import CreateCampaign from "./pages/CreateCampaign";
+import SuccessStories from "./pages/SuccessStories";
 import { Loader2 } from "lucide-react";
 
 const App = () => {
@@ -56,7 +57,9 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/apply-streamer" element={<StreamerApplication />} />
+            <Route path="/streamer-application" element={<StreamerApplication />} />
             <Route path="/create-campaign" element={<CreateCampaign />} />
+            <Route path="/success-stories" element={<SuccessStories />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
