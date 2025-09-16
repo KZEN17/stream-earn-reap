@@ -28,8 +28,18 @@ import {
   Unlock,
   Gift,
   Plus,
-  Sparkles
+  Sparkles,
+  Share2,
+  Twitter,
+  Copy,
+  MessageCircle
 } from "lucide-react";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 
@@ -284,6 +294,31 @@ END:VCALENDAR`;
     }
   };
 
+  const handleShare = (platform: string, launch: typeof upcomingLaunches[0]) => {
+    const shareUrl = window.location.href;
+    const shareText = `Check out ${launch.isUnlocked ? launch.title : 'this mystery launch'} on the Launch Calendar! 🚀`;
+    
+    switch (platform) {
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+        break;
+      case 'discord':
+        navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+        toast({
+          title: "Copied to clipboard!",
+          description: "Share link copied. Paste it in Discord!",
+        });
+        break;
+      case 'copy':
+        navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+        toast({
+          title: "Link copied!",
+          description: "Launch link copied to clipboard",
+        });
+        break;
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {showConfetti && <Confetti />}
@@ -534,40 +569,39 @@ END:VCALENDAR`;
                                )}
                              </div>
 
-                             <div className="flex items-start gap-4 pr-20">
-                               <Avatar className="w-12 h-12 border-2 border-primary/20">
-                                 <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
-                                 <AvatarFallback className="bg-primary/10">
-                                   {launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}
-                                 </AvatarFallback>
-                               </Avatar>
-                               
-                               <div className="flex-1 space-y-3">
-                                 <div className="space-y-1">
-                                   <h3 className="font-semibold text-lg">
-                                     {launch.title}
-                                   </h3>
-                                   <p className="text-sm text-muted-foreground flex items-center gap-1">
-                                     <Star className="w-3 h-3" />
-                                     {launch.isUnlocked ? launch.streamerName : '???'}
-                                   </p>
-                                 </div>
-                                 
-                                 <p className="text-sm text-muted-foreground">{launch.description}</p>
-                                 
-                                 <div className="flex items-center gap-4 text-sm">
-                                   <div className="flex items-center gap-1">
-                                     <Clock className="w-3 h-3" />
-                                     {time}
-                                   </div>
-                                   <div className="flex items-center gap-1">
-                                     <Eye className="w-3 h-3" />
-                                     {launch.expectedViews.toLocaleString()} expected
-                                   </div>
-                                   <Badge variant={priority} className="text-xs">
-                                     {launch.priority} priority
-                                   </Badge>
-                                 </div>
+                              <div className="flex items-start gap-4 pr-20">
+                                <Avatar className="w-12 h-12 border-2 border-primary/20">
+                                  <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
+                                  <AvatarFallback className="bg-primary/10">
+                                    {launch.isUnlocked ? launch.streamerName.slice(0, 2) : '??'}
+                                  </AvatarFallback>
+                                </Avatar>
+                                
+                                <div className="flex-1 space-y-3">
+                                  <div className="space-y-1">
+                                    <h3 className="font-semibold text-lg">
+                                      {launch.isUnlocked ? launch.title : 'Mystery Launch'}
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                                      <Star className="w-3 h-3" />
+                                      {launch.isUnlocked ? launch.streamerName : '???'}
+                                    </p>
+                                  </div>
+                                  
+                                  <p className="text-sm text-muted-foreground">
+                                    {launch.isUnlocked ? launch.description : 'Unlock this exclusive launch by contributing to pre-donations! Big surprise awaits...'}
+                                  </p>
+                                  
+                                  <div className="flex items-center gap-4 text-sm">
+                                    <div className="flex items-center gap-1">
+                                      <Clock className="w-3 h-3" />
+                                      {time}
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                      <Eye className="w-3 h-3" />
+                                      {launch.expectedViews.toLocaleString()} expected
+                                    </div>
+                                  </div>
 
                                  {/* Progress Section for Locked Launches */}
                                  {!launch.isUnlocked && (
@@ -629,30 +663,55 @@ END:VCALENDAR`;
                                    </div>
                                  )}
                                  
-                                 {/* Action Buttons for Unlocked Launches */}
-                                 {launch.isUnlocked && (
-                                   <div className={`flex gap-2 ${isRecentlyUnlocked ? 'animate-fade-in' : ''}`}>
-                                     <Button 
-                                       size="sm" 
-                                       variant="default"
-                                       className={`${isRecentlyUnlocked ? 'bg-gradient-primary shadow-glow animate-pulse' : ''}`}
-                                     >
-                                       <Bell className="w-3 h-3 mr-1" />
-                                       Notify Me
-                                     </Button>
-                                     <Button 
-                                       size="sm" 
-                                       variant="outline" 
-                                       asChild
-                                       className={`${isRecentlyUnlocked ? 'border-primary text-primary shadow-glow animate-pulse' : ''}`}
-                                     >
-                                       <a href={launch.streamLink} target="_blank">
-                                         <Play className="w-3 h-3 mr-1" />
-                                         Stream
-                                       </a>
-                                     </Button>
-                                   </div>
-                                 )}
+                                  {/* Action Buttons for All Launches */}
+                                  <div className={`flex gap-2 ${isRecentlyUnlocked ? 'animate-fade-in' : ''}`}>
+                                    <DropdownMenu>
+                                      <DropdownMenuTrigger asChild>
+                                        <Button variant="outline" size="sm" className="gap-1">
+                                          <Share2 className="w-3 h-3" />
+                                          Share
+                                        </Button>
+                                      </DropdownMenuTrigger>
+                                      <DropdownMenuContent align="end">
+                                        <DropdownMenuItem onClick={() => handleShare('twitter', launch)}>
+                                          <Twitter className="w-4 h-4 mr-2" />
+                                          Share on Twitter
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => handleShare('discord', launch)}>
+                                          <MessageCircle className="w-4 h-4 mr-2" />
+                                          Share on Discord
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => handleShare('copy', launch)}>
+                                          <Copy className="w-4 h-4 mr-2" />
+                                          Copy Link
+                                        </DropdownMenuItem>
+                                      </DropdownMenuContent>
+                                    </DropdownMenu>
+                                    
+                                    {launch.isUnlocked && (
+                                      <>
+                                        <Button 
+                                          size="sm" 
+                                          variant="default"
+                                          className={`${isRecentlyUnlocked ? 'bg-gradient-primary shadow-glow animate-pulse' : ''}`}
+                                        >
+                                          <Bell className="w-3 h-3 mr-1" />
+                                          Notify Me
+                                        </Button>
+                                        <Button 
+                                          size="sm" 
+                                          variant="outline" 
+                                          asChild
+                                          className={`${isRecentlyUnlocked ? 'border-primary text-primary shadow-glow animate-pulse' : ''}`}
+                                        >
+                                          <a href={launch.streamLink} target="_blank">
+                                            <Play className="w-3 h-3 mr-1" />
+                                            Stream
+                                          </a>
+                                        </Button>
+                                      </>
+                                    )}
+                                  </div>
                                </div>
                              </div>
                            </CardContent>
@@ -762,10 +821,11 @@ END:VCALENDAR`;
                       <div className="flex items-start justify-between pr-24">
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
-                            <Badge variant={priority}>{launch.priority}</Badge>
                             <Badge variant="outline">{launch.isUnlocked ? launch.tokenSymbol : '$???'}</Badge>
                           </div>
-                          <CardTitle className="text-xl">{launch.title}</CardTitle>
+                          <CardTitle className="text-xl">
+                            {launch.isUnlocked ? launch.title : 'Mystery Launch'}
+                          </CardTitle>
                           <div className="flex items-center gap-2">
                             <Avatar className="w-6 h-6 border border-primary/20">
                               <AvatarImage src={launch.streamerAvatar} alt={launch.streamerName} />
@@ -787,16 +847,14 @@ END:VCALENDAR`;
                     </CardHeader>
                     
                     <CardContent className="space-y-4">
-                      <p className="text-muted-foreground">{launch.description}</p>
+                      <p className="text-muted-foreground">
+                        {launch.isUnlocked ? launch.description : 'Unlock this exclusive launch by contributing to pre-donations! Big surprise awaits...'}
+                      </p>
                       
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Eye className="w-3 h-3" />
                           {launch.expectedViews.toLocaleString()} expected views
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
-                          {launch.priority} priority
                         </div>
                       </div>
 
@@ -860,43 +918,68 @@ END:VCALENDAR`;
                         </div>
                       )}
                       
-                      {/* Action Buttons for Unlocked Launches */}
-                      {launch.isUnlocked && (
-                        <div className={`flex flex-wrap gap-2 ${isRecentlyUnlocked ? 'animate-fade-in' : ''}`}>
-                          <Button 
-                            variant="default" 
-                            size="sm"
-                            onClick={() => generateICS(launch)}
-                            className={`flex items-center space-x-1 ${isRecentlyUnlocked ? 'bg-gradient-primary shadow-glow animate-pulse' : ''}`}
-                          >
-                            <Download className="w-4 h-4" />
-                            <span>Set Reminder</span>
-                          </Button>
-                          
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            asChild
-                            className={`${isRecentlyUnlocked ? 'border-primary text-primary shadow-glow animate-pulse' : ''}`}
-                          >
-                            <a href={launch.streamLink} target="_blank" rel="noopener noreferrer">
-                              <Play className="w-4 h-4 mr-1" />
-                              View Stream
-                            </a>
-                          </Button>
-                          
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            asChild
-                          >
-                            <a href={launch.tokenLink} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="w-4 h-4 mr-1" />
-                              Token Page
-                            </a>
-                          </Button>
-                        </div>
-                      )}
+                      {/* Action Buttons for All Launches */}
+                      <div className={`flex flex-wrap gap-2 ${isRecentlyUnlocked ? 'animate-fade-in' : ''}`}>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm" className="gap-1">
+                              <Share2 className="w-3 h-3" />
+                              Share
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => handleShare('twitter', launch)}>
+                              <Twitter className="w-4 h-4 mr-2" />
+                              Share on Twitter
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleShare('discord', launch)}>
+                              <MessageCircle className="w-4 h-4 mr-2" />
+                              Share on Discord
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleShare('copy', launch)}>
+                              <Copy className="w-4 h-4 mr-2" />
+                              Copy Link
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        
+                        {launch.isUnlocked && (
+                          <>
+                            <Button 
+                              variant="default" 
+                              size="sm"
+                              onClick={() => generateICS(launch)}
+                              className={`flex items-center space-x-1 ${isRecentlyUnlocked ? 'bg-gradient-primary shadow-glow animate-pulse' : ''}`}
+                            >
+                              <Download className="w-4 h-4" />
+                              <span>Set Reminder</span>
+                            </Button>
+                            
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              asChild
+                              className={`${isRecentlyUnlocked ? 'border-primary text-primary shadow-glow animate-pulse' : ''}`}
+                            >
+                              <a href={launch.streamLink} target="_blank" rel="noopener noreferrer">
+                                <Play className="w-4 h-4 mr-1" />
+                                View Stream
+                              </a>
+                            </Button>
+                            
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              asChild
+                            >
+                              <a href={launch.tokenLink} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="w-4 h-4 mr-1" />
+                                Token Page
+                              </a>
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 );
