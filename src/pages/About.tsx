@@ -111,7 +111,7 @@ const About = () => {
 
         {/* Partners & Achievements */}
         <section className="space-y-8">
-          <h2 className="text-3xl font-bold text-center">Our Partners & Achievements</h2>
+          <h2 className="text-3xl font-bold text-center">Partners & Previous Achievements</h2>
           
           <div className="space-y-8">
             {/* Gaming Partnerships */}
