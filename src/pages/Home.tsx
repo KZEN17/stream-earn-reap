@@ -23,10 +23,10 @@ const Home = () => {
           <div className="text-center space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold">
-                <span className="text-gradient-rainbow">Clip. Share. Earn.</span>
+                <span className="text-gradient-rainbow">Stream • Clip • Earn $</span>
               </h1>
               <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto">
-                Entertainment becomes finance. From Twitch to Rich.
+                Create viral clips from live streams and earn rewards based on views and engagement.
               </p>
             </div>
             
@@ -52,11 +52,11 @@ const Home = () => {
               <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                 <Play className="w-6 h-6 text-white" />
               </div>
-              <CardTitle>Clip & Earn</CardTitle>
+              <CardTitle>Loop Rewards & Grow</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Create viral clips from live streams and earn rewards based on views and engagement.
+                Recycle hype, multiply rewards
               </p>
             </CardContent>
           </Card>
@@ -80,11 +80,11 @@ const Home = () => {
               <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center mb-4">
                 <DollarSign className="w-6 h-6 text-accent-foreground" />
               </div>
-              <CardTitle>Finance the Fun</CardTitle>
+              <CardTitle>Entertainment Finance</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Turn entertainment into sustainable income through our innovative creator economy.
+                Turn entertainment into sustainable income as innovative creator
               </p>
             </CardContent>
           </Card>
