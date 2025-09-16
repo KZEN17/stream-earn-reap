@@ -17,9 +17,12 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Privy configuration
+// Privy configuration - with fallback for demo
+const PRIVY_APP_ID = 'YOUR_PRIVY_APP_ID'; // Replace with actual Privy App ID
+const USE_PRIVY = PRIVY_APP_ID && PRIVY_APP_ID !== 'YOUR_PRIVY_APP_ID';
+
 const privyConfig = {
-  appId: 'YOUR_PRIVY_APP_ID', // User will need to replace this
+  appId: PRIVY_APP_ID,
   config: {
     loginMethods: ['email', 'google', 'wallet'],
     appearance: {
@@ -197,8 +200,13 @@ const AuthProviderInner = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Main provider component
+// Main provider component with fallback
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  // If no valid Privy App ID, use fallback auth
+  if (!USE_PRIVY) {
+    return <FallbackAuthProvider>{children}</FallbackAuthProvider>;
+  }
+
   return (
     <PrivyProvider
       appId={privyConfig.appId}
@@ -208,6 +216,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         {children}
       </AuthProviderInner>
     </PrivyProvider>
+  );
+};
+
+// Fallback auth provider for when Privy is not configured
+const FallbackAuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const contextValue: AuthContextType = {
+    user: null,
+    walletAddress: null,
+    isLoading: false,
+    loading: false,
+    needsOnboarding: false,
+    login: () => {
+      // Redirect to setup instructions
+      alert('Please configure Privy App ID first. Check the console for instructions.');
+      console.log(`
+🔧 PRIVY SETUP REQUIRED
+
+1. Go to https://privy.io and create an account
+2. Create a new app and get your App ID  
+3. Replace 'YOUR_PRIVY_APP_ID' in src/contexts/PrivyAuthContext.tsx with your actual App ID
+4. The page will automatically reload with Privy authentication enabled
+
+For now, you can use the regular auth at /auth
+      `);
+    },
+    logout: () => {},
+    connectWallet: () => {},
+    linkGoogleAccount: () => {},
+    supabaseSession: null,
+  };
+
+  return (
+    <AuthContext.Provider value={contextValue}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

@@ -2,10 +2,16 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/PrivyAuthContext';
 import { PrivyLoginButton } from '@/components/auth/PrivyLoginButton';
+import { PrivySetupCard } from '@/components/auth/PrivySetupCard';
 
 export default function PrivyAuth() {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
+
+  // Check if Privy is properly configured
+  const privyConfigured = typeof window !== 'undefined' && 
+    window.location.href.includes('clym-id=') || // Check if Privy is actually loaded
+    localStorage.getItem('privy:token'); // Or has tokens
 
   useEffect(() => {
     // Redirect authenticated users to home
@@ -13,6 +19,11 @@ export default function PrivyAuth() {
       navigate('/');
     }
   }, [user, isLoading, navigate]);
+
+  // Show setup card if Privy is not configured
+  if (!privyConfigured && !user) {
+    return <PrivySetupCard />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/20 flex items-center justify-center p-4">
