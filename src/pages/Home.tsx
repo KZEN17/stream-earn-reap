@@ -193,16 +193,16 @@ const Home = () => {
             </CardHeader>
             <CardContent className="space-y-3">
               {[
-                { handle: "@clipmaster", points: "2,450" },
-                { handle: "@viralking", points: "2,130" },
-                { handle: "@contentcreator", points: "1,890" },
+                { handle: "@clipmaster", rewards: "$1,225" },
+                { handle: "@viralking", rewards: "$1,065" },
+                { handle: "@contentcreator", rewards: "$945" },
               ].map((clipper, index) => (
                 <div key={index} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50">
                   <div className="flex items-center space-x-2">
                     <div className="w-6 h-6 bg-gradient-secondary rounded-full"></div>
                     <span className="font-medium text-sm">{clipper.handle}</span>
                   </div>
-                  <div className="text-sm text-muted-foreground">{clipper.points} pts</div>
+                  <div className="text-sm text-muted-foreground">{clipper.rewards}</div>
                 </div>
               ))}
             </CardContent>
