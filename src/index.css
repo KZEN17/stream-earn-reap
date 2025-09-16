@@ -235,11 +235,11 @@
     background-clip: text;
   }
   
-  /* Transparent Glass Sidebar */
+  /* Transparent Glass Sidebar - Match Home Background */
   [data-sidebar="sidebar"] {
-    background: hsl(225 15% 6% / 0.8) !important;
+    background: hsl(var(--background) / 0.8) !important;
     backdrop-filter: blur(20px);
-    border-right: 1px solid hsl(225 15% 20% / 0.3);
+    border-right: 1px solid hsl(var(--border) / 0.3);
   }
 }
 
