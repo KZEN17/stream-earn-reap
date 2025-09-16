@@ -116,70 +116,70 @@
     --sidebar-ring: 285 72% 60%;
   }
 
-  /* Snapchat-Inspired Light Theme */
+  /* Optimized Light Theme - Better Contrast & UX */
   .light {
-    /* Snapchat Yellow/White Base */
-    --background: 0 0% 100%;
-    --foreground: 220 20% 15%;
+    /* Clean white base with better contrast */
+    --background: 0 0% 99%;
+    --foreground: 220 20% 8%;
     
-    /* Card System - Light Clean */
+    /* Card System - Light Clean with subtle shadow */
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 15%;
+    --card-foreground: 220 20% 10%;
     
-    /* Purple Primary for better contrast */
-    --primary: 285 72% 60%; /* Keep purple from dark theme */
-    --primary-glow: 285 82% 70%;
-    --primary-foreground: 0 0% 100%;
+    /* Optimized Primary - Golden Yellow for better visibility */
+    --primary: 45 100% 47%; /* Slightly darker for better contrast */
+    --primary-glow: 45 100% 55%;
+    --primary-foreground: 220 20% 8%;
     
-    /* Light Blue for Secondary */
-    --secondary: 205 100% 60%;
-    --secondary-glow: 205 100% 70%;
+    /* Enhanced Secondary - Better blue contrast */
+    --secondary: 210 100% 50%;
+    --secondary-glow: 210 100% 60%;
     --secondary-foreground: 0 0% 100%;
     
-    /* Green Accent */
-    --accent: 120 100% 40%;
-    --accent-glow: 120 100% 50%;
+    /* Success Green - Better contrast */
+    --accent: 142 75% 36%;
+    --accent-glow: 142 75% 45%;
     --accent-foreground: 0 0% 100%;
     
-    /* Light Neutrals */
-    --muted: 210 10% 95%;
-    --muted-foreground: 220 15% 45%;
+    /* Optimized Neutrals */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 15% 35%;
     
-    /* Light Interactive States */
-    --border: 210 15% 85%;
+    /* Enhanced Interactive States */
+    --border: 220 13% 88%;
     --input: 0 0% 100%;
-    --ring: 45 100% 51%;
+    --ring: 45 100% 47%;
     
-    /* Light Status Colors */
-    --destructive: 0 85% 60%;
+    /* Better Status Colors */
+    --destructive: 0 84% 50%;
     --destructive-foreground: 0 0% 100%;
-    --success: 120 100% 40%;
+    --success: 142 75% 36%;
     --success-foreground: 0 0% 100%;
-    --warning: 30 100% 50%;
+    --warning: 32 95% 44%;
     --warning-foreground: 0 0% 100%;
     
-    /* Snapchat Light Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(45 100% 51%), hsl(45 100% 61%));
-    --gradient-secondary: linear-gradient(135deg, hsl(205 100% 60%), hsl(205 100% 70%));
-    --gradient-accent: linear-gradient(135deg, hsl(120 100% 40%), hsl(120 100% 50%));
-    --gradient-rainbow: linear-gradient(135deg, hsl(45 100% 51%), hsl(205 100% 60%), hsl(120 100% 40%));
-    --gradient-hero: linear-gradient(135deg, hsl(45 100% 51% / 0.9), hsl(205 100% 60% / 0.9));
+    /* Enhanced Light Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(45 100% 47%), hsl(45 100% 55%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 100% 50%), hsl(210 100% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(142 75% 36%), hsl(142 75% 45%));
+    --gradient-rainbow: linear-gradient(135deg, hsl(45 100% 47%), hsl(210 100% 50%), hsl(142 75% 36%));
+    --gradient-hero: linear-gradient(135deg, hsl(45 100% 47% / 0.1), hsl(210 100% 50% / 0.1));
     
-    /* Light Shadows - Much Softer */
-    --shadow-glow: 0 0 20px hsl(45 100% 51% / 0.3);
-    --shadow-neon: 0 0 15px hsl(120 100% 40% / 0.3);
-    --shadow-card: 0 2px 8px hsl(220 20% 15% / 0.1);
-    --shadow-float: 0 4px 16px hsl(220 20% 15% / 0.15);
+    /* Optimized Light Shadows */
+    --shadow-glow: 0 0 24px hsl(45 100% 47% / 0.25);
+    --shadow-neon: 0 0 20px hsl(142 75% 36% / 0.3);
+    --shadow-card: 0 2px 12px hsl(220 20% 8% / 0.08);
+    --shadow-float: 0 8px 24px hsl(220 20% 8% / 0.12);
     
-    /* Light Sidebar - Snapchat Style */
+    /* Enhanced Light Sidebar */
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 220 20% 15%;
-    --sidebar-primary: 45 100% 51%;
-    --sidebar-primary-foreground: 220 20% 15%;
-    --sidebar-accent: 210 10% 95%;
+    --sidebar-primary: 45 100% 47%;
+    --sidebar-primary-foreground: 220 20% 8%;
+    --sidebar-accent: 220 14% 96%;
     --sidebar-accent-foreground: 220 20% 15%;
-    --sidebar-border: 210 15% 85%;
-    --sidebar-ring: 45 100% 51%;
+    --sidebar-border: 220 13% 88%;
+    --sidebar-ring: 45 100% 47%;
   }
 }
 
@@ -199,10 +199,12 @@
       radial-gradient(circle at 80% 20%, hsl(189 100% 50% / 0.05) 0%, transparent 50%);
   }
 
-  /* Light theme clean background */
+  /* Optimized light theme background */
   .light body {
-    background: hsl(0 0% 98%);
-    background-image: none;
+    background: hsl(0 0% 99%);
+    background-image: 
+      radial-gradient(circle at 20% 80%, hsl(45 100% 47% / 0.02) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, hsl(210 100% 50% / 0.02) 0%, transparent 60%);
   }
 }
 
@@ -310,7 +312,7 @@
     background-clip: text;
   }
 
-  /* Snapchat-style light theme overrides */
+  /* Light theme optimized overrides */
   .light .gaming-title {
     font-weight: 900;
     letter-spacing: -0.02em;
@@ -319,6 +321,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 1px 2px hsl(45 100% 47% / 0.3));
   }
 
   .light .gaming-card {
@@ -331,46 +334,46 @@
   .light .gaming-card:hover {
     box-shadow: var(--shadow-float);
     transform: translateY(-2px);
+    border-color: hsl(var(--primary) / 0.2);
   }
 
-  /* Light theme button styles */
+  /* Enhanced light theme button styles */
   .light .bg-gradient-primary {
     background: var(--gradient-primary);
     color: hsl(var(--primary-foreground));
     font-weight: 700;
+    border: 1px solid hsl(45 100% 47% / 0.2);
   }
 
   .light .bg-gradient-secondary {
     background: var(--gradient-secondary);
     color: hsl(var(--secondary-foreground));
     font-weight: 700;
+    border: 1px solid hsl(210 100% 50% / 0.2);
   }
 
   .light .bg-gradient-accent {
     background: var(--gradient-accent);
     color: hsl(var(--accent-foreground));
     font-weight: 700;
+    border: 1px solid hsl(142 75% 36% / 0.2);
   }
 
-  /* Snapchat-style rounded elements */
-  .light [class*="rounded"] {
-    border-radius: 1.5rem;
+  /* Enhanced typography for better readability */
+  .light h1, .light h2, .light h3, .light h4, .light h5, .light h6 {
+    color: hsl(220 20% 8%);
+    font-weight: 700;
   }
 
-  .light .rounded-full {
-    border-radius: 50%;
+  .light p {
+    color: hsl(220 15% 25%);
+    line-height: 1.7;
   }
 
-  .light .rounded-xl {
-    border-radius: 1rem;
-  }
-
-  .light .rounded-lg {
-    border-radius: 0.75rem;
-  }
-
-  .light .rounded-md {
-    border-radius: 0.5rem;
+  /* Better focus states */
+  .light *:focus-visible {
+    outline: 2px solid hsl(45 100% 47%);
+    outline-offset: 2px;
   }
   
   /* Theme-adaptive Sidebar */
