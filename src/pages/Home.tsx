@@ -28,34 +28,39 @@ const Home = () => {
           <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-accent/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-          <div className="text-center space-y-8">
-            <div className="space-y-6">
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight">
-              <span className="heading-primary text-hierarchy-1 animate-stagger">STREAM • CLIP • EARN $</span>
-            </h1>
-            <p className="text-xl lg:text-2xl text-foreground/80 max-w-4xl mx-auto font-medium animate-stagger" style={{ animationDelay: '0.1s' }}>
-              Create viral clips from live streams and earn rewards based on views and engagement.
-              <span className="text-accent font-bold"> The future of entertainment finance.</span>
-            </p>
+          <div className="text-center space-y-10 max-w-5xl mx-auto">
+            <div className="space-y-8">
+              <h1 className="text-7xl md:text-9xl font-black text-gradient-gaming font-display animate-stagger leading-none tracking-tight">
+                FROM TWITCH TO RICH
+              </h1>
+              <div className="flex items-center justify-center space-x-4 mb-6">
+                <div className="h-1 w-20 bg-gradient-primary rounded-full animate-pulse-glow"></div>
+                <div className="text-2xl">🎮</div>
+                <div className="h-1 w-20 bg-gradient-secondary rounded-full animate-pulse-glow"></div>
+              </div>
+              <p className="text-2xl md:text-3xl text-foreground/90 max-w-3xl mx-auto leading-relaxed font-semibold">
+                Turn <span className="text-gradient-primary font-bold">entertainment</span> into <span className="text-gradient-secondary font-bold">finance</span>. 
+                Connect <span className="text-gradient-accent font-bold">streamers</span>, clippers, and agencies.
+              </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
               <Button 
                 variant="hero" 
                 size="lg" 
-                className="text-xl px-12 py-8 glow-primary font-black hover-float"
+                className="text-2xl px-16 py-10 glow-primary font-black hover-lift animate-pulse-glow bg-gradient-primary shadow-glow-primary border-2 border-primary/30"
                 onClick={() => navigate('/rewards')}
               >
-                <Play className="w-8 h-8 mr-4" />
+                <Play className="w-10 h-10 mr-6 animate-float" />
                 START CLIPPING NOW
               </Button>
               <Button 
                 variant="secondary" 
                 size="lg" 
-                className="text-xl px-12 py-8 glow-secondary font-black hover-float"
+                className="text-2xl px-16 py-10 glow-secondary font-black hover-lift animate-pulse-glow bg-gradient-secondary shadow-glow-secondary border-2 border-secondary/30"
                 onClick={() => navigate('/calendar')}
               >
-                <Users className="w-8 h-8 mr-4" />
+                <Users className="w-10 h-10 mr-6 animate-float" />
                 START STREAMING NOW
               </Button>
             </div>
