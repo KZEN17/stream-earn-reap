@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Palette, Copy, Check, Sparkles, Zap, Code2 } from 'lucide-react';
+import { Sparkles, Zap, Code2, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
 
 const BrandBook = () => {
@@ -165,7 +165,7 @@ const BrandBook = () => {
         </div>
       </section>
 
-      {/* Neon Colors */}
+      {/* Color Palette */}
       <section>
         <h2 className="heading-2 text-text mb-6 flex items-center space-x-2">
           <span className="text-pink">⚡</span>
@@ -190,8 +190,7 @@ const BrandBook = () => {
                   <div 
                     className="absolute inset-0 rounded-xl"
                     style={{ 
-                      boxShadow: `0 0 30px ${color.hex}40`,
-                      filter: 'blur(0px)'
+                      boxShadow: `0 0 30px ${color.hex}40`
                     }}
                   />
                 </div>
@@ -208,6 +207,63 @@ const BrandBook = () => {
                   <Button
                     variant="ghost" 
                     size="sm"
+                    onClick={() => copyToClipboard(color.name, color.hex)}
+                    className="h-auto py-1 px-2 body-xs hover:bg-line"
+                  >
+                    {color.hex}
+                    {copiedColor === color.name ? (
+                      <Check className="h-3 w-3 ml-1" />
+                    ) : (
+                      <Copy className="h-3 w-3 ml-1" />
+                    )}
+                  </Button>
+                </div>
+                <p className="body-small text-muted">{color.description}</p>
+                <div className="body-xs text-muted">
+                  <strong>Usage:</strong> {color.usage}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Neutral Colors */}
+      <section>
+        <h2 className="heading-2 text-text mb-6 flex items-center space-x-2">
+          <span className="text-muted">⚫</span>
+          <span>Neutral Foundation</span>
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {neutrals.map((color) => (
+            <Card key={color.name} className="card-default border-line hover:border-muted/50 transition-all duration-300">
+              <CardHeader className="pb-4">
+                <div 
+                  className="w-full h-20 rounded-xl mb-4 border border-line relative overflow-hidden group cursor-pointer"
+                  style={{ backgroundColor: color.hex }}
+                  onClick={() => copyToClipboard(color.name, color.hex)}
+                >
+                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-200 flex items-center justify-center">
+                    {copiedColor === color.name ? (
+                      <Check className="h-5 w-5 text-white opacity-0 group-hover:opacity-100" />
+                    ) : (
+                      <Copy className="h-5 w-5 text-white opacity-0 group-hover:opacity-100" />
+                    )}
+                  </div>
+                </div>
+                <CardTitle className="flex items-center justify-between">
+                  <span className="heading-4 text-text">{color.name}</span>
+                  <code className="body-xs bg-line px-2 py-1 rounded text-muted">
+                    {color.tailwind}
+                  </code>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="body-small font-mono text-muted">HEX</span>
+                  <Button
+                    variant="ghost"
+                    size="sm" 
                     onClick={() => copyToClipboard(color.name, color.hex)}
                     className="h-auto py-1 px-2 body-xs hover:bg-line"
                   >
@@ -343,66 +399,16 @@ const BrandBook = () => {
           ))}
         </div>
       </section>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {neutrals.map((color) => (
-            <Card key={color.name} className="bg-surface border-line hover:border-muted/50 transition-all duration-300">
-              <CardHeader className="pb-4">
-                <div 
-                  className="w-full h-20 rounded-lg mb-4 border border-line relative overflow-hidden group cursor-pointer"
-                  style={{ backgroundColor: color.hex }}
-                  onClick={() => copyToClipboard(color.name, color.hex)}
-                >
-                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-200 flex items-center justify-center">
-                    {copiedColor === color.name ? (
-                      <Check className="h-5 w-5 text-white opacity-0 group-hover:opacity-100" />
-                    ) : (
-                      <Copy className="h-5 w-5 text-white opacity-0 group-hover:opacity-100" />
-                    )}
-                  </div>
-                </div>
-                <CardTitle className="flex items-center justify-between">
-                  <span className="text-text">{color.name}</span>
-                  <code className="text-xs bg-line px-2 py-1 rounded text-muted">
-                    {color.tailwind}
-                  </code>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-mono text-muted">HEX</span>
-                  <Button
-                    variant="ghost"
-                    size="sm" 
-                    onClick={() => copyToClipboard(color.name, color.hex)}
-                    className="h-auto py-1 px-2 text-xs hover:bg-line"
-                  >
-                    {color.hex}
-                    {copiedColor === color.name ? (
-                      <Check className="h-3 w-3 ml-1" />
-                    ) : (
-                      <Copy className="h-3 w-3 ml-1" />
-                    )}
-                  </Button>
-                </div>
-                <p className="text-sm text-muted">{color.description}</p>
-                <div className="text-xs text-muted">
-                  <strong>Usage:</strong> {color.usage}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
 
       {/* Usage Examples */}
       <section>
-        <h2 className="text-2xl font-bold text-text mb-6">Usage Examples</h2>
+        <h2 className="heading-2 text-text mb-6">Usage Examples</h2>
         <div className="grid md:grid-cols-2 gap-6">
           
           {/* Buttons */}
-          <Card className="bg-surface border-line">
+          <Card className="card-default border-line">
             <CardHeader>
-              <CardTitle className="text-purple">Button Variants</CardTitle>
+              <CardTitle className="heading-4 text-purple">Button Variants</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <Button className="bg-pink hover:bg-pink/80 text-white w-full">
@@ -421,26 +427,26 @@ const BrandBook = () => {
           </Card>
 
           {/* Status Indicators */}
-          <Card className="bg-surface border-line">
+          <Card className="card-default border-line">
             <CardHeader>
-              <CardTitle className="text-cyan">Status Indicators</CardTitle>
+              <CardTitle className="heading-4 text-cyan">Status Indicators</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-green rounded-full"></div>
-                <span className="text-green">Success: Transaction completed</span>
+                <span className="body-medium text-green">Success: Transaction completed</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-yellow rounded-full"></div>
-                <span className="text-yellow">Warning: Low balance</span>
+                <span className="body-medium text-yellow">Warning: Low balance</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-cyan rounded-full"></div>
-                <span className="text-cyan">Info: New feature available</span>
+                <span className="body-medium text-cyan">Info: New feature available</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-pink rounded-full"></div>
-                <span className="text-pink">Active: Currently streaming</span>
+                <span className="body-medium text-pink">Active: Currently streaming</span>
               </div>
             </CardContent>
           </Card>
@@ -449,28 +455,28 @@ const BrandBook = () => {
 
       {/* Guidelines */}
       <section>
-        <Card className="bg-surface border-line">
+        <Card className="card-default border-line">
           <CardHeader>
-            <CardTitle className="text-text">Design Guidelines</CardTitle>
+            <CardTitle className="heading-3 text-text">Design Guidelines</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold text-pink mb-2">Do's</h4>
-                <ul className="space-y-1 text-sm text-muted">
-                  <li>• Use neon colors sparingly for maximum impact</li>
-                  <li>• Apply glow effects to active/interactive elements</li>
+                <h4 className="heading-4 text-pink mb-2">Do's</h4>
+                <ul className="space-y-1 body-medium text-muted">
+                  <li>• Use semantic color tokens consistently</li>
+                  <li>• Apply proper focus states to all interactive elements</li>
                   <li>• Maintain sufficient contrast for accessibility</li>
                   <li>• Use consistent color meanings (green = success, etc.)</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold text-yellow mb-2">Don'ts</h4>
-                <ul className="space-y-1 text-sm text-muted">
-                  <li>• Don't use multiple neon colors together without purpose</li>
-                  <li>• Avoid overusing bright colors for text readability</li>
+                <h4 className="heading-4 text-yellow mb-2">Don'ts</h4>
+                <ul className="space-y-1 body-medium text-muted">
+                  <li>• Don't mix design tokens with hard-coded colors</li>
+                  <li>• Don't skip focus indicators for accessibility</li>
                   <li>• Don't ignore the neutral palette - it provides balance</li>
-                  <li>• Avoid mixing our neon palette with other bright colors</li>
+                  <li>• Don't use multiple accent colors without purpose</li>
                 </ul>
               </div>
             </div>
