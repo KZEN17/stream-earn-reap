@@ -6,10 +6,7 @@ import {
   MessageSquare, 
   BarChart3, 
   BookOpen, 
-  User, 
-  Palette, 
-  Boxes, 
-  Download 
+  User
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -32,9 +29,6 @@ const navigationItems: NavigationItem[] = [
   { id: 'leaderboards', label: 'Leaderboards', icon: BarChart3, path: '/leaderboards' },
   { id: 'guide', label: 'Guide', icon: BookOpen, path: '/guide' },
   { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
-  { id: 'brand-book', label: 'Brand Book', icon: Palette, path: '/brand-book' },
-  { id: 'ui-kit', label: 'UI Kit', icon: Boxes, path: '/ui-kit' },
-  { id: 'media-pack', label: 'Media Pack', icon: Download, path: '/media-pack' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => {
