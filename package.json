@@ -11,8 +11,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.2.7",
-    "@fontsource/space-grotesk": "^5.2.9",
     "@hookform/resolvers": "^3.10.0",
     "@privy-io/react-auth": "^2.25.0",
     "@privy-io/wagmi": "^1.0.6",

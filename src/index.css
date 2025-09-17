@@ -2,119 +2,118 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Clash+Display:wght@200;300;400;500;600;700&display=swap');
-
-/* CLIP Design System - Modern Dark Theme with Neon Purple */
+/* CLIP Design System - Snapchat + Phantom + pump.fun inspired */
 
 @layer base {
   :root {
-    /* CLIP Design System - Modern Dark Theme with Neon Purple */
-    /* Color Palette - Dark base with neon purple accents */
-    --background: 218 20% 4%;           /* Dark base #0B0C0E */
-    --foreground: 0 0% 98%;             /* Near white text */
+    /* BATTLETECH Gaming Theme - Dark Base */
+    --background: 225 15% 8%;
+    --foreground: 210 20% 98%;
     
-    /* Card System - Flat dark panels */
-    --card: 218 20% 6%;                 /* Slightly lighter dark */
-    --card-foreground: 0 0% 95%;        /* Card text */
-    --popover: 218 20% 6%;              /* Popover background */
-    --popover-foreground: 0 0% 95%;     /* Popover text */
+    /* Card System - Dark Glass Effect */
+    --card: 225 15% 12%;
+    --card-foreground: 210 20% 98%;
     
-    /* Primary - Neon Purple (#8400FF) */
-    --primary: 270 100% 50%;            /* Neon purple #8400FF */
-    --primary-glow: 270 100% 65%;       /* Purple glow */
-    --primary-foreground: 0 0% 100%;    /* White on purple */
+    /* Primary - CLIP Purple (#B44FE6) */
+    --primary: 285 72% 60%;
+    --primary-glow: 285 82% 70%;
+    --primary-foreground: 0 0% 100%;
     
-    /* Secondary - Dark secondary */
-    --secondary: 218 15% 12%;           /* Dark secondary */
-    --secondary-foreground: 0 0% 90%;   /* Secondary text */
+    /* Secondary - Electric Cyan (#00E5FF) */
+    --secondary: 189 100% 50%;
+    --secondary-glow: 189 100% 60%;
+    --secondary-foreground: 225 15% 8%;
     
-    /* Accent - Purple accent */
-    --accent: 270 100% 50%;             /* Accent purple */
-    --accent-foreground: 0 0% 100%;     /* White on accent */
-    --accent-glow: 270 100% 65%;        /* Purple glow */
+    /* Accent - Neon Green (#DCFF00) */
+    --accent: 71 100% 50%;
+    --accent-glow: 71 100% 60%;
+    --accent-foreground: 225 15% 8%;
     
     /* Neutral System - Dark Greys */
-    --muted: 218 10% 15%;               /* Muted backgrounds */
-    --muted-foreground: 0 0% 65%;       /* Muted text */
+    --muted: 225 15% 15%;
+    --muted-foreground: 220 10% 65%;
     
     /* Interactive States */
-    --border: 218 15% 18%;              /* Border color */
-    --input: 218 15% 18%;               /* Input background */
-    --ring: 270 100% 50%;               /* Focus ring purple */
+    --border: 225 15% 20%;
+    --input: 225 15% 15%;
+    --ring: 285 72% 60%;
     
     /* Status Colors */
-    --destructive: 0 62% 50%;           /* Error red */
-    --destructive-foreground: 0 0% 98%; /* White on red */
-    --success: 120 60% 50%;             /* Success green */
-    --success-foreground: 0 0% 98%;     /* White on green */
-    --warning: 45 100% 51%;             /* Warning yellow */
-    --warning-foreground: 0 0% 9%;      /* Dark on yellow */
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 71 100% 50%;
+    --success-foreground: 225 15% 8%;
+    --warning: 45 95% 60%;
+    --warning-foreground: 225 15% 8%;
     
-    /* Modern Design System Variables */
-    --radius: 8px;                      /* Medium radius */
-    --radius-lg: 12px;                  /* Large radius */
-    --radius-xl: 16px;                  /* Extra large radius */
+    /* CLIP Gaming Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(285 72% 60%), hsl(285 82% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(189 100% 50%), hsl(189 100% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(71 100% 50%), hsl(71 100% 60%));
+    --gradient-rainbow: linear-gradient(135deg, hsl(285 72% 60%), hsl(189 100% 50%), hsl(71 100% 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(285 72% 60% / 0.9), hsl(189 100% 50% / 0.9));
+    
+    /* Gaming Shadows & Glows */
+    --shadow-glow: 0 0 40px hsl(285 72% 60% / 0.4);
+    --shadow-neon: 0 0 20px hsl(71 100% 50% / 0.6);
+    --shadow-card: 0 10px 30px -10px hsl(225 15% 8% / 0.5);
+    --shadow-float: 0 20px 40px -10px hsl(225 15% 8% / 0.8);
+    
+    /* Spacing & Layout */
+    --radius: 1rem;
+    --radius-lg: 1.5rem;
+    --radius-xl: 2rem;
 
-    /* Modern Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--muted)) 100%);
-    --gradient-glow: linear-gradient(135deg, hsl(var(--primary) / 0.3) 0%, hsl(var(--accent-glow) / 0.1) 100%);
-
-    /* Modern Shadows & Glows */
-    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.3);
-    --shadow-glow-lg: 0 0 40px hsl(var(--primary) / 0.4);
-    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.2);
-
-    /* Modern Sidebar */
-    --sidebar-background: 218 20% 6%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 270 100% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 218 15% 12%;
-    --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 218 15% 18%;
-    --sidebar-ring: 270 100% 50%;
+    /* Gaming Sidebar - CLIP Brand */
+    --sidebar-background: 225 15% 6%;
+    --sidebar-foreground: 189 100% 50%;
+    --sidebar-primary: 189 100% 50%;
+    --sidebar-primary-foreground: 225 15% 8%;
+    --sidebar-accent: 225 15% 12%;
+    --sidebar-accent-foreground: 189 100% 50%;
+    --sidebar-border: 225 15% 15%;
+    --sidebar-ring: 189 100% 50%;
   }
 
   .dark {
-    /* Enhanced Dark Mode - Modern dark theme */
-    --background: 218 20% 4%;
-    --foreground: 0 0% 98%;
+    /* Enhanced Dark Mode - Keep gaming theme consistent */
+    --background: 225 15% 5%;
+    --foreground: 210 20% 98%;
 
-    --card: 218 20% 6%;
-    --card-foreground: 0 0% 95%;
+    --card: 225 15% 8%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 218 20% 6%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 225 15% 8%;
+    --popover-foreground: 210 20% 98%;
 
-    --primary: 270 100% 50%;
+    --primary: 285 72% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 218 15% 12%;
-    --secondary-foreground: 0 0% 90%;
+    --secondary: 189 100% 50%;
+    --secondary-foreground: 225 15% 8%;
 
-    --muted: 218 10% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 225 15% 12%;
+    --muted-foreground: 220 10% 70%;
 
-    --accent: 270 100% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 71 100% 50%;
+    --accent-foreground: 225 15% 8%;
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 218 15% 18%;
-    --input: 218 15% 18%;
-    --ring: 270 100% 50%;
+    --border: 225 15% 18%;
+    --input: 225 15% 12%;
+    --ring: 285 72% 60%;
     
-    /* Modern Sidebar */
-    --sidebar-background: 218 20% 6%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 270 100% 50%;
+    /* Gaming Sidebar */
+    --sidebar-background: 225 15% 6%;
+    --sidebar-foreground: 210 20% 98%;
+    --sidebar-primary: 285 72% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 218 15% 12%;
-    --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 218 15% 18%;
-    --sidebar-ring: 270 100% 50%;
+    --sidebar-accent: 225 15% 12%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 225 15% 15%;
+    --sidebar-ring: 285 72% 60%;
   }
 
   /* Optimized Light Theme - Better Contrast & UX */
@@ -270,20 +269,20 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
     /* iOS fallback colors */
-    background-color: #0B0C0E !important;
+    background-color: #1a1a2e !important;
     color: #ffffff !important;
     min-height: 100vh;
     min-height: -webkit-fill-available;
   }
 
-  /* Modern dark theme background */
+  /* Dark theme background pattern */
   .dark body {
     background-image: 
-      radial-gradient(circle at 20% 80%, hsl(270 100% 50% / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, hsl(270 100% 65% / 0.03) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, hsl(285 72% 60% / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(189 100% 50% / 0.05) 0%, transparent 50%);
   }
 
   /* Optimized light theme background */
@@ -330,48 +329,22 @@
     box-shadow: var(--shadow-float);
   }
   
-  /* Modern flat card effects */
+  /* Gaming Card Effects */
   .gaming-card {
-    background: hsl(var(--card));
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
     border: 1px solid hsl(var(--border));
     box-shadow: 
-      0 0 0 1px hsl(var(--primary) / 0.1),
-      0 4px 12px hsl(var(--background) / 0.4);
+      0 0 20px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(210 20% 98% / 0.05);
     transition: all 0.3s ease;
   }
   
   .gaming-card:hover {
-    border-color: hsl(var(--primary) / 0.3);
     box-shadow: 
-      0 0 0 1px hsl(var(--primary) / 0.2),
-      0 0 20px hsl(var(--primary) / 0.15),
-      0 8px 24px hsl(var(--background) / 0.6);
+      0 0 30px hsl(var(--primary) / 0.2),
+      0 10px 40px hsl(var(--background) / 0.3),
+      inset 0 1px 0 hsl(210 20% 98% / 0.1);
     transform: translateY(-2px);
-  }
-  
-  /* Modern button glow effects */
-  .btn-glow {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn-glow::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: hsl(var(--primary) / 0.1);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .btn-glow:hover::before {
-    opacity: 1;
-  }
-  
-  .btn-glow:hover {
-    box-shadow: 
-      0 0 20px hsl(var(--primary) / 0.4),
-      0 4px 20px hsl(var(--primary) / 0.2);
   }
   
   /* Animation Classes */
@@ -414,24 +387,11 @@
     background-clip: text;
   }
   
-  /* Modern Typography */
+  /* Playful Typography */
   h1, h2, h3, h4, h5, h6, .font-display {
-    font-family: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Poppins', 'Inter', ui-sans-serif, system-ui, sans-serif;
     font-weight: 600;
     letter-spacing: -0.01em;
-  }
-
-  .font-clash {
-    font-family: 'Clash Display', 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  }
-
-  .text-gradient-modern {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
   }
 
   .text-gradient-gaming {
