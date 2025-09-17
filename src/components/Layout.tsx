@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
+import { FontToggle } from "./FontToggle";
 import { ThemeToggle } from "./ThemeToggle";
 import TargetCursor from "@/components/ui/TargetCursor";
 import GradualBlur from "@/components/ui/GradualBlur";
@@ -41,6 +42,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             {/* Theme Toggle & User Menu */}
             <div className="flex items-center space-x-3">
               <NotificationCenter />
+              <FontToggle />
               <ThemeToggle />
               
               {user ? (

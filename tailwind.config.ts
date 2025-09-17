@@ -84,8 +84,9 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["Poppins", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        gaming: ["Poppins", "sans-serif"],
+        display: ["Clash Display", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        gaming: ["Clash Display", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {

@@ -31,7 +31,7 @@ const Home = () => {
           <div className="text-center space-y-8">
             <div className="space-y-6">
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight">
-              <span className="gaming-title text-hierarchy-1 animate-stagger">STREAM • CLIP • EARN $</span>
+              <span className="heading-primary text-hierarchy-1 animate-stagger">STREAM • CLIP • EARN $</span>
             </h1>
             <p className="text-xl lg:text-2xl text-foreground/80 max-w-4xl mx-auto font-medium animate-stagger" style={{ animationDelay: '0.1s' }}>
               Create viral clips from live streams and earn rewards based on views and engagement.
@@ -43,7 +43,7 @@ const Home = () => {
               <Button 
                 variant="hero" 
                 size="lg" 
-                className="text-lg px-12 py-10 shadow-glow animate-pulse-glow text-xl font-black"
+                className="text-xl px-12 py-8 glow-primary font-black hover-float"
                 onClick={() => navigate('/rewards')}
               >
                 <Play className="w-8 h-8 mr-4" />
@@ -52,7 +52,7 @@ const Home = () => {
               <Button 
                 variant="secondary" 
                 size="lg" 
-                className="text-lg px-12 py-10 shadow-neon animate-float text-xl font-black"
+                className="text-xl px-12 py-8 glow-secondary font-black hover-float"
                 onClick={() => navigate('/calendar')}
               >
                 <Users className="w-8 h-8 mr-4" />
@@ -66,7 +66,7 @@ const Home = () => {
       {/* Social Proof Stats */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Platform Growth</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4 heading-secondary">Platform Growth</h2>
           <p className="text-xl text-muted-foreground">Real numbers from our thriving creator economy</p>
         </div>
         <SocialProofCounter />
@@ -75,43 +75,43 @@ const Home = () => {
       {/* Value Props */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="gaming-card hover-lift interactive">
+          <Card className="hover-float interactive glass-primary">
             <CardHeader>
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-4 animate-pulse-glow">
-                <Play className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mb-6 glow-primary">
+                <Play className="w-8 h-8 text-white" />
               </div>
-              <CardTitle className="text-hierarchy-3">Stream • Clip • Earn $</CardTitle>
+              <CardTitle className="heading-secondary text-2xl">Stream • Clip • Earn $</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/70 text-lg leading-relaxed">
                 Create viral clips from live streams and earn rewards based on views and engagement.
               </p>
             </CardContent>
           </Card>
 
-          <Card className="gaming-card hover-lift interactive">
+          <Card className="hover-float interactive glass-secondary">
             <CardHeader>
-              <div className="w-12 h-12 bg-gradient-secondary rounded-xl flex items-center justify-center mb-4 shadow-neon">
-                <TrendingUp className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 bg-gradient-secondary rounded-2xl flex items-center justify-center mb-6 glow-secondary">
+                <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <CardTitle className="text-gradient-primary text-hierarchy-3">Loop Rewards & Grow</CardTitle>
+              <CardTitle className="heading-secondary text-2xl text-secondary">Loop Rewards & Grow</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-foreground/80">
+              <p className="text-foreground/70 text-lg leading-relaxed">
                 Recycle hype, multiply rewards
               </p>
             </CardContent>
           </Card>
 
-          <Card className="gaming-card hover-lift interactive">
+          <Card className="hover-float interactive glass-accent">
             <CardHeader>
-              <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center mb-4 shadow-neon">
-                <DollarSign className="w-6 h-6 text-accent-foreground" />
+              <div className="w-16 h-16 bg-gradient-accent rounded-2xl flex items-center justify-center mb-6 glow-accent">
+                <DollarSign className="w-8 h-8 text-white" />
               </div>
-              <CardTitle className="text-gradient-accent text-hierarchy-3">Entertainment Finance</CardTitle>
+              <CardTitle className="heading-secondary text-2xl text-accent">Entertainment Finance</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-foreground/80">
+              <p className="text-foreground/70 text-lg leading-relaxed">
                 Turn entertainment into sustainable income as innovative creator
               </p>
             </CardContent>
@@ -122,7 +122,7 @@ const Home = () => {
       {/* How It Works */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-black mb-6 gaming-title">HOW IT WORKS</h2>
+          <h2 className="text-4xl lg:text-5xl font-black mb-6 heading-primary">HOW IT WORKS</h2>
           <p className="text-xl text-foreground/80 font-medium">Three paths to dominate the battlefield</p>
         </div>
 

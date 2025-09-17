@@ -5,24 +5,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:animate-micro-bounce",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 btn-gaming",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-glow hover:shadow-glow hover:scale-110 focus-visible:shadow-glow",
-        hero: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-110 font-semibold focus-visible:scale-110 focus-visible:shadow-glow border-2 border-primary/50",
-        secondary: "bg-gradient-secondary text-secondary-foreground hover:shadow-glow hover:scale-110 focus-visible:scale-110 focus-visible:shadow-glow border-2 border-secondary/50",
-        accent: "bg-gradient-accent text-accent-foreground hover:shadow-glow hover:scale-110 font-semibold focus-visible:scale-110 focus-visible:shadow-glow border-2 border-accent/50",
-        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground focus-visible:bg-primary/10 focus-visible:shadow-glow backdrop-blur-sm",
-        ghost: "hover:bg-muted hover:text-foreground focus-visible:bg-muted/50",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:shadow-glow",
-        link: "text-primary underline-offset-4 hover:underline focus-visible:ring-1 focus-visible:ring-primary/50",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 glow-primary hover:scale-105",
+        hero: "bg-gradient-gaming text-primary-foreground hover:glow-primary hover:scale-110 font-bold text-lg border border-primary/30",
+        primary: "bg-gradient-primary text-primary-foreground hover:glow-primary hover:scale-105 border border-primary/20",
+        secondary: "bg-gradient-secondary text-secondary-foreground hover:glow-secondary hover:scale-105 border border-secondary/20",
+        accent: "bg-gradient-accent text-accent-foreground hover:glow-accent hover:scale-105 border border-accent/20",
+        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary/10 hover:glow-primary backdrop-blur-sm",
+        ghost: "hover:bg-muted/50 hover:text-foreground backdrop-blur-sm",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:glow-accent",
+        link: "text-primary underline-offset-4 hover:underline hover:text-primary-glow",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        default: "h-12 px-6 py-3",
+        sm: "h-10 rounded-lg px-4",
+        lg: "h-14 rounded-xl px-8",
+        icon: "h-12 w-12",
       },
     },
     defaultVariants: {
