@@ -42,6 +42,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
+import { useLaunchEvents } from "@/hooks/useLaunchEvents";
+import { LaunchCreator } from "@/components/launch/LaunchCreator";
+import { supabase } from "@/integrations/supabase/client";
 
 const Calendar = () => {
   const navigate = useNavigate();
@@ -50,9 +53,11 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [notifications, setNotifications] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [customAmounts, setCustomAmounts] = useState<{[key: number]: string}>({});
   const [unlockedLaunches, setUnlockedLaunches] = useState<number[]>([]);
   const { toast } = useToast();
+  const { events, loading: eventsLoading } = useLaunchEvents();
 
   const handleDonate = (launchId: number, amount: number) => {
     if (!requireAuth()) return;
@@ -103,12 +108,32 @@ const Calendar = () => {
     return { glow: '', color: 'hsl(285 72% 60%)' };
   };
 
+  // Transform events data to match the UI format
+  const upcomingLaunches = events.map((event, index) => ({
+    id: parseInt(event.id.slice(-8), 16), // Convert UUID to number for legacy code
+    title: event.title,
+    dateTimeISO: event.scheduled_date,
+    streamLink: `https://twitch.tv/${event.user_id}`, // Placeholder
+    tokenLink: "#", // Placeholder
+    streamer: `@${event.user_id}`, // Placeholder
+    streamerName: event.title.split(' ')[0] || "Anonymous",
+    streamerAvatar: event.thumbnail_url || "/icon-192x192.png",
+    description: event.description || "Join this exciting launch event!",
+    status: event.status,
+    priority: index % 2 === 0 ? "high" : "medium",
+    expectedViews: event.max_participants * 100, // Estimate views based on participants
+    tokenSymbol: event.title.includes('$') ? event.title.match(/\$\w+/)?.[0] || "$TOKEN" : "$TOKEN",
+    donationAmount: 0, // No donation system for real events
+    donationTarget: 1000,
+    isUnlocked: true // All real events are unlocked
+  }));
+
   const streamers = [
     {
       id: 1,
       username: "@moonmaster",
       name: "Moon Master",
-      avatar: "/placeholder.svg",
+      avatar: "/icon-192x192.png",
       followers: 45000,
       isVerified: true,
       status: "live",
@@ -118,7 +143,7 @@ const Calendar = () => {
       id: 2,
       username: "@rocketman",
       name: "Rocket Man",
-      avatar: "/placeholder.svg", 
+      avatar: "/icon-192x192.png", 
       followers: 32000,
       isVerified: true,
       status: "offline",
@@ -128,68 +153,11 @@ const Calendar = () => {
       id: 3,
       username: "@cryptoqueen",
       name: "Crypto Queen",
-      avatar: "/placeholder.svg",
+      avatar: "/icon-192x192.png",
       followers: 58000,
       isVerified: true,
       status: "scheduled",
       nextLaunch: "2024-12-25T01:00:00Z"
-    }
-  ];
-
-  const upcomingLaunches = [
-    {
-      id: 1,
-      title: "$MOON Token Launch Stream",
-      dateTimeISO: "2024-12-20T19:00:00Z",
-      streamLink: "https://twitch.tv/moonmaster",
-      tokenLink: "https://pump.fun/moon",
-      streamer: "@moonmaster",
-      streamerName: "Moon Master",
-      streamerAvatar: "/placeholder.svg",
-      description: "Join us for the biggest token launch of the month! Interactive stream with live trading.",
-      status: "upcoming",
-      priority: "high",
-      expectedViews: 25000,
-      tokenSymbol: "$MOON",
-      donationAmount: 1250,
-      donationTarget: 1000,
-      isUnlocked: true
-    },
-    {
-      id: 2,
-      title: "Mystery Launch 🔒",
-      dateTimeISO: "2024-12-22T23:00:00Z", 
-      streamLink: "https://twitch.tv/rocketman",
-      tokenLink: "https://pump.fun/rocket",
-      streamer: "@rocketman",
-      streamerName: "???",
-      streamerAvatar: "/placeholder.svg",
-      description: "Unlock this exclusive launch by contributing to pre-donations! Big surprise awaits...",
-      status: "upcoming",
-      priority: "medium",
-      expectedViews: 18000,
-      tokenSymbol: "$???",
-      donationAmount: 750,
-      donationTarget: 1000,
-      isUnlocked: false
-    },
-    {
-      id: 3,
-      title: "Exclusive Holiday Special 🔒",
-      dateTimeISO: "2024-12-25T01:00:00Z",
-      streamLink: "https://twitch.tv/cryptoqueen", 
-      tokenLink: "https://pump.fun/diamond",
-      streamer: "@cryptoqueen",
-      streamerName: "???",
-      streamerAvatar: "/placeholder.svg",
-      description: "Help us reach $1000 in pre-donations to unlock this special Christmas launch event!",
-      status: "upcoming",
-      priority: "high",
-      expectedViews: 32000,
-      tokenSymbol: "$???",
-      donationAmount: 450,
-      donationTarget: 1000,
-      isUnlocked: false
     }
   ];
 
@@ -288,7 +256,7 @@ END:VCALENDAR`;
 
   const handleCreateLaunch = () => {
     if (user) {
-      navigate('/streamer-application');
+      setShowCreateModal(true);
     } else {
       navigate('/auth');
     }
@@ -538,7 +506,21 @@ END:VCALENDAR`;
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  {eventsLoading ? (
+                    <div className="text-center py-8">
+                      <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mx-auto mb-2"></div>
+                      <p className="text-sm text-muted-foreground">Loading events...</p>
+                    </div>
+                  ) : upcomingLaunches.length === 0 ? (
+                    <div className="text-center py-8">
+                      <CalendarIcon className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
+                      <p className="text-muted-foreground mb-4">No events scheduled yet</p>
+                      <Button onClick={handleCreateLaunch} size="sm">
+                        Create Your First Event
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
                     {upcomingLaunches.map((launch) => {
                       const { date, time } = formatDateTime(launch.dateTimeISO);
                       const priority = launch.priority === "high" ? "destructive" : "secondary";
@@ -638,8 +620,8 @@ END:VCALENDAR`;
                                            >
                                              ${amount}
                                            </Button>
-                                         ))}
-                                       </div>
+                     ))}
+                   </div>
                                        
                                        {/* Custom Amount */}
                                        <div className="flex gap-2 items-center">
@@ -1032,8 +1014,12 @@ END:VCALENDAR`;
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+                ))}
+              </div>
+              )}
+            </TabsContent>
+        </Tabs>
+            </TabsContent>
         </section>
 
         {/* CTA Section */}
@@ -1054,6 +1040,22 @@ END:VCALENDAR`;
           </div>
         </section>
       </div>
+
+      {/* Create Launch Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <LaunchCreator 
+            onClose={() => setShowCreateModal(false)}
+            onSuccess={() => {
+              setShowCreateModal(false);
+              toast({
+                title: "Success!",
+                description: "Your launch event has been created and will appear in the calendar.",
+              });
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
