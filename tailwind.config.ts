@@ -14,6 +14,12 @@ export default {
     },
     extend: {
       colors: {
+        bg: '#0B0C0E',
+        surface: '#141518',
+        line: '#1E2024',
+        text: '#E6E7EA',
+        muted: '#9CA3AF',
+        accent: '#10F28A',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -30,15 +36,6 @@ export default {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-          glow: "hsl(var(--accent-glow))",
         },
         success: {
           DEFAULT: "hsl(var(--success))",
@@ -72,6 +69,9 @@ export default {
         md: "var(--radius)",
         sm: "calc(var(--radius) - 4px)",
         xl: "var(--radius-xl)",
+      },
+      boxShadow: {
+        card: '0 2px 12px rgba(0,0,0,.35)',
       },
       spacing: {
         'xs': 'var(--space-xs)',
