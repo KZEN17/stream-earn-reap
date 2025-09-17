@@ -94,7 +94,9 @@ export default defineConfig(({ mode }) => ({
       'react-dom', 'use-sync-external-store', 'use-sync-external-store/with-selector', 
       '@headlessui/react', '@walletconnect/time', '@walletconnect/relay-auth', 
       '@walletconnect/window-getters', '@walletconnect/utils', 'events', 
-      'pino', '@walletconnect/logger', '@walletconnect/environment'
+      'pino', '@walletconnect/logger', '@walletconnect/environment',
+      '@walletconnect/jsonrpc-utils', '@walletconnect/jsonrpc-ws-connection',
+      '@walletconnect/jsonrpc-types', '@walletconnect/safe-json'
     ]
   },
   define: {
