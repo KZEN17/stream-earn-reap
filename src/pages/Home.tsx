@@ -48,16 +48,15 @@ const Home = () => {
               <Button 
                 variant="hero" 
                 size="lg" 
-                className="text-2xl px-16 py-10 glow-primary font-black hover-lift animate-pulse-glow bg-gradient-primary shadow-glow-primary border-2 border-primary/30"
+                className="text-2xl px-16 py-10 font-black hover-lift animate-pulse-glow bg-pink hover:bg-pink/80 text-white shadow-[0_0_40px_rgba(255,27,141,0.4)] border-2 border-pink/30"
                 onClick={() => navigate('/rewards')}
               >
                 <Play className="w-10 h-10 mr-6 animate-float" />
                 START CLIPPING NOW
               </Button>
               <Button 
-                variant="secondary" 
                 size="lg" 
-                className="text-2xl px-16 py-10 glow-secondary font-black hover-lift animate-pulse-glow bg-gradient-secondary shadow-glow-secondary border-2 border-secondary/30"
+                className="text-2xl px-16 py-10 font-black hover-lift animate-pulse-glow bg-purple hover:bg-purple/80 text-white shadow-[0_0_40px_rgba(139,95,255,0.4)] border-2 border-purple/30"
                 onClick={() => navigate('/calendar')}
               >
                 <Users className="w-10 h-10 mr-6 animate-float" />

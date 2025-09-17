@@ -9,15 +9,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 glow-primary hover:scale-105",
-        hero: "bg-gradient-gaming text-primary-foreground hover:glow-primary hover:scale-110 font-bold text-lg border border-primary/30",
-        primary: "bg-gradient-primary text-primary-foreground hover:glow-primary hover:scale-105 border border-primary/20",
-        secondary: "bg-gradient-secondary text-secondary-foreground hover:glow-secondary hover:scale-105 border border-secondary/20",
-        accent: "bg-gradient-accent text-accent-foreground hover:glow-accent hover:scale-105 border border-accent/20",
-        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary/10 hover:glow-primary backdrop-blur-sm",
-        ghost: "hover:bg-muted/50 hover:text-foreground backdrop-blur-sm",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:glow-accent",
-        link: "text-primary underline-offset-4 hover:underline hover:text-primary-glow",
+        default: "bg-pink text-white hover:bg-pink/90 shadow-[0_0_20px_rgba(255,27,141,0.4)] hover:scale-105",
+        hero: "bg-gradient-to-r from-pink to-purple text-white hover:opacity-90 shadow-[0_0_30px_rgba(255,27,141,0.6)] hover:scale-110 font-bold text-lg border border-pink/30",
+        primary: "bg-pink text-white hover:bg-pink/80 shadow-[0_0_20px_rgba(255,27,141,0.4)] hover:scale-105 border border-pink/20",
+        secondary: "bg-purple text-white hover:bg-purple/80 shadow-[0_0_20px_rgba(139,95,255,0.4)] hover:scale-105 border border-purple/20",
+        success: "bg-green text-bg hover:bg-green/80 shadow-[0_0_20px_rgba(60,255,136,0.4)] hover:scale-105 border border-green/20",
+        warning: "bg-yellow text-bg hover:bg-yellow/80 shadow-[0_0_20px_rgba(229,255,0,0.4)] hover:scale-105 border border-yellow/20",
+        info: "bg-cyan text-white hover:bg-cyan/80 shadow-[0_0_20px_rgba(0,207,255,0.4)] hover:scale-105 border border-cyan/20",
+        outline: "border-2 border-pink bg-transparent text-pink hover:bg-pink/10 shadow-[0_0_15px_rgba(255,27,141,0.3)] backdrop-blur-sm",
+        ghost: "hover:bg-line/50 hover:text-text backdrop-blur-sm",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-[0_0_20px_rgba(248,113,113,0.4)]",
+        link: "text-pink underline-offset-4 hover:underline hover:text-pink/80",
       },
       size: {
         default: "h-12 px-6 py-3",

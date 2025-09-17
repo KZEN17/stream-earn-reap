@@ -8,6 +8,18 @@
 
 @layer base {
   :root {
+    /* Neon Brand Palette */
+    --color-accent-primary: #FF1B8D;
+    --color-accent-secondary: #8B5FFF;
+    --color-accent-info: #00CFFF;
+    --color-accent-success: #3CFF88;
+    --color-accent-warning: #E5FF00;
+    --color-bg: #0B0C0E;
+    --color-surface: #141518;
+    --color-line: #1E2024;
+    --color-text: #E6E7EA;
+    --color-muted: #9CA3AF;
+
     /* Modern Gaming Dark Base */
     --background: 218 23% 6%;
     --foreground: 220 20% 97%;
@@ -17,20 +29,20 @@
     --card-foreground: 220 20% 97%;
     --card-glass: 218 23% 10%;
     
-    /* Primary - Gaming Purple (#8B5FFF) */
-    --primary: 255 65% 67%;
-    --primary-glow: 255 75% 77%;
+    /* Primary - Neon Pink (#FF1B8D) */
+    --primary: 329 100% 56%;
+    --primary-glow: 329 100% 66%;
     --primary-foreground: 220 20% 97%;
     
-    /* Secondary - Neon Green (#00FF88) */
-    --secondary: 158 100% 50%;
-    --secondary-glow: 158 100% 60%;
-    --secondary-foreground: 218 23% 6%;
+    /* Secondary - Neon Purple (#8B5FFF) */
+    --secondary: 255 65% 67%;
+    --secondary-glow: 255 75% 77%;
+    --secondary-foreground: 220 20% 97%;
     
-    /* Accent - Hot Pink (#FF1B8D) */
-    --accent: 329 100% 56%;
-    --accent-glow: 329 100% 66%;
-    --accent-foreground: 220 20% 97%;
+    /* Accent - Neon Green (#3CFF88) */
+    --accent: 158 100% 62%;
+    --accent-glow: 158 100% 72%;
+    --accent-foreground: 218 23% 6%;
     
     /* Neutral System - Modern Grays */
     --muted: 218 23% 12%;
@@ -41,27 +53,31 @@
     --input: 218 23% 10%;
     --ring: 255 65% 67%;
     
-    /* Status Colors */
+    /* Status Colors - Neon Palette */
     --destructive: 0 85% 60%;
     --destructive-foreground: 220 20% 97%;
-    --success: 158 100% 50%;
+    --success: 158 100% 62%; /* Neon Green */
     --success-foreground: 218 23% 6%;
-    --warning: 45 95% 60%;
+    --warning: 60 100% 50%; /* Neon Yellow */
     --warning-foreground: 218 23% 6%;
+    --info: 195 100% 50%; /* Neon Cyan */
+    --info-foreground: 218 23% 6%;
     
-    /* Gaming Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(255 65% 67%), hsl(255 75% 77%));
-    --gradient-secondary: linear-gradient(135deg, hsl(158 100% 50%), hsl(158 100% 60%));
-    --gradient-accent: linear-gradient(135deg, hsl(329 100% 56%), hsl(329 100% 66%));
-    --gradient-gaming: linear-gradient(135deg, hsl(255 65% 67%), hsl(158 100% 50%), hsl(329 100% 56%));
-    --gradient-hero: linear-gradient(135deg, hsl(255 65% 67% / 0.8), hsl(158 100% 50% / 0.6));
+    /* Neon Gaming Gradients */
+    --gradient-primary: linear-gradient(135deg, #FF1B8D, #FF1B8D);
+    --gradient-secondary: linear-gradient(135deg, #8B5FFF, #8B5FFF);
+    --gradient-accent: linear-gradient(135deg, #3CFF88, #3CFF88);
+    --gradient-info: linear-gradient(135deg, #00CFFF, #00CFFF);
+    --gradient-warning: linear-gradient(135deg, #E5FF00, #E5FF00);
+    --gradient-gaming: linear-gradient(135deg, #FF1B8D, #8B5FFF, #3CFF88);
+    --gradient-hero: linear-gradient(135deg, #FF1B8D80, #8B5FFF60);
     
-    /* Glassmorphism & Gaming Effects */
-    --glass-bg: hsla(218, 23%, 10%, 0.8);
-    --glass-border: hsla(220, 20%, 97%, 0.1);
-    --shadow-glow-primary: 0 0 40px hsl(255 65% 67% / 0.4);
-    --shadow-glow-secondary: 0 0 40px hsl(158 100% 50% / 0.4);
-    --shadow-glow-accent: 0 0 40px hsl(329 100% 56% / 0.4);
+    /* Neon Glow Effects */
+    --shadow-glow-primary: 0 0 40px #FF1B8D66;
+    --shadow-glow-secondary: 0 0 40px #8B5FFF66;
+    --shadow-glow-accent: 0 0 40px #3CFF8866;
+    --shadow-glow-info: 0 0 40px #00CFFF66;
+    --shadow-glow-warning: 0 0 40px #E5FF0066;
     --shadow-card: 0 20px 40px hsl(218 23% 6% / 0.8);
     --shadow-float: 0 30px 60px hsl(218 23% 6% / 0.9);
     

@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import StreamerApplication from "./pages/StreamerApplication";
 import CreateCampaign from "./pages/CreateCampaign";
 import CampaignAnalytics from "./pages/CampaignAnalytics";
+import BrandBook from "./pages/BrandBook";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import AdminPanel from "./components/admin/AdminPanel";
@@ -85,6 +86,7 @@ const App = () => {
                   <Route path="/admin" element={<AdminPanel />} />
                   <Route path="/success-stories" element={<SuccessStories />} />
                   <Route path="/qa-audit" element={<CTAAuditDashboard />} />
+                  <Route path="/brand-book" element={<BrandBook />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </ErrorBoundary>

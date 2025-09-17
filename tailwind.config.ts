@@ -14,12 +14,16 @@ export default {
     },
     extend: {
       colors: {
-        bg: '#0B0C0E',
-        surface: '#141518',
-        line: '#1E2024',
-        text: '#E6E7EA',
-        muted: '#9CA3AF',
-        accent: '#10F28A',
+        pink: "#FF1B8D", // primary accent
+        purple: "#8B5FFF", // secondary accent  
+        cyan: "#00CFFF", // info & highlights
+        green: "#3CFF88", // success & earnings
+        yellow: "#E5FF00", // warnings & alerts
+        bg: "#0B0C0E",
+        surface: "#141518", 
+        line: "#1E2024",
+        text: "#E6E7EA",
+        muted: "#9CA3AF",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -51,11 +51,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => 
       <div className="px-6 py-6">
         <div className="flex items-center space-x-3">
           {/* Logo Box */}
-          <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-green rounded-lg flex items-center justify-center">
             <span className="text-bg font-bold text-sm">C</span>
           </div>
-          {/* Text Logo with Emerald to Teal Gradient */}
-          <div className="text-lg font-semibold tracking-wide bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+          {/* Text Logo with Neon Gradient */}
+          <div className="text-lg font-semibold tracking-wide bg-gradient-to-r from-pink to-purple bg-clip-text text-transparent">
             ClipStream
           </div>
         </div>
@@ -84,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => 
                   <Icon 
                     className={`
                       h-5 w-5 transition-colors duration-200
-                      ${isItemActive ? 'text-accent' : 'text-muted'}
+                      ${isItemActive ? 'text-green' : 'text-muted'}
                     `} 
                   />
                   <span className="font-medium">
@@ -93,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => 
                   
                   {/* Active indicator bar */}
                   {isItemActive && (
-                    <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-accent rounded-l-full shadow-[0_0_8px_rgba(16,242,138,0.6)]"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-green rounded-l-full shadow-[0_0_8px_rgba(60,255,136,0.6)]"></div>
                   )}
                 </button>
               </li>
