@@ -9,10 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-card hover:shadow-glow focus-visible:shadow-glow",
-        hero: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-105 font-semibold focus-visible:scale-105 focus-visible:shadow-glow",
-        secondary: "bg-gradient-secondary text-secondary-foreground hover:shadow-glow hover:scale-105 focus-visible:scale-105 focus-visible:shadow-glow",
-        accent: "bg-gradient-accent text-accent-foreground hover:shadow-glow hover:scale-105 font-semibold focus-visible:scale-105 focus-visible:shadow-glow",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-glow hover:shadow-glow hover:scale-110 focus-visible:shadow-glow",
+        hero: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-110 font-semibold focus-visible:scale-110 focus-visible:shadow-glow border-2 border-primary/50",
+        secondary: "bg-gradient-secondary text-secondary-foreground hover:shadow-glow hover:scale-110 focus-visible:scale-110 focus-visible:shadow-glow border-2 border-secondary/50",
+        accent: "bg-gradient-accent text-accent-foreground hover:shadow-glow hover:scale-110 font-semibold focus-visible:scale-110 focus-visible:shadow-glow border-2 border-accent/50",
         outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground focus-visible:bg-primary/10 focus-visible:shadow-glow backdrop-blur-sm",
         ghost: "hover:bg-muted hover:text-foreground focus-visible:bg-muted/50",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:shadow-glow",

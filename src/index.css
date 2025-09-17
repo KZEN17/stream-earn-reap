@@ -15,9 +15,9 @@
     --card-foreground: 210 20% 98%;
     
     /* Primary - CLIP Purple (Enhanced) */
-    --primary: 285 72% 60%;
+    --primary: 285 85% 65%;
     --primary-soft: 285 72% 55%;
-    --primary-glow: 285 82% 70%;
+    --primary-glow: 285 90% 75%;
     --primary-foreground: 0 0% 100%;
     
     /* Secondary - Electric Cyan (#00E5FF) */
@@ -26,9 +26,9 @@
     --secondary-foreground: 225 15% 8%;
     
     /* Accent - Neon Green (Enhanced) */
-    --accent: 71 95% 55%;
+    --accent: 71 100% 60%;
     --accent-warm: 71 95% 50%;
-    --accent-glow: 71 100% 60%;
+    --accent-glow: 71 100% 70%;
     --accent-foreground: 225 15% 8%;
     
     /* Neutral System - Dark Greys */
@@ -344,22 +344,24 @@
   /* Gaming Card Effects (Enhanced) */
   .gaming-card {
     background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
-    border: 1px solid hsl(var(--border));
+    border: 2px solid hsl(var(--primary) / 0.3);
     border-radius: var(--radius-lg);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
     box-shadow: 
-      0 0 20px hsl(var(--primary) / 0.1),
-      inset 0 1px 0 hsl(210 20% 98% / 0.05);
+      0 0 30px hsl(var(--primary) / 0.4),
+      0 10px 40px hsl(var(--background) / 0.3),
+      inset 0 1px 0 hsl(var(--primary) / 0.1);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: perspective(1000px) rotateX(2deg);
   }
   
   .gaming-card:hover {
     box-shadow: 
-      0 0 35px hsl(var(--primary) / 0.25),
-      0 15px 45px hsl(var(--background) / 0.4),
-      inset 0 1px 0 hsl(210 20% 98% / 0.15);
-    transform: translateY(-4px) scale(1.02);
-    border-color: hsl(var(--primary) / 0.3);
+      0 0 50px hsl(var(--primary) / 0.6),
+      0 20px 60px hsl(var(--background) / 0.5),
+      inset 0 1px 0 hsl(var(--primary) / 0.2);
+    transform: perspective(1000px) rotateX(0deg) translateY(-8px) scale(1.03);
+    border-color: hsl(var(--primary) / 0.8);
   }
   
   /* Enhanced Animation Classes */

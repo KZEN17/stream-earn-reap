@@ -43,20 +43,20 @@ const Home = () => {
               <Button 
                 variant="hero" 
                 size="lg" 
-                className="text-lg px-10 py-8 shadow-glow"
+                className="text-lg px-12 py-10 shadow-glow animate-pulse-glow text-xl font-black"
                 onClick={() => navigate('/rewards')}
               >
-                <Play className="w-6 h-6 mr-3" />
-                START CLIPPING
+                <Play className="w-8 h-8 mr-4" />
+                START CLIPPING NOW
               </Button>
               <Button 
                 variant="secondary" 
                 size="lg" 
-                className="text-lg px-10 py-8 shadow-neon"
+                className="text-lg px-12 py-10 shadow-neon animate-float text-xl font-black"
                 onClick={() => navigate('/calendar')}
               >
-                <Users className="w-6 h-6 mr-3" />
-                START STREAMING
+                <Users className="w-8 h-8 mr-4" />
+                START STREAMING NOW
               </Button>
             </div>
           </div>
