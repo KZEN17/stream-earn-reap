@@ -96,15 +96,17 @@ export default defineConfig(({ mode }) => ({
       '@walletconnect/window-getters', '@walletconnect/utils', 'events', 
       'pino', '@walletconnect/logger', '@walletconnect/environment',
       '@walletconnect/jsonrpc-utils', '@walletconnect/jsonrpc-ws-connection',
-      '@walletconnect/jsonrpc-types', '@walletconnect/safe-json'
+      '@walletconnect/jsonrpc-types', '@walletconnect/safe-json', 'cross-fetch',
+      '@walletconnect/jsonrpc-http-connection'
     ]
-  },
-  define: {
-    global: 'globalThis',
   },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  define: {
+    global: 'globalThis',
+    'process.env': {},
   },
 }));
