@@ -183,27 +183,27 @@ export function AppSidebar() {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent side="right" className="w-56">
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user?.email?.split('@')[0]}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate('/profile')}>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={signOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
+                 <DropdownMenuContent side="right" className="w-56 bg-popover/95 backdrop-blur-lg shadow-glow">
+                   <DropdownMenuLabel className="font-normal">
+                     <div className="flex flex-col space-y-1">
+                       <p className="text-sm font-medium leading-none">
+                         {user?.email?.split('@')[0]}
+                       </p>
+                       <p className="text-xs leading-none text-muted-foreground">
+                         {user?.email}
+                       </p>
+                     </div>
+                   </DropdownMenuLabel>
+                   <DropdownMenuSeparator />
+                   <DropdownMenuItem onClick={() => navigate('/profile')} className="focus-glow interactive">
+                     <User className="mr-2 h-4 w-4" />
+                     Profile Settings
+                   </DropdownMenuItem>
+                   <DropdownMenuItem onClick={signOut} className="focus-glow interactive">
+                     <LogOut className="mr-2 h-4 w-4" />
+                     Log out
+                   </DropdownMenuItem>
+                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <div className="flex items-center justify-between">
@@ -229,16 +229,16 @@ export function AppSidebar() {
                       <Settings className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent side="top" className="w-56">
-                    <DropdownMenuItem onClick={() => navigate('/profile')}>
-                      <User className="mr-2 h-4 w-4" />
-                      Profile Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={signOut}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
+                   <DropdownMenuContent side="top" className="w-56 bg-popover/95 backdrop-blur-lg shadow-glow">
+                     <DropdownMenuItem onClick={() => navigate('/profile')} className="focus-glow interactive">
+                       <User className="mr-2 h-4 w-4" />
+                       Profile Settings
+                     </DropdownMenuItem>
+                     <DropdownMenuItem onClick={signOut} className="focus-glow interactive">
+                       <LogOut className="mr-2 h-4 w-4" />
+                       Log out
+                     </DropdownMenuItem>
+                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
             )}

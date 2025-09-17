@@ -5,18 +5,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:animate-micro-bounce",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-card hover:shadow-glow",
-        hero: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-105 font-semibold",
-        secondary: "bg-gradient-secondary text-secondary-foreground hover:shadow-glow hover:scale-105",
-        accent: "bg-gradient-accent text-accent-foreground hover:shadow-glow hover:scale-105 font-semibold",
-        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground",
-        ghost: "hover:bg-muted hover:text-foreground",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-card hover:shadow-glow focus-visible:shadow-glow",
+        hero: "bg-gradient-primary text-primary-foreground hover:shadow-glow hover:scale-105 font-semibold focus-visible:scale-105 focus-visible:shadow-glow",
+        secondary: "bg-gradient-secondary text-secondary-foreground hover:shadow-glow hover:scale-105 focus-visible:scale-105 focus-visible:shadow-glow",
+        accent: "bg-gradient-accent text-accent-foreground hover:shadow-glow hover:scale-105 font-semibold focus-visible:scale-105 focus-visible:shadow-glow",
+        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground focus-visible:bg-primary/10 focus-visible:shadow-glow backdrop-blur-sm",
+        ghost: "hover:bg-muted hover:text-foreground focus-visible:bg-muted/50",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:shadow-glow",
+        link: "text-primary underline-offset-4 hover:underline focus-visible:ring-1 focus-visible:ring-primary/50",
       },
       size: {
         default: "h-10 px-4 py-2",

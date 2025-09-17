@@ -58,19 +58,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 bg-card border border-border shadow-lg z-50">
-                    <DropdownMenuItem 
-                      onClick={() => navigate('/profile')} 
-                      className="cursor-pointer hover:bg-accent"
-                    >
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={signOut} className="cursor-pointer hover:bg-accent">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Sign Out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
+                   <DropdownMenuContent align="end" className="w-48 bg-popover/95 backdrop-blur-lg border border-border shadow-glow z-50">
+                     <DropdownMenuItem 
+                       onClick={() => navigate('/profile')} 
+                       className="cursor-pointer hover:bg-accent focus-glow interactive"
+                     >
+                       <User className="mr-2 h-4 w-4" />
+                       Profile
+                     </DropdownMenuItem>
+                     <DropdownMenuItem onClick={signOut} className="cursor-pointer hover:bg-accent focus-glow interactive">
+                       <LogOut className="mr-2 h-4 w-4" />
+                       Sign Out
+                     </DropdownMenuItem>
+                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
                 <div className="flex items-center space-x-2">

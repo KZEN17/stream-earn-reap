@@ -30,13 +30,13 @@ const Home = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center space-y-8">
             <div className="space-y-6">
-              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight">
-                <span className="gaming-title">STREAM • CLIP • EARN $</span>
-              </h1>
-              <p className="text-xl lg:text-2xl text-foreground/80 max-w-4xl mx-auto font-medium">
-                Create viral clips from live streams and earn rewards based on views and engagement.
-                <span className="text-accent font-bold"> The future of entertainment finance.</span>
-              </p>
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight">
+              <span className="gaming-title text-hierarchy-1 animate-stagger">STREAM • CLIP • EARN $</span>
+            </h1>
+            <p className="text-xl lg:text-2xl text-foreground/80 max-w-4xl mx-auto font-medium animate-stagger" style={{ animationDelay: '0.1s' }}>
+              Create viral clips from live streams and earn rewards based on views and engagement.
+              <span className="text-accent font-bold"> The future of entertainment finance.</span>
+            </p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -75,12 +75,12 @@ const Home = () => {
       {/* Value Props */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="gaming-card">
+          <Card className="gaming-card hover-lift interactive">
             <CardHeader>
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-4 animate-pulse-glow">
                 <Play className="w-6 h-6 text-white" />
               </div>
-              <CardTitle>Stream • Clip • Earn $</CardTitle>
+              <CardTitle className="text-hierarchy-3">Stream • Clip • Earn $</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
@@ -89,12 +89,12 @@ const Home = () => {
             </CardContent>
           </Card>
 
-          <Card className="gaming-card">
+          <Card className="gaming-card hover-lift interactive">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-secondary rounded-xl flex items-center justify-center mb-4 shadow-neon">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
-              <CardTitle className="text-gradient-primary">Loop Rewards & Grow</CardTitle>
+              <CardTitle className="text-gradient-primary text-hierarchy-3">Loop Rewards & Grow</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-foreground/80">
@@ -103,12 +103,12 @@ const Home = () => {
             </CardContent>
           </Card>
 
-          <Card className="gaming-card">
+          <Card className="gaming-card hover-lift interactive">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center mb-4 shadow-neon">
                 <DollarSign className="w-6 h-6 text-accent-foreground" />
               </div>
-              <CardTitle className="text-gradient-accent">Entertainment Finance</CardTitle>
+              <CardTitle className="text-gradient-accent text-hierarchy-3">Entertainment Finance</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-foreground/80">
