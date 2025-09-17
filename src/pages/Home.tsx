@@ -30,17 +30,17 @@ const Home = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center space-y-10 max-w-5xl mx-auto">
             <div className="space-y-8">
-              <h1 className="heading-1 bg-gradient-pink-purple bg-clip-text text-transparent">
+              <h1 className="text-7xl md:text-9xl font-black text-gradient-gaming font-display animate-stagger leading-none tracking-tight">
                 FROM TWITCH TO RICH
               </h1>
               <div className="flex items-center justify-center space-x-4 mb-6">
-                <div className="h-1 w-20 bg-pink rounded-full animate-pulse-glow"></div>
+                <div className="h-1 w-20 bg-gradient-primary rounded-full animate-pulse-glow"></div>
                 <div className="text-2xl">🎮</div>
-                <div className="h-1 w-20 bg-purple rounded-full animate-pulse-glow"></div>
+                <div className="h-1 w-20 bg-gradient-secondary rounded-full animate-pulse-glow"></div>
               </div>
-              <p className="body-large text-text/90 max-w-3xl mx-auto leading-relaxed font-semibold">
-                Turn <span className="text-pink font-bold">entertainment</span> into <span className="text-green font-bold">finance</span>. 
-                Connect <span className="text-cyan font-bold">streamers</span>, clippers, and agencies.
+              <p className="text-2xl md:text-3xl text-foreground/90 max-w-3xl mx-auto leading-relaxed font-semibold">
+                Turn <span className="text-gradient-primary font-bold">entertainment</span> into <span className="text-gradient-secondary font-bold">finance</span>. 
+                Connect <span className="text-gradient-accent font-bold">streamers</span>, clippers, and agencies.
               </p>
             </div>
             

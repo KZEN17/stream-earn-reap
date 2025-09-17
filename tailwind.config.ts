@@ -14,19 +14,16 @@ export default {
     },
     extend: {
       colors: {
-        // Brand Design System
+        pink: "#FF1B8D", // primary accent
+        purple: "#8B5FFF", // secondary accent  
+        cyan: "#00CFFF", // info & highlights
+        green: "#3CFF88", // success & earnings
+        yellow: "#E5FF00", // warnings & alerts
         bg: "#0B0C0E",
         surface: "#141518", 
         line: "#1E2024",
         text: "#E6E7EA",
         muted: "#9CA3AF",
-        pink: "#FF1B8D",     // Primary accent
-        purple: "#8B5FFF",   // Secondary accent
-        cyan: "#00CFFF",     // Info & highlights
-        green: "#3CFF88",    // Success & earnings
-        yellow: "#E5FF00",   // Warnings & alerts
-        
-        // Legacy Shadcn tokens (keep for compatibility)
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -80,10 +77,19 @@ export default {
       boxShadow: {
         card: '0 2px 12px rgba(0,0,0,.35)',
       },
+      spacing: {
+        'xs': 'var(--space-xs)',
+        'sm': 'var(--space-sm)', 
+        'md': 'var(--space-md)',
+        'lg': 'var(--space-lg)',
+        'xl': 'var(--space-xl)',
+        '2xl': 'var(--space-2xl)',
+        '3xl': 'var(--space-3xl)',
+      },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["Space Grotesk", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        gaming: ["Space Grotesk", "sans-serif"],
+        display: ["Clash Display", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        gaming: ["Clash Display", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },
       keyframes: {

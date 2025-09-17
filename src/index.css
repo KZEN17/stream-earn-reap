@@ -8,29 +8,19 @@
 
 @layer base {
   :root {
-    /* Brand Design System Tokens */
+    /* Neon Brand Palette */
+    --color-accent-primary: #FF1B8D;
+    --color-accent-secondary: #8B5FFF;
+    --color-accent-info: #00CFFF;
+    --color-accent-success: #3CFF88;
+    --color-accent-warning: #E5FF00;
     --color-bg: #0B0C0E;
     --color-surface: #141518;
     --color-line: #1E2024;
     --color-text: #E6E7EA;
     --color-muted: #9CA3AF;
-    --color-pink: #FF1B8D;
-    --color-purple: #8B5FFF;
-    --color-cyan: #00CFFF;
-    --color-green: #3CFF88;
-    --color-yellow: #E5FF00;
 
-    /* Brand Gradients */
-    --gradient-pink-to-purple: linear-gradient(90deg, #FF1B8D 0%, #8B5FFF 100%);
-    --gradient-purple-to-blue: linear-gradient(90deg, #8B5FFF 0%, #00CFFF 100%);
-    --gradient-magenta-to-cyan: linear-gradient(90deg, #FF1B8D 0%, #00CFFF 100%);
-    --gradient-rainbow-glow: linear-gradient(90deg, #FF1B8D, #8B5FFF, #00CFFF);
-
-    /* Radius & Shadows */
-    --radius-xl: 16px;
-    --shadow-card: 0 2px 12px rgba(0,0,0,.35);
-
-    /* Legacy HSL tokens for compatibility */
+    /* Modern Gaming Dark Base */
     --background: 218 23% 6%;
     --foreground: 220 20% 97%;
     
@@ -39,25 +29,20 @@
     --card-foreground: 220 20% 97%;
     --card-glass: 218 23% 10%;
     
-    /* Primary - Brand Pink */
+    /* Primary - Neon Pink (#FF1B8D) */
     --primary: 329 100% 56%;
+    --primary-glow: 329 100% 66%;
     --primary-foreground: 220 20% 97%;
     
-    /* Secondary - Brand Purple */
+    /* Secondary - Neon Purple (#8B5FFF) */
     --secondary: 255 65% 67%;
+    --secondary-glow: 255 75% 77%;
     --secondary-foreground: 220 20% 97%;
     
-    /* Success - Brand Green */
-    --success: 158 100% 62%;
-    --success-foreground: 218 23% 6%;
-    
-    /* Warning - Brand Yellow */
-    --warning: 60 100% 50%;
-    --warning-foreground: 218 23% 6%;
-    
-    /* Info - Brand Cyan */
-    --info: 195 100% 50%;
-    --info-foreground: 218 23% 6%;
+    /* Accent - Neon Green (#3CFF88) */
+    --accent: 158 100% 62%;
+    --accent-glow: 158 100% 72%;
+    --accent-foreground: 218 23% 6%;
     
     /* Neutral System - Modern Grays */
     --muted: 218 23% 12%;
@@ -345,97 +330,21 @@
 }
 
 @layer components {
-  /* Brand Gradient Utilities */
-  .bg-gradient-pink-purple {
-    background: var(--gradient-pink-to-purple);
+  /* Gradient Utility Classes */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
   }
   
-  .bg-gradient-purple-blue {
-    background: var(--gradient-purple-to-blue);
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
   }
   
-  .bg-gradient-magenta-cyan {
-    background: var(--gradient-magenta-to-cyan);
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
   }
   
-  .bg-gradient-rainbow {
-    background: var(--gradient-rainbow-glow);
-  }
-
-  /* Brand Typography */
-  .heading-1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.5rem;
-    line-height: 3rem;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  .heading-2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2rem;
-    line-height: 2.5rem;
-    font-weight: 700;
-  }
-
-  .heading-3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-weight: 600;
-  }
-
-  .heading-4 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-    font-weight: 500;
-  }
-
-  .body-large {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-
-  .body-medium {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
-
-  .body-small {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-  }
-
-  .body-xs {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.75rem;
-    line-height: 1rem;
-  }
-
-  /* Brand Card Components */
-  .card-default {
-    background-color: var(--color-surface);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-card);
-  }
-
-  .card-campaign {
-    @apply card-default;
-    border: 1px solid var(--color-green);
-  }
-
-  .card-profile {
-    @apply card-default;
-  }
-
-  /* Focus rings for accessibility */
-  .focus-ring:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--color-cyan);
+  .bg-gradient-gaming {
+    background: var(--gradient-gaming);
   }
   
   /* Modern Gaming Card System */

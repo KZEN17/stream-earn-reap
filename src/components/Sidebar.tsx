@@ -6,7 +6,10 @@ import {
   MessageSquare, 
   BarChart3, 
   BookOpen, 
-  User
+  User, 
+  Palette, 
+  Boxes, 
+  Download 
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -29,6 +32,9 @@ const navigationItems: NavigationItem[] = [
   { id: 'leaderboards', label: 'Leaderboards', icon: BarChart3, path: '/leaderboards' },
   { id: 'guide', label: 'Guide', icon: BookOpen, path: '/guide' },
   { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
+  { id: 'brand-book', label: 'Brand Book', icon: Palette, path: '/brand-book' },
+  { id: 'ui-kit', label: 'UI Kit', icon: Boxes, path: '/ui-kit' },
+  { id: 'media-pack', label: 'Media Pack', icon: Download, path: '/media-pack' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => {
@@ -45,11 +51,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => 
       <div className="px-6 py-6">
         <div className="flex items-center space-x-3">
           {/* Logo Box */}
-          <div className="w-8 h-8 bg-pink rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">C</span>
+          <div className="w-8 h-8 bg-green rounded-lg flex items-center justify-center">
+            <span className="text-bg font-bold text-sm">C</span>
           </div>
-          {/* Text Logo with Brand Gradient */}
-          <div className="text-lg font-semibold tracking-wide bg-gradient-pink-purple bg-clip-text text-transparent">
+          {/* Text Logo with Neon Gradient */}
+          <div className="text-lg font-semibold tracking-wide bg-gradient-to-r from-pink to-purple bg-clip-text text-transparent">
             ClipStream
           </div>
         </div>
@@ -78,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => 
                   <Icon 
                     className={`
                       h-5 w-5 transition-colors duration-200
-                      ${isItemActive ? 'text-pink' : 'text-muted'}
+                      ${isItemActive ? 'text-green' : 'text-muted'}
                     `} 
                   />
                   <span className="font-medium">
@@ -87,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => 
                   
                   {/* Active indicator bar */}
                   {isItemActive && (
-                    <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-pink rounded-l-full shadow-[0_0_8px_rgba(255,27,141,0.6)]"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-green rounded-l-full shadow-[0_0_8px_rgba(60,255,136,0.6)]"></div>
                   )}
                 </button>
               </li>
