@@ -97,7 +97,7 @@ export default defineConfig(({ mode }) => ({
       'pino', '@walletconnect/logger', '@walletconnect/environment',
       '@walletconnect/jsonrpc-utils', '@walletconnect/jsonrpc-ws-connection',
       '@walletconnect/jsonrpc-types', '@walletconnect/safe-json', 'cross-fetch',
-      '@walletconnect/jsonrpc-http-connection'
+      '@walletconnect/jsonrpc-http-connection', 'qrcode'
     ]
   },
   resolve: {
