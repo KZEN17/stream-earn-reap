@@ -88,7 +88,7 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     exclude: ['@privy-io/react-auth'],
-    include: ['bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 'eventemitter3', 'canonicalize', '@coinbase/wallet-sdk', 'shallowequal']
+    include: ['bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 'eventemitter3', 'canonicalize', '@coinbase/wallet-sdk', 'shallowequal', 'react-dom']
   },
   define: {
     global: 'globalThis',
