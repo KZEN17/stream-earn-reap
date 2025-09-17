@@ -21,13 +21,13 @@ const Leaderboards = () => {
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Crown className="w-5 h-5 text-yellow-500" />;
+        return <Crown className="w-5 h-5 text-yellow" />;
       case 2:
-        return <Medal className="w-5 h-5 text-gray-400" />;
+        return <Medal className="w-5 h-5 text-text/70" />;
       case 3:
-        return <Award className="w-5 h-5 text-amber-600" />;
+        return <Award className="w-5 h-5 text-yellow/80" />;
       default:
-        return <span className="w-5 h-5 text-center text-sm font-bold">{rank}</span>;
+        return <span className="w-5 h-5 text-center text-sm font-bold text-muted">{rank}</span>;
     }
   };
 
@@ -120,7 +120,7 @@ const Leaderboards = () => {
                           
                           <div className="flex items-center gap-4 text-sm">
                             <div className="text-center">
-                              <div className="flex items-center gap-1 text-green-600">
+                              <div className="flex items-center gap-1 text-green">
                                 <DollarSign className="w-4 h-4" />
                                 ${(timeFilter === 'week' ? streamer.earnings_this_week : streamer.total_earnings).toLocaleString()}
                               </div>
@@ -193,7 +193,7 @@ const Leaderboards = () => {
                               </div>
                             </div>
                             <div className="text-center">
-                              <div className="flex items-center gap-1 text-green-600">
+                              <div className="flex items-center gap-1 text-green">
                                 <DollarSign className="w-4 h-4" />
                                 ${(timeFilter === 'week' ? clipper.earnings_this_week : clipper.total_earnings).toLocaleString()}
                               </div>

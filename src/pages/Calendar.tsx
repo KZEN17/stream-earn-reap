@@ -274,11 +274,11 @@ END:VCALENDAR`;
   const getStreamerStatus = (status: string) => {
     switch (status) {
       case "live":
-        return { color: "bg-red-500", text: "Live Now" };
+        return { color: "bg-pink", text: "Live Now" };
       case "scheduled":
-        return { color: "bg-yellow-500", text: "Scheduled" };
+        return { color: "bg-yellow", text: "Scheduled" };
       default:
-        return { color: "bg-gray-400", text: "Offline" };
+        return { color: "bg-muted", text: "Offline" };
     }
   };
 

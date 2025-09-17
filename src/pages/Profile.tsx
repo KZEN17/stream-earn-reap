@@ -254,19 +254,19 @@ const Profile = () => {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">0</div>
+                    <div className="text-2xl font-bold text-pink">0</div>
                     <div className="text-sm text-muted-foreground">Clips Submitted</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">$0.00</div>
+                    <div className="text-2xl font-bold text-green">$0.00</div>
                     <div className="text-sm text-muted-foreground">Total Earnings</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">0</div>
+                    <div className="text-2xl font-bold text-cyan">0</div>
                     <div className="text-sm text-muted-foreground">Total Views</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600">-</div>
+                    <div className="text-2xl font-bold text-purple">-</div>
                     <div className="text-sm text-muted-foreground">Rank</div>
                   </div>
                 </div>
