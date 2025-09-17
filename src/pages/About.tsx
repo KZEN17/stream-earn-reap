@@ -18,19 +18,19 @@ const About = () => {
       name: "Coming Soon",
       role: "Founder & CEO", 
       bio: "Visionary leader connecting entertainment and finance.",
-      avatar: "/placeholder.svg"
+      avatar: "/icon-192x192.png"
     },
     {
       name: "Coming Soon",
       role: "CTO",
       bio: "Technical architect building the future of creator economy.",
-      avatar: "/placeholder.svg"
+      avatar: "/icon-192x192.png"
     },
     {
       name: "Coming Soon", 
       role: "Head of Community",
       bio: "Community builder fostering creator relationships.",
-      avatar: "/placeholder.svg"
+      avatar: "/icon-192x192.png"
     }
   ];
 

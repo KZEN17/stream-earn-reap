@@ -34,7 +34,7 @@ export const AgencyDashboard = () => {
       launches: 3,
       earnings: 8450,
       status: "active",
-      avatar: "/placeholder.svg"
+      avatar: "/icon-192x192.png"
     },
     {
       id: 2,
@@ -44,7 +44,7 @@ export const AgencyDashboard = () => {
       launches: 2,
       earnings: 5600,
       status: "active",
-      avatar: "/placeholder.svg"
+      avatar: "/icon-192x192.png"
     },
     {
       id: 3,
@@ -54,7 +54,7 @@ export const AgencyDashboard = () => {
       clips: 45,
       earnings: 1240,
       status: "active",
-      avatar: "/placeholder.svg"
+      avatar: "/icon-192x192.png"
     }
   ];
 

@@ -386,7 +386,7 @@ export const CampaignAnalytics = ({ campaignId, onBack }: CampaignAnalyticsProps
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <img 
-                              src={clip.profiles?.avatar_url || '/placeholder.svg'} 
+                              src={clip.profiles?.avatar_url || '/icon-192x192.png'} 
                               alt={clip.profiles?.display_name || 'User'}
                               className="w-8 h-8 rounded-full"
                             />

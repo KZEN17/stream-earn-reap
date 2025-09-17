@@ -37,7 +37,7 @@ export const StreamerDashboard = () => {
       views: 45000,
       participants: 1200,
       clips: 23,
-      thumbnail: "/placeholder.svg"
+      thumbnail: "/icon-512x512.png"
     },
     {
       id: 2,
@@ -49,7 +49,7 @@ export const StreamerDashboard = () => {
       views: 0,
       participants: 0,
       clips: 0,
-      thumbnail: "/placeholder.svg"
+      thumbnail: "/icon-512x512.png"
     }
   ];
 
