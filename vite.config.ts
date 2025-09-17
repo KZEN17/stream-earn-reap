@@ -88,7 +88,14 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     exclude: ['@privy-io/react-auth'],
-    include: ['bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 'eventemitter3', 'canonicalize', '@coinbase/wallet-sdk', 'shallowequal', 'react-dom', 'use-sync-external-store', 'use-sync-external-store/with-selector', '@headlessui/react', '@walletconnect/time', '@walletconnect/relay-auth', '@walletconnect/window-getters', '@walletconnect/utils', 'events', 'pino', '@walletconnect/logger']
+    include: [
+      'bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 
+      'eventemitter3', 'canonicalize', '@coinbase/wallet-sdk', 'shallowequal', 
+      'react-dom', 'use-sync-external-store', 'use-sync-external-store/with-selector', 
+      '@headlessui/react', '@walletconnect/time', '@walletconnect/relay-auth', 
+      '@walletconnect/window-getters', '@walletconnect/utils', 'events', 
+      'pino', '@walletconnect/logger', '@walletconnect/environment'
+    ]
   },
   define: {
     global: 'globalThis',
