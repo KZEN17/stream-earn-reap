@@ -121,53 +121,48 @@ export function AppSidebar() {
 
   return (
     <Sidebar 
-      className={`${collapsed ? "w-16" : "w-64"} gaming-sidebar`} 
+      className={`${collapsed ? "w-16" : "w-64"} sidebar-clean`} 
       collapsible="icon"
       variant="sidebar"
     >
-      <SidebarHeader className="gaming-sidebar-header">
-        <div className="flex items-center space-x-3 px-4 py-4">
-          <div className="w-10 h-10 bg-gradient-gaming rounded-xl glow-primary flex-shrink-0 animate-pulse-glow"></div>
+      <SidebarHeader className="sidebar-header-clean">
+        <div className="flex items-center space-x-3 px-6 py-4">
+          <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center text-black font-bold text-sm">
+            C
+          </div>
           {!collapsed && (
-            <span className="text-2xl font-black text-gradient-gaming font-gaming tracking-wider animate-stagger">
-              CLIP
+            <span className="text-xl font-semibold text-secondary tracking-wide">
+              ClipStream
             </span>
           )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="gaming-sidebar-content">
+      <SidebarContent className="sidebar-content-clean">
         <SidebarGroup>
-          {!collapsed && (
-            <SidebarGroupLabel className="text-gradient-accent font-black uppercase tracking-widest text-sm px-6 py-4 animate-stagger">
-              ⚡ NAVIGATION
-            </SidebarGroupLabel>
-          )}
-          
-          <SidebarGroupContent className="px-3">
-            <SidebarMenu className="space-y-2">
+          <SidebarGroupContent className="px-4 space-y-1">
+            <SidebarMenu>
               {menuItems.map((item, index) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
                     tooltip={collapsed ? item.title : undefined}
-                    className="gaming-nav-item"
+                    className="clean-nav-item"
                   >
                     <NavLink 
                       to={item.url}
                       end={item.url === "/"}
                       className={({ isActive }) => 
-                        `flex items-center space-x-3 px-4 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover-lift ${
+                        `flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 relative ${
                           isActive 
-                            ? 'bg-gradient-primary text-white shadow-glow-primary border border-primary/30 animate-micro-bounce' 
-                            : 'text-muted-foreground hover:text-white hover:bg-accent/20 hover:border-accent/30 border border-transparent'
+                            ? 'bg-muted text-secondary clean-nav-active' 
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                         }`
                       }
-                      style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      <item.icon className={`h-5 w-5 flex-shrink-0 ${collapsed ? '' : 'animate-float'}`} />
+                      <item.icon className="h-5 w-5 flex-shrink-0" />
                       {!collapsed && (
-                        <span className="font-gaming text-base tracking-wide">
+                        <span className="font-medium">
                           {item.title}
                         </span>
                       )}

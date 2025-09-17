@@ -636,52 +636,36 @@
     outline-offset: 2px;
   }
   
-  /* Enhanced Gaming Sidebar */
-  .gaming-sidebar {
-    background: linear-gradient(135deg, 
-      hsl(218 23% 4%) 0%, 
-      hsl(225 15% 6%) 50%, 
-      hsl(218 23% 8%) 100%) !important;
-    backdrop-filter: blur(20px);
-    border-right: 2px solid hsl(255 65% 67% / 0.2);
-    box-shadow: 
-      2px 0 20px hsl(255 65% 67% / 0.1),
-      inset 1px 0 0 hsl(255 65% 67% / 0.1);
+  /* Clean Sidebar Design */
+  .sidebar-clean {
+    background: hsl(218 23% 6%) !important;
+    border-right: 1px solid hsl(218 23% 12%);
   }
 
-  .gaming-sidebar-header {
-    background: linear-gradient(135deg, 
-      hsl(255 65% 67% / 0.1) 0%, 
-      hsl(158 100% 50% / 0.05) 100%);
-    border-bottom: 1px solid hsl(255 65% 67% / 0.2);
-    backdrop-filter: blur(12px);
+  .sidebar-header-clean {
+    background: hsl(218 23% 6%);
+    border-bottom: 1px solid hsl(218 23% 12%);
   }
 
-  .gaming-sidebar-content {
+  .sidebar-content-clean {
     background: transparent;
     padding: 1rem 0;
   }
 
-  .gaming-nav-item {
-    margin-bottom: 0.5rem;
-    border-radius: 0.75rem;
-    overflow: hidden;
+  .clean-nav-item {
+    border-radius: 0.5rem;
     position: relative;
   }
 
-  .gaming-nav-item::before {
+  .clean-nav-active::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, 
-      transparent, 
-      hsl(255 65% 67% / 0.3), 
-      hsl(158 100% 50% / 0.3),
-      transparent
-    );
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: hsl(var(--secondary));
+    border-radius: 2px 0 0 2px;
   }
 
 @keyframes float {
