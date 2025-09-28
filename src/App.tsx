@@ -13,7 +13,7 @@ import Guide from "./pages/Guide";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
-import PrivyAuth from "./pages/PrivyAuth";
+
 import NotFound from "./pages/NotFound";
 import StreamerApplication from "./pages/StreamerApplication";
 import CreateCampaign from "./pages/CreateCampaign";
@@ -78,7 +78,7 @@ const App = () => {
                   <Route path="/about" element={<About />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/auth" element={<Auth />} />
-                  <Route path="/privy-auth" element={<PrivyAuth />} />
+                  
                   <Route path="/apply-streamer" element={<StreamerApplication />} />
                   <Route path="/streamer-application" element={<StreamerApplication />} />
                   <Route path="/create-campaign" element={<CreateCampaign />} />
