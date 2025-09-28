@@ -16,7 +16,7 @@ import { useNotifications } from '@/hooks/useNotifications';
 import SocialMediaConnections from '@/components/profile/SocialMediaConnections';
 import { ProfileImageUpload } from '@/components/profile/ProfileImageUpload';
 import { ContentRewardsDashboard } from '@/components/profile/ContentRewardsDashboard';
-import { SimpleWalletUI } from '@/components/wallet/SimpleWalletUI';
+
 
 const Profile = () => {
   const { user } = useAuth();
@@ -276,7 +276,9 @@ const Profile = () => {
 
           {/* Wallets Tab */}
           <TabsContent value="wallets">
-            <SimpleWalletUI />
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Wallet functionality temporarily disabled</p>
+              </div>
           </TabsContent>
 
           {/* Dashboard Tab */}

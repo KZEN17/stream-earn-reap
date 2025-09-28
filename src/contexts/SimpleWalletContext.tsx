@@ -1,6 +1,5 @@
-// Simplified Wallet Context for Privy Integration
+// Simplified Wallet Context (Privy removed)
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { PrivyProvider, usePrivy, useWallets } from '@privy-io/react-auth';
 import { toast } from '@/hooks/use-toast';
 
 // Types
@@ -12,126 +11,113 @@ export interface WalletInfo {
   label?: string;
 }
 
-interface SimpleWalletContextValue {
-  // Privy state
-  user: any;
-  login: () => void;
-  logout: () => void;
-  authenticated: boolean;
-  ready: boolean;
-  
-  // Wallet state
-  wallets: any[];
-  connectWallet: () => void;
-  verifiedWallets: WalletInfo[];
-  
-  // Actions
-  verifyWallet: (wallet: any) => Promise<boolean>;
-  
-  // Computed
-  hasWallet: boolean;
-  canReceivePayouts: boolean;
+interface WalletContextType {
+  wallets: WalletInfo[];
+  connectedWallet: WalletInfo | null;
+  isConnecting: boolean;
+  connectWallet: (chainType: 'ethereum' | 'solana') => Promise<void>;
+  disconnectWallet: () => void;
+  addWallet: (wallet: WalletInfo) => void;
+  removeWallet: (address: string) => void;
+  setDefaultWallet: (address: string) => void;
+  verifyWallet: (address: string) => Promise<boolean>;
 }
 
-const SimpleWalletContext = createContext<SimpleWalletContextValue | null>(null);
+const WalletContext = createContext<WalletContextType | null>(null);
 
-// Privy Configuration
-const PRIVY_APP_ID = import.meta.env.VITE_PRIVY_APP_ID || 'clnxm4mnv03rj0fmc8gvbchkd';
+const SimpleWalletWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [wallets, setWallets] = useState<WalletInfo[]>([]);
+  const [connectedWallet, setConnectedWallet] = useState<WalletInfo | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
 
-const PrivyWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
-  return (
-    <PrivyProvider
-      appId={PRIVY_APP_ID}
-      config={{
-        loginMethods: ['email', 'wallet'],
-        appearance: {
-          theme: 'dark',
-          accentColor: '#8b5cf6'
-        },
-        embeddedWallets: {
-          createOnLogin: 'users-without-wallets'
-        }
-      }}
-    >
-      <SimpleWalletContextProvider>
-        {children}
-      </SimpleWalletContextProvider>
-    </PrivyProvider>
-  );
-};
-
-const SimpleWalletContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { user, login, logout, authenticated, ready } = usePrivy();
-  const { wallets } = useWallets();
-  
-  const [verifiedWallets, setVerifiedWallets] = useState<WalletInfo[]>([]);
-
-  // Mock wallet connection for now
-  const handleConnectWallet = () => {
-    if (wallets.length === 0) {
-      login();
-    }
-  };
-
-  // Mock wallet verification
-  const verifyWallet = async (wallet: any): Promise<boolean> => {
+  const connectWallet = async (chainType: 'ethereum' | 'solana') => {
+    setIsConnecting(true);
     try {
-      // For now, just simulate verification
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const newVerified: WalletInfo = {
-        address: wallet.address,
-        chainType: wallet.chainType,
-        isVerified: true,
-        isDefault: verifiedWallets.length === 0, // First wallet becomes default
-        label: `${wallet.chainType} wallet`
+      // Simulate wallet connection
+      const mockWallet: WalletInfo = {
+        address: `mock_${chainType}_address_${Date.now()}`,
+        chainType,
+        isVerified: false,
+        isDefault: true
       };
       
-      setVerifiedWallets(prev => [...prev, newVerified]);
+      setConnectedWallet(mockWallet);
+      setWallets(prev => [...prev, mockWallet]);
       
       toast({
-        title: "Wallet Verified",
-        description: `${wallet.address.slice(0, 8)}...${wallet.address.slice(-6)} has been verified`,
+        title: "Wallet Connected",
+        description: `${chainType} wallet connected successfully`
       });
-      
-      return true;
     } catch (error) {
       toast({
-        title: "Verification Failed",
-        description: "Failed to verify wallet ownership",
+        title: "Connection Failed",
+        description: "Failed to connect wallet",
         variant: "destructive"
       });
-      return false;
+    } finally {
+      setIsConnecting(false);
     }
   };
 
-  const value: SimpleWalletContextValue = {
-    user,
-    login,
-    logout,
-    authenticated,
-    ready,
-    wallets: wallets || [],
-    connectWallet: handleConnectWallet,
-    verifiedWallets,
-    verifyWallet,
-    hasWallet: (wallets?.length || 0) > 0,
-    canReceivePayouts: verifiedWallets.some(w => w.isDefault)
+  const disconnectWallet = () => {
+    setConnectedWallet(null);
+    toast({
+      title: "Wallet Disconnected",
+      description: "Wallet has been disconnected"
+    });
+  };
+
+  const addWallet = (wallet: WalletInfo) => {
+    setWallets(prev => [...prev, wallet]);
+  };
+
+  const removeWallet = (address: string) => {
+    setWallets(prev => prev.filter(w => w.address !== address));
+    if (connectedWallet?.address === address) {
+      setConnectedWallet(null);
+    }
+  };
+
+  const setDefaultWallet = (address: string) => {
+    setWallets(prev => prev.map(w => ({
+      ...w,
+      isDefault: w.address === address
+    })));
+  };
+
+  const verifyWallet = async (address: string): Promise<boolean> => {
+    // Mock verification
+    setWallets(prev => prev.map(w => 
+      w.address === address ? { ...w, isVerified: true } : w
+    ));
+    return true;
+  };
+
+  const value = {
+    wallets,
+    connectedWallet,
+    isConnecting,
+    connectWallet,
+    disconnectWallet,
+    addWallet,
+    removeWallet,
+    setDefaultWallet,
+    verifyWallet
   };
 
   return (
-    <SimpleWalletContext.Provider value={value}>
+    <WalletContext.Provider value={value}>
       {children}
-    </SimpleWalletContext.Provider>
+    </WalletContext.Provider>
   );
 };
 
 export const useSimpleWallet = () => {
-  const context = useContext(SimpleWalletContext);
+  const context = useContext(WalletContext);
   if (!context) {
-    throw new Error('useSimpleWallet must be used within PrivyWrapper');
+    throw new Error('useSimpleWallet must be used within SimpleWalletWrapper');
   }
   return context;
 };
 
-export default PrivyWrapper;
+export default SimpleWalletWrapper;
