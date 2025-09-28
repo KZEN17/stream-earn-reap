@@ -9,7 +9,8 @@ import {
   User, 
   Palette, 
   Boxes, 
-  Download 
+  Download,
+  Users 
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -30,6 +31,7 @@ const navigationItems: NavigationItem[] = [
   { id: 'rewards', label: 'Rewards', icon: Trophy, path: '/rewards' },
   { id: 'raid-chat', label: 'Raid Chat', icon: MessageSquare, path: '/raidchat' },
   { id: 'leaderboards', label: 'Leaderboards', icon: BarChart3, path: '/leaderboards' },
+  { id: 'frenwork', label: 'FRENWORK', icon: Users, path: '/creatorprofiles123' },
   { id: 'guide', label: 'Guide', icon: BookOpen, path: '/guide' },
   { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
   { id: 'brand-book', label: 'Brand Book', icon: Palette, path: '/brand-book' },
