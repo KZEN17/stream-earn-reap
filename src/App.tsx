@@ -30,7 +30,7 @@ import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { OfflineIndicator } from "./components/OfflineIndicator";
 import { CTAAuditDashboard } from "./components/qa/CTAAuditDashboard";
-import PrivyWrapper from "./contexts/SimpleWalletContext";
+
 import { Loader2 } from "lucide-react";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -58,7 +58,6 @@ const App = () => {
   console.log('App showing main app');
   return (
     <ErrorBoundary>
-      <PrivyWrapper>
         <div className="min-h-screen bg-background text-foreground">
           <TooltipProvider>
             <Toaster />
@@ -99,7 +98,6 @@ const App = () => {
             </Layout>
           </TooltipProvider>
         </div>
-      </PrivyWrapper>
     </ErrorBoundary>
   );
 };
