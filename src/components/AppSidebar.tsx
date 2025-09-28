@@ -73,6 +73,11 @@ const menuItems = [
     icon: Trophy
   },
   { 
+    title: "FRENWORK", 
+    url: "/creatorprofiles123", 
+    icon: Users 
+  },
+  { 
     title: "Guide", 
     url: "/guide", 
     icon: BookOpen 
