@@ -87,7 +87,7 @@ export default defineConfig(({ mode }) => ({
     }
   },
   optimizeDeps: {
-    exclude: ['@privy-io/react-auth', '@marsidev/react-turnstile'],
+    exclude: ['@privy-io/react-auth'],
     include: [
       'bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 
       'eventemitter3', 'canonicalize', '@coinbase/wallet-sdk', 'shallowequal', 
