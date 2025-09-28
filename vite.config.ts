@@ -11,9 +11,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [
-    react({
-      jsxImportSource: 'react'
-    }),
+    react(),
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: 'autoUpdate',
@@ -89,7 +87,7 @@ export default defineConfig(({ mode }) => ({
     }
   },
   optimizeDeps: {
-    exclude: ['@privy-io/react-auth'],
+    exclude: ['@privy-io/react-auth', '@marsidev/react-turnstile'],
     include: [
       'bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 
       'eventemitter3', 'canonicalize', '@coinbase/wallet-sdk', 'shallowequal', 
