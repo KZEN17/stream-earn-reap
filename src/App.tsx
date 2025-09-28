@@ -25,6 +25,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import AdminPanel from "./components/admin/AdminPanel";
 import SuccessStories from "./pages/SuccessStories";
+import CreatorProfiles from "./pages/CreatorProfiles";
 import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { OfflineIndicator } from "./components/OfflineIndicator";
@@ -91,6 +92,7 @@ const App = () => {
                   <Route path="/brand-book" element={<BrandBook />} />
                   <Route path="/ui-kit" element={<UIKit />} />
                   <Route path="/media-pack" element={<MediaPack />} />
+                  <Route path="/creatorprofiles123" element={<CreatorProfiles />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </ErrorBoundary>

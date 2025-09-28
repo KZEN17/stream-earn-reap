@@ -12,7 +12,8 @@ import {
   Info,
   User,
   LogOut,
-  Settings
+  Settings,
+  Users
 } from "lucide-react";
 import {
   Sidebar,
@@ -75,6 +76,11 @@ const menuItems = [
     title: "Guide", 
     url: "/guide", 
     icon: BookOpen 
+  },
+  { 
+    title: "FRENWORK", 
+    url: "/creatorprofiles123", 
+    icon: Users 
   },
   { 
     title: "About", 

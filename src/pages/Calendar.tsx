@@ -698,9 +698,9 @@ END:VCALENDAR`;
                              </div>
                            </CardContent>
                          </Card>
-                      );
-                    })}
-                  </div>
+                       );
+                     })}
+                   </div>
                 </CardContent>
               </Card>
             </div>
@@ -1014,12 +1014,8 @@ END:VCALENDAR`;
                   </div>
                 </CardContent>
               </Card>
-                ))}
-              </div>
-              )}
-            </TabsContent>
-        </Tabs>
-            </TabsContent>
+            ))}
+          </div>
         </section>
 
         {/* CTA Section */}
