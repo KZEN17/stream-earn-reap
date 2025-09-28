@@ -698,9 +698,10 @@ END:VCALENDAR`;
                              </div>
                            </CardContent>
                          </Card>
-                       );
+                        );
                      })}
-                   </div>
+                    </div>
+                   )}
                 </CardContent>
               </Card>
             </div>
