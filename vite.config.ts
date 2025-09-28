@@ -87,7 +87,7 @@ export default defineConfig(({ mode }) => ({
     }
   },
   optimizeDeps: {
-    exclude: ['@privy-io/react-auth'],
+    exclude: ['@privy-io/react-auth', 'react-device-detect'],
     include: [
       'bs58', 'bn.js', 'js-sha3', 'hash.js', 'bech32', 'fetch-retry', 
       'eventemitter3', 'canonicalize', '@coinbase/wallet-sdk', 'shallowequal', 
@@ -97,7 +97,7 @@ export default defineConfig(({ mode }) => ({
       'pino', '@walletconnect/logger', '@walletconnect/environment',
       '@walletconnect/jsonrpc-utils', '@walletconnect/jsonrpc-ws-connection',
       '@walletconnect/jsonrpc-types', '@walletconnect/safe-json', 'cross-fetch',
-      '@walletconnect/jsonrpc-http-connection', 'qrcode'
+      '@walletconnect/jsonrpc-http-connection', 'qrcode', 'ua-parser-js'
     ]
   },
   resolve: {
