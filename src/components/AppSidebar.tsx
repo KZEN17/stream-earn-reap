@@ -83,11 +83,6 @@ const menuItems = [
     icon: BookOpen 
   },
   { 
-    title: "FRENWORK", 
-    url: "/creatorprofiles123", 
-    icon: Users 
-  },
-  { 
     title: "About", 
     url: "/about", 
     icon: Info 
